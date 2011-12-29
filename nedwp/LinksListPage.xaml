@@ -1,0 +1,75 @@
+﻿<!--
+*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This document and accompanying materials 
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************
+-->
+<phone:PhoneApplicationPage 
+    x:Class="NedWp.LinksListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:NedWp"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True"
+    ApplicationBar="{StaticResource EmptyApplicationBar}"
+    Style="{StaticResource TransitionPageStyle}">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <local:TitlePanelControl x:Name="TitlePanel" Grid.Row="0" TitleText="{Binding LocalizedResources.LinksPage_Title ,Source={StaticResource LanguageStrings}}"/>
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0">
+            <Grid.Resources>
+                <local:IntegerToVisibilityConverter x:Key="ShowWhenListIsEmptyConverter" />
+            </Grid.Resources>
+            <ListBox Name="LinksList" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" ItemsSource="{Binding}" SelectionChanged="OnSelectionChanged"
+                     Visibility="{Binding Count, Converter={StaticResource ShowWhenListIsEmptyConverter}}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <!--appbar.next.rest.png-->
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="2"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="12, 0" Text="{Binding}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextLargeStyle}"/> 
+                            <Image     Grid.Row="1" Grid.Column="0" Source="Resources/HorizontalSplitter.png" Stretch="Fill" Opacity="0.10"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock x:Name="EmptyLinksInstruction"
+                        Grid.Row="0" Grid.Column="0"
+                        Visibility="{Binding Count, Converter={StaticResource ShowWhenListIsEmptyConverter}, ConverterParameter=ShowWhenZero}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        TextWrapping="Wrap" TextAlignment="Center"
+                        Text="{Binding LocalizedResources.LinkPage_NoLinksInfo ,Source={StaticResource LanguageStrings}}" 
+                        FontSize="{StaticResource PhoneFontSizeLarge}">
+            </TextBlock>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

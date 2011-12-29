@@ -1,0 +1,74 @@
+﻿<!--
+*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This document and accompanying materials 
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************
+-->
+<phone:PhoneApplicationPage 
+    x:Class="NedWp.MediaItemsViewerPage"
+    x:Name="PageRoot"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:NedWp"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True"
+    Style="{StaticResource TransitionPageStyle}" BackKeyPress="OnBackKeyPressed">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <local:TitlePanelControl x:Name="TitlePanel" Grid.Row="0" TitleText="{Binding LocalizedResources.MediaItemViewerPage_Title ,Source={StaticResource LanguageStrings}}" Height="Auto"/>
+        <local:MediaItemViewerTemplateSelector x:Name="MediaSelector" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <local:MediaItemViewerTemplateSelector.PictureTemplate>
+                <DataTemplate>
+                    <Grid Margin="{StaticResource PhoneMargin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="#22FFFFFF" Background="#11FFFFFF" BorderThickness="{StaticResource PhoneBorderThickness}" CornerRadius="6">
+                            <Image x:Name="Picture" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" Source="{Binding PictureSource}"/>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </local:MediaItemViewerTemplateSelector.PictureTemplate>
+            <local:MediaItemViewerTemplateSelector.TextTemplate>
+                <DataTemplate>
+                    <Grid Margin="{StaticResource PhoneMargin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="#44FFFFFF" Background="#44FFFFFF" BorderThickness="{StaticResource PhoneBorderThickness}" CornerRadius="6">
+                            <phone:WebBrowser Padding="15" Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" Loaded="OnWebBrowserLoaded"/>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </local:MediaItemViewerTemplateSelector.TextTemplate>
+            <local:MediaItemViewerTemplateSelector.VideoTemplate>
+                <DataTemplate>
+                    <local:MediaPlayerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MediaSource="{Binding MediaSource}" IsAudio="False" DesiredOrientationChanged="OnDesiredVideoOrientationChanged"/>
+                </DataTemplate>
+            </local:MediaItemViewerTemplateSelector.VideoTemplate>
+            <local:MediaItemViewerTemplateSelector.AudioTemplate>
+                <DataTemplate>
+                    <local:MediaPlayerControl HorizontalAlignment="Stretch" MediaSource="{Binding MediaSource}" IsAudio="True"/>
+                </DataTemplate>
+            </local:MediaItemViewerTemplateSelector.AudioTemplate>
+            <local:MediaItemViewerTemplateSelector.UnknownTemplate>
+                <DataTemplate>
+                    <Image Margin="0,0,0,48" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" Source="Resources/Icons/unknown_data_icon_221x221.png"/>
+                </DataTemplate>
+            </local:MediaItemViewerTemplateSelector.UnknownTemplate>
+        </local:MediaItemViewerTemplateSelector>
+    </Grid>
+</phone:PhoneApplicationPage>

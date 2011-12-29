@@ -1,0 +1,490 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MainPage_logIn" xml:space="preserve">
+    <value>ingresar</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MainPage_UserLogin" xml:space="preserve">
+    <value>usuario</value>
+    <comment>Page title: lowercase</comment>
+  </data>
+  <data name="App_ApplicationTitle" xml:space="preserve">
+    <value>NOKIA EDUCATION DELIVERY</value>
+    <comment>Application title: uppercase</comment>
+  </data>
+  <data name="App_DefaultMOTD" xml:space="preserve">
+    <value>Bienvenido!</value>
+  </data>
+  <data name="App_HelpButtonContent" xml:space="preserve">
+    <value>ayuda</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="App_OpeningHelpErrorUnknowScreen" xml:space="preserve">
+    <value>No hay ayuda disponible en esta la pantalla</value>
+  </data>
+  <data name="CatalogueModelItem_CategoriesCount" xml:space="preserve">
+    <value>Categorias: {0}</value> 
+  </data>
+  <data name="CataloguePage_DeleteButton" xml:space="preserve">
+    <value>borrar</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="CataloguePage_DownloadAllButton" xml:space="preserve">
+    <value>descargar todo</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="CataloguePage_SearchButton" xml:space="preserve">
+    <value>buscar</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="CategoryModelItem_ItemsForDownload" xml:space="preserve">
+    <value>Elementos listos para descarga: {0}</value>
+  </data>
+  <data name="CategoryModelItem_MediaItems" xml:space="preserve">
+    <value>Archivos de multimedia: {0} (descargados: {1}, en servidor: {2} )</value>
+  </data>
+  <data name="DownloadListItemControl_CancelButton" xml:space="preserve">
+    <value>cancelar</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="Error_InvalidCredentials" xml:space="preserve">
+    <value>Nombre o contraseña invalida</value>
+  </data>
+  <data name="Error_EmptyUsernameOrPassword" xml:space="preserve">
+    <value>Nombre o contraseña no puede estar vacia</value>
+  </data>
+  <data name="Error_LibraryAlreadyAdded" xml:space="preserve">
+    <value>Biblioteca ya agregada</value>
+  </data>
+  <data name="Error_LibraryIdEmpty" xml:space="preserve">
+    <value>Identificacion de biblioteca no puede estar vacia</value>
+  </data>
+  <data name="HelpPage_HelpNotAvailable" xml:space="preserve">
+    <value>Ayuda no existe</value>
+  </data>
+  <data name="HelpPage_Title" xml:space="preserve">
+    <value>ayuda</value>
+    <comment>Page title: lowercase</comment>
+  </data>
+  <data name="LibraryModel_RemovingUnknowTypeError" xml:space="preserve">
+    <value>Tipo de elemento desconocido</value>
+  </data>
+  <data name="MainPage_Add" xml:space="preserve">
+    <value>agegar una biblioteca</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MainPage_AddingLibrary" xml:space="preserve">
+    <value>Agregando una biblioteca</value>
+  </data>
+  <data name="MainPage_CataloguesCount" xml:space="preserve">
+    <value>Catalogos: {0}</value>
+    </data>
+  <data name="MainPage_CheckForUpdates" xml:space="preserve">
+    <value>chequeando por actualizaciones</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="ProgressOverlay_UpdatingLibrary" xml:space="preserve">
+    <value>Actualizando</value>
+  </data>
+  <data name="MainPage_Connecting" xml:space="preserve">
+    <value>Conectando</value>
+  </data>
+  <data name="MainPage_ConnectingToServer" xml:space="preserve">
+    <value>Conectando</value>
+  </data>
+  <data name="MainPage_Delete" xml:space="preserve">
+    <value>borrar</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MainPage_DeleteLibQuestionMessage" xml:space="preserve">
+    <value>Biblioteca sera borrada </value>
+  </data>
+  <data name="MainPage_DeleteLibQuestionTitile" xml:space="preserve">
+    <value>Esta ud. seguro ?</value>
+  </data>
+  <data name="MainPage_Downloading" xml:space="preserve">
+    <value>Descargando</value>
+  </data>
+  <data name="MainPage_DownloadingLib" xml:space="preserve">
+    <value>Descargando la biblioteca</value>
+  </data>
+  <data name="MainPage_Downloads" xml:space="preserve">
+    <value>descargas</value>
+    <comment>Pivot title: lowercase</comment>
+  </data>
+  <data name="MainPage_EnterServerAddress" xml:space="preserve">
+    <value>Servidor URL</value>
+  </data>
+  <data name="MainPage_Libraries" xml:space="preserve">
+    <value>bibliotecas</value>
+    <comment>Pivot title: lowercase</comment>
+  </data>
+  <data name="MainPage_LibraryManager" xml:space="preserve">
+    <value>administrador de la biblioteca</value>
+    <comment>Pivot title: lowercase</comment>
+  </data>
+  <data name="MainPage_LoggingIn" xml:space="preserve">
+    <value>Autenticando</value>
+  </data>
+  <data name="MainPage_NewLibraryID" xml:space="preserve">
+    <value>Nueva identificacion de biblioteca</value>
+  </data>
+  <data name="MainPage_NewVersionAvailableHeader" xml:space="preserve">
+    <value>Hay una nueva version</value>
+  </data>
+  <data name="MainPage_NewVersionAvailableMessage" xml:space="preserve">
+    <value>¿Quiere reemplazar la versión de esta biblioteca con la nueva versión? (cuidado: todas las descargas previas serán borrada)</value>
+  </data>
+  <data name="MainPage_NoDownloadPending" xml:space="preserve">
+    <value>No hay descargas pendientes.
+
+Tu puedes seleccionar archivos de multimedia para descargar mientras estás buscando en la biblioteca.</value>
+  </data>
+  <data name="MainPage_NoLibrariesToDisplay" xml:space="preserve">
+    <value>No existen bibliotecas para mostrar.
+
+Usa el administrador de bibliotecas para descargar otras bibliotecas y agrégalas aquí.</value>
+  </data>
+  <data name="MainPage_NoLibrariesToDisplayTypeID" xml:space="preserve">
+    <value>No existen bibliotecas para mostrar.
+
+Tipea el código ID de la biblioteca y pulsa el botón "agregar" para verificar si la biblioteca está disponible.</value>
+  </data>
+  <data name="MainPage_OK" xml:space="preserve">
+    <value>ok</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MainPage_Password" xml:space="preserve">
+    <value>Clave</value>
+  </data>
+  <data name="MainPage_Paused" xml:space="preserve">
+    <value>En pausa</value>
+  </data>
+  <data name="MainPage_Queued" xml:space="preserve">
+    <value>En cola</value>
+  </data>
+  <data name="MainPage_RememberMe" xml:space="preserve">
+    <value>Acuerdate de mi!</value>
+  </data>
+  <data name="MainPage_ServerWizard" xml:space="preserve">
+    <value>Asistente de servidor</value>
+  </data>
+  <data name="MainPage_SettingsButtonContent" xml:space="preserve">
+    <value>configuracion</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MainPage_ShowLibraries" xml:space="preserve">
+    <value>Muestra las bibliotecas</value>
+  </data>
+  <data name="MainPage_StatisticsButtonContent" xml:space="preserve">
+    <value>estadistica</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MainPage_UpdateNotNecessaryHeader" xml:space="preserve">
+    <value>Actualizacion no es necesaria</value>
+  </data>
+  <data name="MainPage_UpdateNotNecessaryMessage" xml:space="preserve">
+    <value>La libreria esta actualizada. Quiere descargarla otra vez?</value> 
+  </data>
+  <data name="MainPage_UserName" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="MainPage_ViewsCount" xml:space="preserve">
+    <value>Vistas: {0}</value>
+  </data>
+  <data name="MediaItemControl_AddToQueue" xml:space="preserve">
+    <value>Agregar a la lista</value>
+  </data>
+  <data name="MediaItemControl_DeleteButton" xml:space="preserve">
+    <value>borrar</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MediaItemControl_DonwloadNowButton" xml:space="preserve">
+    <value>descargar ahora</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MediaItemsListModelItem_NoDescriptionAvailable" xml:space="preserve">
+    <value>No hay descripcion adicional</value>
+  </data>
+  <data name="Error_LibraryDeletedFromServer" xml:space="preserve">
+    <value>La biblioteca ha sido borrada del servidor</value>
+  </data>
+  <data name="Error_LibraryDoesNotExist" xml:space="preserve">
+    <value>la biblioteca no existe</value>
+  </data>
+  <data name="LinksPage_Title" xml:space="preserve">
+    <value>enlaces</value>
+    <comment>Page title: lowercase</comment>
+  </data>
+  <data name="MediaItemViewerPage_CanNotOpenItem" xml:space="preserve">
+    <value>Lamentablemente no podemos abrir el elemento de multimedia</value>
+  </data>
+  <data name="MediaItemViewerPage_Title" xml:space="preserve">
+    <value>foto</value>
+    <comment>Page title: lowercase</comment>
+  </data>
+  <data name="MediaItemViewerPage_UnableToOpenDocument" xml:space="preserve">
+    <value>Lamentablemente no podemos abrir el documento</value>
+  </data>
+  <data name="SearchPage_NoResultsToDisplay" xml:space="preserve">
+    <value>No hay resultados de búsqueda.
+
+Introduzca una palabra válida y pulse el botón de búsqueda.</value>
+  </data>
+  <data name="SearchPage_Title" xml:space="preserve">
+    <value>buscar</value>
+    <comment>Page title: lowercase</comment>
+  </data>
+  <data name="SettingsPage_AutomaticDownloads" xml:space="preserve">
+    <value>Descargues automaticos</value>
+  </data>
+  <data name="SettingsPage_AutomaticStatisticsUpload" xml:space="preserve">
+    <value>Automatico cargo de estadisticas</value>
+  </data>
+  <data name="SettingsPage_ClearingData" xml:space="preserve">
+    <value>Limpiando los datos</value>
+  </data>
+  <data name="SettingsPage_FactoryResetButtonContent" xml:space="preserve">
+    <value>restauracion de fabrica</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="SettingsPage_FactoryResetInfoMessage" xml:space="preserve">
+    <value>Todos los datos seran removido</value>
+  </data>
+  <data name="SettingsPage_InfoHeader" xml:space="preserve">
+    <value>Esta Ud. seguro ?</value>
+  </data>
+  <data name="SettingsPage_LoggingOut" xml:space="preserve">
+    <value>Termimando la sesion</value>
+  </data>
+  <data name="SettingsPage_LogoutButtonContent" xml:space="preserve">
+    <value>terminar el usuario</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="SettingsPage_LogoutInfoMessage" xml:space="preserve">
+    <value>Usuario concurrente sera terminado</value>
+  </data>
+  <data name="SettingsPage_RemoveUserButtonContent" xml:space="preserve">
+    <value>remover al usario</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="SettingsPage_RemovingUser" xml:space="preserve">
+    <value>Removiendo el usuario</value>
+  </data>
+  <data name="SettingsPage_Title" xml:space="preserve">
+    <value>configuracion</value>
+    <comment>Page title: lowercase</comment>
+  </data>
+  <data name="SettingsPage_UsersRemovedInfoMessage" xml:space="preserve">
+    <value>Todos los datos seran removidos</value>
+  </data>
+  <data name="StatisticPage_NoMediaOpened" xml:space="preserve">
+    <value>No hay elementos multimedia abiertos desde la última subida de estadisticas al servidor.
+
+Las estadísticas se cargan al servidor automáticamente cuando aparece "Carga automática" en la configuración</value>
+  </data>
+  <data name="StatisticPage_NoStatisticToUpload" xml:space="preserve">
+    <value>No hay estadisticas para subir al servidor</value>
+  </data>
+  <data name="StatisticPage_StartedUploading" xml:space="preserve">
+    <value>Comenzando a subir estadísticas al servidor</value>
+  </data>
+  <data name="StatisticPage_Title" xml:space="preserve">
+    <value>estadisticas</value>
+    <comment>Page title: lowercase</comment>
+  </data>
+  <data name="StatisticPage_UploadButton" xml:space="preserve">
+    <value>Subida</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="StatisticPage_UploadFiles" xml:space="preserve">
+    <value>Subida fallida!</value>
+  </data>
+  <data name="StatisticPage_UploadingSucces" xml:space="preserve">
+    <value>Estadisticas actualizadas exitosamente</value>
+  </data>
+  <data name="ToggleSwitch_OFF" xml:space="preserve">
+    <value>Apagado</value>
+  </data>
+  <data name="ToggleSwitch_ON" xml:space="preserve">
+    <value>Prendido</value>
+  </data>
+  <data name="CataloguePage_RefreshButton" xml:space="preserve">
+    <value>Refrescar</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="LibraryUnavailableAfterFailedUpdate" xml:space="preserve">
+    <value>La biblioteca ya no existe</value>
+  </data>
+  <data name="Error_Connection" xml:space="preserve">
+    <value>La conexión fallo. Revisar configuraciones de Internet</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>Error inesperado</value>
+  </data>
+  <data name="Error_InvalidServerAddress" xml:space="preserve">
+    <value>Direccion URL de servidor NED invalida</value>
+  </data>
+  <data name="MainPage_AboutButtonText" xml:space="preserve">
+    <value>sobre</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MainPage_AboutVersionInfo" xml:space="preserve">
+    <value>Versión: {0}.{1}</value>
+    <comment>param 0 - major version number,  param 1 - minor version number</comment>
+  </data>
+  <data name="MainPage_FactoryResetMenuItemText" xml:space="preserve">
+    <value>Restauración de fábrica</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="CataloguePage_HomeButton" xml:space="preserve">
+    <value>atrás</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MainPage_ClosingApplicationMessage" xml:space="preserve">
+    <value>La aplicación se cerrará.</value>
+  </data>
+  <data name="MainPage_ClosingApplicationTitle" xml:space="preserve">
+    <value>¿Está seguro?</value>
+  </data>
+  <data name="MediaItemsViewPage_DescriptionButtonText" xml:space="preserve">
+    <value>descripción</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="MediaItemsViewPage_LinksButtonText" xml:space="preserve">
+    <value>lnlaces</value>
+    <comment>Button content : lowercase</comment>
+  </data>
+  <data name="LinkPage_NoLinksInfo" xml:space="preserve">
+    <value>No hay ningún link adjunto a este archivo de multimedia.</value>
+  </data>
+  <data name="DownloadCommand_AddedToDownload" xml:space="preserve">
+    <value>{0} agregados a la lista de descargas</value>
+  </data>
+  <data name="DownloadCommand_AlreadyDownloaded" xml:space="preserve">
+    <value>{0} están ya descargados</value>
+  </data>
+  <data name="DownloadCommand_DownloadingStarted" xml:space="preserve">
+    <value>{0} ya iniciaron la descarga </value>
+  </data>
+  <data name="DownloadCommand_Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+</root>

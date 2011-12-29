@@ -1,0 +1,55 @@
+﻿<!--
+*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This document and accompanying materials 
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************
+-->
+<UserControl x:Class="NedWp.MediaItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
+    xmlns:local="clr-namespace:NedWp"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="72" d:DesignWidth="480">
+
+    <UserControl.Resources>
+        <local:AvailabilityIconConverter x:Key="AvailabilityIconConverter"/>
+    </UserControl.Resources>
+    
+    <Grid x:Name="MediaItemRoot">
+        <!-- Tap="OnMediaItemTapped" -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="2"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Image      Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="12, 0, 12, 0" Source="{Binding MediaIcon}" Stretch="None" />
+        <TextBlock  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0, 0, 0, 6" Text="{Binding Title}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextLargeStyle}"/>
+        <Image      Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="12, 0, 12, 0" Source="{Binding ItemState, Converter={StaticResource AvailabilityIconConverter}}" Stretch="None" />
+        <Image      Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Source="Resources/HorizontalSplitter.png" Stretch="Fill" Opacity="0.10"/>
+        <toolkit:ContextMenuService.ContextMenu>
+            <toolkit:ContextMenu x:Name="ItemContextMenu">
+                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemControl_DeleteButton ,Source={StaticResource LanguageStrings}}" Tag="DeleteTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemControl_DonwloadNowButton ,Source={StaticResource LanguageStrings}}" Tag="DownloadNowTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemControl_AddToQueue ,Source={StaticResource LanguageStrings}}" Tag="AddToQueueTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemsViewPage_LinksButtonText ,Source={StaticResource LanguageStrings}}" Tag="ShowLinksTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemsViewPage_DescriptionButtonText ,Source={StaticResource LanguageStrings}}" Tag="ShowDescriptionTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+            </toolkit:ContextMenu>
+        </toolkit:ContextMenuService.ContextMenu>
+    </Grid>
+</UserControl>

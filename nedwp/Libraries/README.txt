@@ -1,0 +1,1 @@
+Coding4Fun.Phone.Controls and Microsoft.Phone.Controls.Toolkit (SilverLight) are licensed under Microsoft Public License ( Ms-PL )

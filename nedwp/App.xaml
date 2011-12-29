@@ -1,0 +1,91 @@
+﻿<!--
+*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This document and accompanying materials 
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************
+-->
+<Application
+    x:Class="NedWp.App"    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:language="clr-namespace:NedWp.Resources.Languages"
+    mc:Ignorable="d">
+
+    <Application.Resources>
+        <language:LanguageResources x:Key="LanguageStrings" />
+
+        <Style x:Key="TransitionPageStyle" TargetType="phone:PhoneApplicationPage">
+            <Setter Property="toolkit:TransitionService.NavigationInTransition">
+                <Setter.Value>
+                    <toolkit:NavigationInTransition>
+                        <toolkit:NavigationInTransition.Backward>
+                            <toolkit:TurnstileTransition Mode="BackwardIn"/>
+                        </toolkit:NavigationInTransition.Backward>
+                        <toolkit:NavigationInTransition.Forward>
+                            <toolkit:TurnstileTransition Mode="ForwardIn"/>
+                        </toolkit:NavigationInTransition.Forward>
+                    </toolkit:NavigationInTransition>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="toolkit:TransitionService.NavigationOutTransition">
+                <Setter.Value>
+                    <toolkit:NavigationOutTransition>
+                        <toolkit:NavigationOutTransition.Backward>
+                            <toolkit:TurnstileTransition Mode="BackwardOut"/>
+                        </toolkit:NavigationOutTransition.Backward>
+                        <toolkit:NavigationOutTransition.Forward>
+                            <toolkit:TurnstileTransition Mode="ForwardOut"/>
+                        </toolkit:NavigationOutTransition.Forward>
+                    </toolkit:NavigationOutTransition>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <toolkit:NavigationInTransition x:Key="NavigationInTransition">
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+        
+        <toolkit:NavigationOutTransition x:Key="NavigationOutTransition">
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+
+        <LinearGradientBrush x:Key="Gradient_NearTrans_Contrast_NearTrans" EndPoint="1.2,0.5" MappingMode="RelativeToBoundingBox" StartPoint="-0.2,0.5">
+            <GradientStop Color="Transparent" Offset="0"/>
+            <GradientStop Color="Transparent" Offset="1"/>
+            <GradientStop Color="{StaticResource PhoneContrastBackgroundColor}" Offset="0.5"/>
+        </LinearGradientBrush>
+
+        <shell:ApplicationBar x:Key="EmptyApplicationBar" IsVisible="True" IsMenuEnabled="True"/>
+
+        <Thickness x:Key="PivotItemMargins">12,0</Thickness>
+    </Application.Resources>
+
+    <Application.ApplicationLifetimeObjects>
+        <!--Required object that handles lifetime events for the application-->
+        <shell:PhoneApplicationService 
+            Launching="Application_Launching" Closing="Application_Closing" 
+            Activated="Application_Activated" Deactivated="Application_Deactivated"/>
+    </Application.ApplicationLifetimeObjects>
+
+</Application>

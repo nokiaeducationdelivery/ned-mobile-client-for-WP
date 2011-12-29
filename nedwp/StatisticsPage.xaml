@@ -1,0 +1,84 @@
+﻿<!--
+*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This document and accompanying materials 
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************
+-->
+<phone:PhoneApplicationPage 
+    x:Class="NedWp.StatisticsPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:NedWp"
+	mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	Orientation="Portrait"
+	shell:SystemTray.IsVisible="True"
+    Style="{StaticResource TransitionPageStyle}">
+	<phone:PhoneApplicationPage.Resources>
+		<local:MediaViewsCountConverter x:Key="MediaViewsCountConverter" />
+        <local:IntegerToVisibilityConverter x:Key="ShowWhenListIsEmptyConverter" />
+    </phone:PhoneApplicationPage.Resources>
+
+	<!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent" Margin="{StaticResource PhoneHorizontalMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <local:TitlePanelControl 
+            Grid.Row="0" 
+            TitleText="{Binding LocalizedResources.StatisticPage_Title ,Source={StaticResource LanguageStrings}}"/>
+        <ListBox x:Name="StatisticsList" 
+            Grid.Row="1"
+            ItemsSource="{Binding}"
+            Visibility="{Binding Count, Converter={StaticResource ShowWhenListIsEmptyConverter}}">
+            <ListBox.Resources>
+                <DataTemplate x:Key="MediaStatisticItem">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Margin="6,0">
+                            <Image Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding MediaIcon}" Stretch="None" />
+                        </Border>
+                        <TextBlock  Grid.Row="0" Grid.Column="1" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding MediaName}" />
+                        <TextBlock  Grid.Row="1" Grid.Column="1" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding ViewCount, Converter={StaticResource MediaViewsCountConverter}}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.Resources>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <StaticResource ResourceKey="MediaStatisticItem"/>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock x:Name="EmptyLibraryListInstruction"
+            Grid.Row="2"
+            Visibility="{Binding Count, Converter={StaticResource ShowWhenListIsEmptyConverter}, ConverterParameter=ShowWhenZero}"
+            HorizontalAlignment="Center" VerticalAlignment="Center"
+            TextWrapping="Wrap" TextAlignment="Center"
+            Text="{Binding LocalizedResources.StatisticPage_NoMediaOpened ,Source={StaticResource LanguageStrings}}"
+            FontSize="{StaticResource PhoneFontSizeLarge}">
+        </TextBlock>
+    </Grid>
+</phone:PhoneApplicationPage>

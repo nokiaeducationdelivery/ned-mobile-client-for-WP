@@ -1,0 +1,56 @@
+﻿<!--
+*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This document and accompanying materials 
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************
+-->
+<UserControl x:Class="NedWp.MediaPlayerControl"
+    x:Name="ControlRoot"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:NedWp"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+
+    <UserControl.Resources>
+        <local:PlayIconConverter x:Key="PlayIconConverter"/>
+        <local:FullscreenTogglerVisibilityConverter x:Key="FullscreenTogglerVisibilityConverter"/>
+        <local:FullscreenTogglerIconConverter x:Key="FullscreenTogglerIconConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="ContentPanel" Margin="12,6" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition MaxHeight="56" Height="*" />
+        </Grid.RowDefinitions>
+        
+        <MediaElement x:Name="MediaPlayerElement" Grid.Row="0" AutoPlay="False" ManipulationCompleted="OnPlayPauseButtonClicked" Stretch="Uniform"/>
+        <Grid x:Name="MediaControlPanel" HorizontalAlignment="Center">
+            <Image x:Name="PlayPauseControl" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Source="{Binding PlayPauseIcon}" Stretch="None" ManipulationCompleted="OnPlayPauseButtonClicked"/>
+        </Grid>
+        <Image x:Name="FullScreenToggler" Source="{Binding ElementName=ControlRoot, Path=IsFullScreenDesired, Converter={StaticResource FullscreenTogglerIconConverter}}" Visibility="{Binding IsAudio, Converter={StaticResource FullscreenTogglerVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" Stretch="None" ManipulationCompleted="OnToggleScreenClicked"/>
+
+        <Grid Grid.Row="1" Margin="6,6,6,0" VerticalAlignment="Top" Height="45">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ManipulationCompleted="OnProgressBarClicked">
+                <Border Background="#22FFFFFF" BorderBrush="#11FFFFFF" CornerRadius="6">
+                    <ProgressBar x:Name="MediaProgressBar" Grid.Column="0" Margin="0" VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+            <TextBlock x:Name="ProgressTimeDisplay" Grid.Column="1" Margin="12,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>

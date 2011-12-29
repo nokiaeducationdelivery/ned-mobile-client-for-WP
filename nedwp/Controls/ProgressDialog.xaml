@@ -1,0 +1,34 @@
+﻿<!--
+*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This document and accompanying materials 
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************
+-->
+<UserControl x:Class="NedWp.ProgressDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:NedWp"
+    mc:Ignorable="d"
+    x:Name="DialogRoot"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    Visibility="Collapsed"
+    VerticalAlignment="Stretch"
+    d:DesignHeight="480" d:DesignWidth="480">
+
+    <Grid Background="{Binding BackgroundColor}"  Opacity="0.75"  Visibility="{Binding ElementName=DialogRoot, Path=Visibility}" VerticalAlignment="Stretch">
+        <StackPanel Orientation="Vertical" d:LayoutOverrides="Height" VerticalAlignment="Center" Margin="{StaticResource PhoneHorizontalMargin}">
+            <TextBlock x:Name="ProgressTitle" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+            <ProgressBar x:Name="Progress" VerticalAlignment="Center" Margin="{StaticResource PhoneVerticalMargin}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
