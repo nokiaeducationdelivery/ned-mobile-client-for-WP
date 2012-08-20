@@ -15,109 +15,114 @@
   <Pages>
     <Page name="ESelectServerPage">
       <Title>Wybór serwera</Title>
-      <Description>To jest strona wyboru serwera. Przed zalogowaniem do NED musisz wskazać adres serwera NED. 
+      <Description>
+To jest strona wyboru serwera. Przed zalogowaniem do NED musisz wskazać adres serwera NED.
 Adres serwera jest wprowadzany tylko jeden raz. Aby zmienić adres serwera musisz wrócić do ustawień fabrycznych.
-Przykładowy adres serwera: http://example.com:8080</Description>
+Demo serwer: 'http://217.74.73.16:8083'
+Użytkownik: 'guest'
+Hasło: 'guest'
+Id biblioteki: 'khan'
+      </Description>
       <HelpItems />
     </Page>
-	<Page name="EUserLoginPage">
+    <Page name="EUserLoginPage">
       <Title>Autoryzacja użytkownika</Title>
       <Description>To jest strona autoryzacji użytkownika. Tutaj możesz się zalogować podając swój Login i Hasło.</Description>
       <HelpItems>
-		<Item name="UsernamePassword"/>
+        <Item name="UsernamePassword"/>
         <Item name="LoginButton"/>
-		<Item name="RememberMe" />
+        <Item name="RememberMe" />
       </HelpItems>
     </Page>
-	<Page name="ELibraryListPage">
+    <Page name="ELibraryListPage">
       <Title>Lista Bibliotek</Title>
       <Description>Lista Bibliotek pokazuje Biblioteki wybrane w Menadżeże Bibliotek. Klikniej na jedną z Bibliotek aby przeglądać jej zawartość.
 Przed przeglądaniem biblioteki poraz pierwszy zostaje ona automatycznie pobrana z serwera.</Description>
       <HelpItems>
-		<Item name="Statistics"/>
-		<Item name="Settings"/>
+        <Item name="Statistics"/>
+        <Item name="Settings"/>
       </HelpItems>
     </Page>
-	<Page name="ELibraryManagerPage">
+    <Page name="ELibraryManagerPage">
       <Title>Menadżer Bibliotek</Title>
       <Description>Menadżer Bibliotek daje Ci możliwość dodanie nowych blbliotek oraz zarządzanie ich widocznością w Liście Bibliotek.</Description>
       <HelpItems>
         <Item name="LibraryIdTextField"/>
-		<Item name="ListAddedLibraries"/>
-		<Item name="CheckLibraryUpdates"/>
-		<Item name="RemoveLibrary"/>
-		<Item name="Statistics"/>
-		<Item name="Settings"/>
+        <Item name="ListAddedLibraries"/>
+        <Item name="CheckLibraryUpdates"/>
+        <Item name="RemoveLibrary"/>
+        <Item name="Statistics"/>
+        <Item name="Settings"/>
       </HelpItems>
     </Page>
-	<Page name="ESettingsPage">
+    <Page name="ESettingsPage">
       <Title>Ustawienia</Title>
       <Description>Tutaj możesz zmienić zachowanie aplikacji przed dostosowanie jej ustawień. Możesz również zarządzać kontami użytkowników oraz zresetować całą aplikację.</Description>
       <HelpItems>
-		<Item name="AutoStats"/>
+        <Item name="AutoStats"/>
         <Item name="AutoDownloads"/>
-		<Item name="SwitchUser"/>
-		<Item name="RemoveUser"/>
-		<Item name="FactoryReset"/>
+        <Item name="SwitchUser"/>
+        <Item name="RemoveUser"/>
+        <Item name="FactoryReset"/>
       </HelpItems>
     </Page>
-	<Page name="EStatisticsPage">
+    <Page name="EStatisticsPage">
       <Title>Statystyki</Title>
       <Description>Tutaj możesz zobaczyć statystyki dotyczące wykorzystania elementów multimedialnych.</Description>
       <HelpItems>
         <Item name="UploadStats"/>
       </HelpItems>
     </Page>
-	<Page name="EDownloadsPage">
+    <Page name="EDownloadsPage">
       <Title>Pobieranie</Title>
       <Description>Tutaj możesz zobaczyć wszystkie pobierane pliki, stan pobieranie oraz postęp.</Description>
       <HelpItems>
         <Item name="StartStopDownload"/>
-		<Item name="DownloadItemStates"/>
-		<Item name="RemoveDownload"/>
-		<Item name="Statistics"/>
-		<Item name="Settings"/>
+        <Item name="DownloadItemStates"/>
+        <Item name="RemoveDownload"/>
+        <Item name="Statistics"/>
+        <Item name="Settings"/>
       </HelpItems>
     </Page>
-	<Page name="ECataloguePage">
+    <Page name="ECataloguePage">
       <Title>Biblioteka: Lista katalogów</Title>
       <Description>Poziom listy katalogów jest najwyższym poziomem Biblioteki. Lista katalogów pokazuje wszystkie katalogi wybranej Biblioteki.</Description>
       <HelpItems>
         <Item name="SearchButton"/>
-		<Item name="DownloadAll"/>
-		<Item name="DeleteLibItem"/>
+        <Item name="DownloadAll"/>
+        <Item name="DeleteLibItem"/>
       </HelpItems>
     </Page>
-	<Page name="ECategoryPage">
+    <Page name="ECategoryPage">
       <Title>Biblioteka: Lista kategorii</Title>
       <Description>Lista kategorii pokazuje wszystkie możliwe kategorie w wybranym katalogu. Możesz również zobaczyć ile elementów mediów jest w Kategorii i ile z nich jest już pobranych (lokalne)</Description>
       <HelpItems>
         <Item name="SearchButton"/>
-		<Item name="DownloadAll"/>
-		<Item name="DeleteLibItem"/>
+        <Item name="DownloadAll"/>
+        <Item name="DeleteLibItem"/>
       </HelpItems>
     </Page>
-	<Page name="EMediaItemsPage">
+    <Page name="EMediaItemsPage">
       <Title>Biblioteka: Lista elementów mediów</Title>
       <Description>Lista elementów mediów pokazuje ile jest dostępnych elementów w wybranej Kategorii.
 Kliknij na element aby go dodać do listy pobierania lub klikij i przytrzymaj aby zobaczyć więcej opcji.</Description>
       <HelpItems>
-		<Item name="OpenMediaItem"/>
-		<Item name="DownloadNow"/>
-		<Item name="AddToQueue"/>
-		<Item name="DeleteLibItem"/>
-		<Item name="SearchButton"/>
+        <Item name="OpenMediaItem"/>
+        <Item name="DownloadNow"/>
+        <Item name="AddToQueue"/>
+        <Item name="DeleteLibItem"/>
+        <Item name="SearchButton"/>
       </HelpItems>
     </Page>
-	<Page name="EMediaItemPage">
+    <Page name="EMediaItemPage">
       <Title>Biblioteka: Element mediów</Title>
       <Description>Tutaj możesz zobaczyć wszystkie dane zawarte w elemencie mediów. To może być tekst, obrazek, plik audio lub film .</Description>
       <HelpItems>
-		<Item name="MediaDescription"/>
-		<Item name="MediaLinks"/>
+        <Item name="MediaDescription"/>
+        <Item name="MediaLinks"/>
       </HelpItems>
-    </Page>	
-	<Page name="ESearchPage">
+    </Page>    
+    <Page name="ESearchPage">
       <Title>Przeszukiwanie</Title>
       <Description>Możesz używać przeszukiwania do znajdowania elementów mediów za pomocą słów kluczowych zawartych w elementach. Wyniki wyszukiwania zostanie zmniejszony w zależności od aktualnej pozycji w bibliotece. Do przeszukania całej biblioteki włącz przeszukiwanie w liście katalogów.</Description>
       <HelpItems>
@@ -126,114 +131,114 @@ Kliknij na element aby go dodać do listy pobierania lub klikij i przytrzymaj ab
   </Pages>
   <Items>
     <HelpItem name="RemoveUser">
-		<Title>Usuwanie użytkownika</Title>
-		<Description>Usuwa konto lokalnego użytkownika. Wszystkie dane należące do tego użytkownika również zostaną usunięte.</Description>
-	</HelpItem>
-	<HelpItem name="FactoryReset">
-		<Title>Powrót do ustawień fabrycznych</Title>
-		<Description>Przywraca aplikacje do jej stanu początkowego. Wszystkie lokalne konta użytkowników, pliki oraz dane są usuwane.</Description>
-	</HelpItem>
-	<HelpItem name="SwitchUser">
-		<Title>Wyloguj użytkownika</Title>
-		<Description>Wylogowuje aktualnego użytkownika. Opcja "Zapamiętaj mnie" jest wyłączana.</Description>
-	</HelpItem>
-	<HelpItem name="LoginButton">
-		<Title>Przycisk Zaloguj</Title>
-		<Description>Naciśnij przycisk aby się zalogować używając nazwy użytkownika oraz hasła wprowadzonych w polach tekstowych.</Description>
-	</HelpItem>
-	<HelpItem name="UsernamePassword">
-		<Title>Nazwa użytkownika i hasło</Title>
-		<Description>Aby zacząć używać NED  musisz wprowadzić poprawną nazwę użytkownika oraz hasło zarejestrowanego na wybranych serwerze.</Description>
-	</HelpItem>
-	<HelpItem name="RememberMe">
-		<Title>Zapamiętaj mnie!</Title>
-		<Description>Opcja zapamiętaj mnie jest używana aby zapisać wprowadzoną nazwę użytkownika oraz hasło. Nazwa użytkownika oraz hasło zostaną zapamiętane tylko po poprawnych zalogowaniu się.</Description>
-	</HelpItem>
-	<HelpItem name="Statistics">
-		<Title>Statystyki</Title>
-		<Description>Pokazują stronę z niektórymi podstawowymi statystykami czekającymi na wysłanie do serwera.</Description>
-	</HelpItem>
-	<HelpItem name="Settings">
-		<Title>Ustawienia</Title>
-		<Description>Pokazują stronę z ustawieniami które mogą pomóc kontrolować zachowanie aplikacji NED.</Description>
-	</HelpItem>
-	<HelpItem name="SearchButton">
-		<Title>Szukaj</Title>
-		<Description>Pokazuje stronę gdzie możesz znaleźć media itemy przez wprowadzenie słowa kluczowego.</Description>
-	</HelpItem>
-	<HelpItem name="DownloadAll">
-		<Title>Pobierz wszystko</Title>
-		<Description>Opcja pobierz wyszystko pobiera wszystkie elementy mediów które należą do naszczej obecnej pozycji w Biliotece. 
+        <Title>Usuwanie użytkownika</Title>
+        <Description>Usuwa konto lokalnego użytkownika. Wszystkie dane należące do tego użytkownika również zostaną usunięte.</Description>
+    </HelpItem>
+    <HelpItem name="FactoryReset">
+        <Title>Powrót do ustawień fabrycznych</Title>
+        <Description>Przywraca aplikacje do jej stanu początkowego. Wszystkie lokalne konta użytkowników, pliki oraz dane są usuwane.</Description>
+    </HelpItem>
+    <HelpItem name="SwitchUser">
+        <Title>Wyloguj użytkownika</Title>
+        <Description>Wylogowuje aktualnego użytkownika. Opcja "Zapamiętaj mnie" jest wyłączana.</Description>
+    </HelpItem>
+    <HelpItem name="LoginButton">
+        <Title>Przycisk Zaloguj</Title>
+        <Description>Naciśnij przycisk aby się zalogować używając nazwy użytkownika oraz hasła wprowadzonych w polach tekstowych.</Description>
+    </HelpItem>
+    <HelpItem name="UsernamePassword">
+        <Title>Nazwa użytkownika i hasło</Title>
+        <Description>Aby zacząć używać NED  musisz wprowadzić poprawną nazwę użytkownika oraz hasło zarejestrowanego na wybranych serwerze.</Description>
+    </HelpItem>
+    <HelpItem name="RememberMe">
+        <Title>Zapamiętaj mnie!</Title>
+        <Description>Opcja zapamiętaj mnie jest używana aby zapisać wprowadzoną nazwę użytkownika oraz hasło. Nazwa użytkownika oraz hasło zostaną zapamiętane tylko po poprawnych zalogowaniu się.</Description>
+    </HelpItem>
+    <HelpItem name="Statistics">
+        <Title>Statystyki</Title>
+        <Description>Pokazują stronę z niektórymi podstawowymi statystykami czekającymi na wysłanie do serwera.</Description>
+    </HelpItem>
+    <HelpItem name="Settings">
+        <Title>Ustawienia</Title>
+        <Description>Pokazują stronę z ustawieniami które mogą pomóc kontrolować zachowanie aplikacji NED.</Description>
+    </HelpItem>
+    <HelpItem name="SearchButton">
+        <Title>Szukaj</Title>
+        <Description>Pokazuje stronę gdzie możesz znaleźć media itemy przez wprowadzenie słowa kluczowego.</Description>
+    </HelpItem>
+    <HelpItem name="DownloadAll">
+        <Title>Pobierz wszystko</Title>
+        <Description>Opcja pobierz wyszystko pobiera wszystkie elementy mediów które należą do naszczej obecnej pozycji w Biliotece. 
 Na przykład kiedy naciśniesz pobierz wszystko w liście katalogów zostaną dodane do kolejki pobierania wszystkie elementy mediów zawarte w wybranej bibliotece, natomiast jeśli naciśniesz pobierz wszystko w liście elementów mediów zostaną pobrane tylko wszystkie widoczne elementy.</Description>
-	</HelpItem>
-	<HelpItem name="DeleteLibItem">
-		<Title>Usuń element Biblioteki</Title>
-		<Description>Możesz usunąć element Biblioteki z lokalnej kopie Biblioteki przez kliknięcie i przytrzymanie na elemencie który chcesz usunąć. Wybrany element i wszystkie elementy należące do niego zostaną usunięte. 
+    </HelpItem>
+    <HelpItem name="DeleteLibItem">
+        <Title>Usuń element Biblioteki</Title>
+        <Description>Możesz usunąć element Biblioteki z lokalnej kopie Biblioteki przez kliknięcie i przytrzymanie na elemencie który chcesz usunąć. Wybrany element i wszystkie elementy należące do niego zostaną usunięte. 
 Aby przywrócić usunięty element musisz użyć opcji "Sprawdź aktualizację" w Menadżerze Bibliotek. (Uwaga: To usunie wszystkie wprowadzone zmiany oraz pobrane pliki z aktualizowanej biblioteki.)</Description>
-	</HelpItem>
-	<HelpItem name="StartStopDownload">
-		<Title>Rozpocznij/Zatrzymaj pobieranie</Title>
-		<Description>Kliknij na element aby zatrzymać lub rozpocząć pobieranie. Kiedy element znajduje się w kolejce zostanie automatycznie pobrany.</Description>
-	</HelpItem>
-	<HelpItem name="DownloadItemStates">
-		<Title>Stany pobierania</Title>
-		<Description>Są cztery możliwe stany pobierania:
+    </HelpItem>
+    <HelpItem name="StartStopDownload">
+        <Title>Rozpocznij/Zatrzymaj pobieranie</Title>
+        <Description>Kliknij na element aby zatrzymać lub rozpocząć pobieranie. Kiedy element znajduje się w kolejce zostanie automatycznie pobrany.</Description>
+    </HelpItem>
+    <HelpItem name="DownloadItemStates">
+        <Title>Stany pobierania</Title>
+        <Description>Są cztery możliwe stany pobierania:
 Pobieranie - element jest obecnie pobierany z serwera.
 Łączenie - pobierane są informacje o elemencie  i następnie rozpoczyna się pobieranie.
 W kolejce - element zostanie pobrany tak szybko jak to tylko możliwe
 Wstrzymany - element nie będzie pobierany dopuki sami nie zmienimy jego stanu</Description>
-	</HelpItem>
-	<HelpItem name="RemoveDownload">
-		<Title>Usuń pobieranie</Title>
-		<Description>Aby usunąc pobieranie z kolejki naciśnij i długo przytrzymaj na elemencie a następnie naciśnij Anuluj.</Description>
-	</HelpItem>
-	<HelpItem name="LibraryIdTextField">
-		<Title>ID nowej Biblioteki</Title>
-		<Description>Każda biblioteka na serwerze ma swoje unikalne ID. Wprowadź je tutaj i zatwierdz aby sprawdzić czy biblioteka jest dostępna na serwerze. Biblioteka zostanie dodana do listy poniżej.</Description>
-	</HelpItem>
-	<HelpItem name="ListAddedLibraries">
-		<Title>Pokaż liste bibliotek</Title>
-		<Description>Wszystkie zaznaczone Biblioteki zostaną wyświetlone w Liście Bibliotek. W ten sposb możesz zwężać liste Bibliotek akby wyświetlić tylko obecnie potrzebne biblioteki.</Description>
-	</HelpItem>
-	<HelpItem name="CheckLibraryUpdates">
-		<Title>Sprawdź aktualizacje</Title>
-		<Description>Kliknij oraz przytrzymaj a nastepnie wybierz "Sprawdź aktualizacje" na bibliotece którą chcesz zaktualizować. Uwaga: To usunie wszystkie wprowadzone zmiany oraz pobrane pliki z aktualizowanej biblioteki.</Description>
-	</HelpItem>
-	<HelpItem name="RemoveLibrary">
-		<Title>Usuń bibliotekę</Title>
-		<Description>Kliknij oraz przytrzymaj a nastepnie wybierz 'Usuń' na bibliotece którą chcesz usunąć. To usunie również wszystkie pliki należące do biblioteki.</Description>
-	</HelpItem>
-	<HelpItem name="MediaDescription">
-		<Title>Opis</Title>
-		<Description>Pokazuje dodatkowy opis elementu mediów.</Description>
-	</HelpItem>
-	<HelpItem name="MediaLinks">
-		<Title>Linki</Title>
-		<Description>Pokazuje linki internetowe należące do elementu mediów.</Description>
-	</HelpItem>
-	<HelpItem name="OpenMediaItem">
-		<Title>Otwórz element mediów</Title>
-		<Description>Kiedy element jest pobrany możesz poprzez kliknięcie otworzyć go.</Description>
-	</HelpItem>
-	<HelpItem name="DownloadNow">
-		<Title>Pobierz teraz</Title>
-		<Description>Pobierz teraz dodaje element do listy pobierania i zostanie pobrany tak szybko jak to tylko możliwe bez względu na to czy automatyczne pobieranie jest włączone czy nie.</Description>
-	</HelpItem>
-	<HelpItem name="AddToQueue">
-		<Title>Dodaj do kolejki</Title>
-		<Description>Opcja Dodaj do kolejki dodaje element do kolejki pobieranie w zależności od ustawień pobierania. Kiedy automatyczne pobieranie jest włączone element zostanie pobrany tak szybko jak to tylko możliwe, jeśli jest wyłączone zostanie dodany do kolejki z stanem wstrzymania i będzie musiał być włączony ręcznie.</Description>
-	</HelpItem>
-	<HelpItem name="AutoStats">
-		<Title>Automatycznie wysyłanie statystyk</Title>
-		<Description>Wybiera automatyczne lub ręczne wysyłanie statystyk na serwer. Kiedy wybrane jest "włączone" statystyki sa wysyłane automatycznie przy każdym połączeniu z serwerem, w przeciwnym razie musisz je wysłać ręcznie ze strony statystyk.</Description>
-	</HelpItem>
-	<HelpItem name="AutoDownloads">
-		<Title>Automatyczne pobieranie</Title>
-		<Description>Wybranie automatycznego lub ręcznego pobierania. Kiedy wybrane jest 'włączone' elementy mediów sa automatycznie dodawane do listy pobierania i  pobierane jeden po drugim zaraz po kliknięciu pobierania, w przeciwnym razie każde pobieranie elementu mediów musi zostać ręcznie włączone na stronie pobierania.</Description>
-	</HelpItem>
-	<HelpItem name="UploadStats">
-		<Title>Wyślij Statystyki</Title>
-		<Description>Naciśnij Wyślij aby natychmiast wysłać wszystkie statystyki obecnego użytkownika na serwer.</Description>
-	</HelpItem>
+    </HelpItem>
+    <HelpItem name="RemoveDownload">
+        <Title>Usuń pobieranie</Title>
+        <Description>Aby usunąc pobieranie z kolejki naciśnij i długo przytrzymaj na elemencie a następnie naciśnij Anuluj.</Description>
+    </HelpItem>
+    <HelpItem name="LibraryIdTextField">
+        <Title>ID nowej Biblioteki</Title>
+        <Description>Każda biblioteka na serwerze ma swoje unikalne ID. Wprowadź je tutaj i zatwierdz aby sprawdzić czy biblioteka jest dostępna na serwerze. Biblioteka zostanie dodana do listy poniżej.</Description>
+    </HelpItem>
+    <HelpItem name="ListAddedLibraries">
+        <Title>Pokaż liste bibliotek</Title>
+        <Description>Wszystkie zaznaczone Biblioteki zostaną wyświetlone w Liście Bibliotek. W ten sposb możesz zwężać liste Bibliotek akby wyświetlić tylko obecnie potrzebne biblioteki.</Description>
+    </HelpItem>
+    <HelpItem name="CheckLibraryUpdates">
+        <Title>Sprawdź aktualizacje</Title>
+        <Description>Kliknij oraz przytrzymaj a nastepnie wybierz "Sprawdź aktualizacje" na bibliotece którą chcesz zaktualizować. Uwaga: To usunie wszystkie wprowadzone zmiany oraz pobrane pliki z aktualizowanej biblioteki.</Description>
+    </HelpItem>
+    <HelpItem name="RemoveLibrary">
+        <Title>Usuń bibliotekę</Title>
+        <Description>Kliknij oraz przytrzymaj a nastepnie wybierz 'Usuń' na bibliotece którą chcesz usunąć. To usunie również wszystkie pliki należące do biblioteki.</Description>
+    </HelpItem>
+    <HelpItem name="MediaDescription">
+        <Title>Opis</Title>
+        <Description>Pokazuje dodatkowy opis elementu mediów.</Description>
+    </HelpItem>
+    <HelpItem name="MediaLinks">
+        <Title>Linki</Title>
+        <Description>Pokazuje linki internetowe należące do elementu mediów.</Description>
+    </HelpItem>
+    <HelpItem name="OpenMediaItem">
+        <Title>Otwórz element mediów</Title>
+        <Description>Kiedy element jest pobrany możesz poprzez kliknięcie otworzyć go.</Description>
+    </HelpItem>
+    <HelpItem name="DownloadNow">
+        <Title>Pobierz teraz</Title>
+        <Description>Pobierz teraz dodaje element do listy pobierania i zostanie pobrany tak szybko jak to tylko możliwe bez względu na to czy automatyczne pobieranie jest włączone czy nie.</Description>
+    </HelpItem>
+    <HelpItem name="AddToQueue">
+        <Title>Dodaj do kolejki</Title>
+        <Description>Opcja Dodaj do kolejki dodaje element do kolejki pobieranie w zależności od ustawień pobierania. Kiedy automatyczne pobieranie jest włączone element zostanie pobrany tak szybko jak to tylko możliwe, jeśli jest wyłączone zostanie dodany do kolejki z stanem wstrzymania i będzie musiał być włączony ręcznie.</Description>
+    </HelpItem>
+    <HelpItem name="AutoStats">
+        <Title>Automatycznie wysyłanie statystyk</Title>
+        <Description>Wybiera automatyczne lub ręczne wysyłanie statystyk na serwer. Kiedy wybrane jest "włączone" statystyki sa wysyłane automatycznie przy każdym połączeniu z serwerem, w przeciwnym razie musisz je wysłać ręcznie ze strony statystyk.</Description>
+    </HelpItem>
+    <HelpItem name="AutoDownloads">
+        <Title>Automatyczne pobieranie</Title>
+        <Description>Wybranie automatycznego lub ręcznego pobierania. Kiedy wybrane jest 'włączone' elementy mediów sa automatycznie dodawane do listy pobierania i  pobierane jeden po drugim zaraz po kliknięciu pobierania, w przeciwnym razie każde pobieranie elementu mediów musi zostać ręcznie włączone na stronie pobierania.</Description>
+    </HelpItem>
+    <HelpItem name="UploadStats">
+        <Title>Wyślij Statystyki</Title>
+        <Description>Naciśnij Wyślij aby natychmiast wysłać wszystkie statystyki obecnego użytkownika na serwer.</Description>
+    </HelpItem>
   </Items>
 </Help>

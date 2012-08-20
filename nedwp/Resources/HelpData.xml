@@ -15,109 +15,114 @@
   <Pages>
     <Page name="ESelectServerPage">
       <Title>Server Selection</Title>
-      <Description>This is server selection page. Before logging into NED you have to provide NED server address. 
+      <Description>
+This is server selection page. Before logging into NED you have to provide NED server address.
 Server address is set only once. To reset server address use Factory Reset.
-Example server address: http://example.com:8080</Description>
+Demo server: 'http://217.74.73.16:8083'
+Username: 'guest'
+Password: 'guest'
+Library Id: 'khan'
+      </Description>
       <HelpItems />
     </Page>
-	<Page name="EUserLoginPage">
+    <Page name="EUserLoginPage">
       <Title>User Authentication</Title>
       <Description>This is user authentication page. Here you can login with your Username and Password.</Description>
       <HelpItems>
-		<Item name="UsernamePassword"/>
+        <Item name="UsernamePassword"/>
         <Item name="LoginButton"/>
-		<Item name="RememberMe" />
+        <Item name="RememberMe" />
       </HelpItems>
     </Page>
-	<Page name="ELibraryListPage">
+    <Page name="ELibraryListPage">
       <Title>List of Libraries</Title>
       <Description>List of Libraries shows Libraries selected in Libraries Manager. Tap on a Library to browse it's contents. 
 Before Library can be browsed for the first time it is automaticaly fetched from the server.</Description>
       <HelpItems>
-		<Item name="Statistics"/>
-		<Item name="Settings"/>
+        <Item name="Statistics"/>
+        <Item name="Settings"/>
       </HelpItems>
     </Page>
-	<Page name="ELibraryManagerPage">
+    <Page name="ELibraryManagerPage">
       <Title>Library Manager</Title>
       <Description>Library Manager gives you possibility to add new libraries and manage their visibility in the List of Libraries.</Description>
       <HelpItems>
         <Item name="LibraryIdTextField"/>
-		<Item name="ListAddedLibraries"/>
-		<Item name="CheckLibraryUpdates"/>
-		<Item name="RemoveLibrary"/>
-		<Item name="Statistics"/>
-		<Item name="Settings"/>
+        <Item name="ListAddedLibraries"/>
+        <Item name="CheckLibraryUpdates"/>
+        <Item name="RemoveLibrary"/>
+        <Item name="Statistics"/>
+        <Item name="Settings"/>
       </HelpItems>
     </Page>
-	<Page name="ESettingsPage">
+    <Page name="ESettingsPage">
       <Title>Settings</Title>
       <Description>Here you can change application application behaviour by adjusting it's settings. You can also manage current user account and reset whole application.</Description>
       <HelpItems>
-		<Item name="AutoStats"/>
+        <Item name="AutoStats"/>
         <Item name="AutoDownloads"/>
-		<Item name="SwitchUser"/>
-		<Item name="RemoveUser"/>
-		<Item name="FactoryReset"/>
+        <Item name="SwitchUser"/>
+        <Item name="RemoveUser"/>
+        <Item name="FactoryReset"/>
       </HelpItems>
     </Page>
-	<Page name="EStatisticsPage">
+    <Page name="EStatisticsPage">
       <Title>Statistics</Title>
       <Description>Here you can see statistics related to Media Items usage</Description>
       <HelpItems>
         <Item name="UploadStats"/>
       </HelpItems>
     </Page>
-	<Page name="EDownloadsPage">
+    <Page name="EDownloadsPage">
       <Title>Downloads</Title>
       <Description>Here you can view all downloads, their state and progress.</Description>
       <HelpItems>
         <Item name="StartStopDownload"/>
-		<Item name="DownloadItemStates"/>
-		<Item name="RemoveDownload"/>
-		<Item name="Statistics"/>
-		<Item name="Settings"/>
+        <Item name="DownloadItemStates"/>
+        <Item name="RemoveDownload"/>
+        <Item name="Statistics"/>
+        <Item name="Settings"/>
       </HelpItems>
     </Page>
-	<Page name="ECataloguePage">
+    <Page name="ECataloguePage">
       <Title>Library: Catalogues List</Title>
       <Description>Catalogues list level is top most level of the Library. Catalogues list shows all available Catalogues in the selected Library.</Description>
       <HelpItems>
         <Item name="SearchButton"/>
-		<Item name="DownloadAll"/>
-		<Item name="DeleteLibItem"/>
+        <Item name="DownloadAll"/>
+        <Item name="DeleteLibItem"/>
       </HelpItems>
     </Page>
-	<Page name="ECategoryPage">
+    <Page name="ECategoryPage">
       <Title>Library: Categories List</Title>
       <Description>Categories list shows all available Categories in the selected Catalogue. You can also see how many Media Items are in the Category and how many of them are already downloaded (local)</Description>
       <HelpItems>
         <Item name="SearchButton"/>
-		<Item name="DownloadAll"/>
-		<Item name="DeleteLibItem"/>
+        <Item name="DownloadAll"/>
+        <Item name="DeleteLibItem"/>
       </HelpItems>
     </Page>
-	<Page name="EMediaItemsPage">
+    <Page name="EMediaItemsPage">
       <Title>Library: Media Items List</Title>
       <Description>Media Items list shows all available Media Items in the selected Category.
 Tap the item to add it to download queue or longpress to get more options.</Description>
       <HelpItems>
-		<Item name="OpenMediaItem"/>
-		<Item name="DownloadNow"/>
-		<Item name="AddToQueue"/>
-		<Item name="DeleteLibItem"/>
-		<Item name="SearchButton"/>
+        <Item name="OpenMediaItem"/>
+        <Item name="DownloadNow"/>
+        <Item name="AddToQueue"/>
+        <Item name="DeleteLibItem"/>
+        <Item name="SearchButton"/>
       </HelpItems>
     </Page>
-	<Page name="EMediaItemPage">
+    <Page name="EMediaItemPage">
       <Title>Library: Media Item</Title>
       <Description>Here you can see all the data associated with the Media Item. It can be Text, Picture, Audio or Video.</Description>
       <HelpItems>
-		<Item name="MediaDescription"/>
-		<Item name="MediaLinks"/>
+        <Item name="MediaDescription"/>
+        <Item name="MediaLinks"/>
       </HelpItems>
-    </Page>	
-	<Page name="ESearchPage">
+    </Page>    
+    <Page name="ESearchPage">
       <Title>Search</Title>
       <Description>You can use Search to find Media Items using keywords that were associated with them. Search results will be narrowed depending on your current locatin in the Library. To search the whole Library launch Search from Catalogues List</Description>
       <HelpItems>
@@ -126,114 +131,114 @@ Tap the item to add it to download queue or longpress to get more options.</Desc
   </Pages>
   <Items>
     <HelpItem name="RemoveUser">
-		<Title>Remove user</Title>
-		<Description>Removes local user account. All files associated with user are also removed.</Description>
-	</HelpItem>
-	<HelpItem name="FactoryReset">
-		<Title>Factory reset</Title>
-		<Description>Returns application to it's initial state. All local user accounts, files and data are deleted.</Description>
-	</HelpItem>
-	<HelpItem name="SwitchUser">
-		<Title>Logout user</Title>
-		<Description>Logs out current user. 'Remember Me!' option is unset.</Description>
-	</HelpItem>
-	<HelpItem name="LoginButton">
-		<Title>Log in button</Title>
-		<Description>Press button to get authenticated using username and password entered in text fields.</Description>
-	</HelpItem>
-	<HelpItem name="UsernamePassword">
-		<Title>Username and Password</Title>
-		<Description>To start using NED you have to provide correct username and password registered on selected server</Description>
-	</HelpItem>
-	<HelpItem name="RememberMe">
-		<Title>Remember Me!</Title>
-		<Description>Remember me option is used to save entered username and password. Username and password will be remembered only after successfull authentication.</Description>
-	</HelpItem>
-	<HelpItem name="Statistics">
-		<Title>Statistics</Title>
-		<Description>Shows page with some basic usage statistics that are waiting to be sent to server</Description>
-	</HelpItem>
-	<HelpItem name="Settings">
-		<Title>Settings</Title>
-		<Description>Shows page with settings that help you control NED behaviour</Description>
-	</HelpItem>
-	<HelpItem name="SearchButton">
-		<Title>Search</Title>
-		<Description>Shows page where you can find items by typing keywords.</Description>
-	</HelpItem>
-	<HelpItem name="DownloadAll">
-		<Title>Download all</Title>
-		<Description>Download all option downloads all Media Items contained that belong to our current location in a Library. 
+        <Title>Remove user</Title>
+        <Description>Removes local user account. All files associated with user are also removed.</Description>
+    </HelpItem>
+    <HelpItem name="FactoryReset">
+        <Title>Factory reset</Title>
+        <Description>Returns application to it's initial state. All local user accounts, files and data are deleted.</Description>
+    </HelpItem>
+    <HelpItem name="SwitchUser">
+        <Title>Logout user</Title>
+        <Description>Logs out current user. 'Remember Me!' option is unset.</Description>
+    </HelpItem>
+    <HelpItem name="LoginButton">
+        <Title>Log in button</Title>
+        <Description>Press button to get authenticated using username and password entered in text fields.</Description>
+    </HelpItem>
+    <HelpItem name="UsernamePassword">
+        <Title>Username and Password</Title>
+        <Description>To start using NED you have to provide correct username and password registered on selected server</Description>
+    </HelpItem>
+    <HelpItem name="RememberMe">
+        <Title>Remember Me!</Title>
+        <Description>Remember me option is used to save entered username and password. Username and password will be remembered only after successfull authentication.</Description>
+    </HelpItem>
+    <HelpItem name="Statistics">
+        <Title>Statistics</Title>
+        <Description>Shows page with some basic usage statistics that are waiting to be sent to server</Description>
+    </HelpItem>
+    <HelpItem name="Settings">
+        <Title>Settings</Title>
+        <Description>Shows page with settings that help you control NED behaviour</Description>
+    </HelpItem>
+    <HelpItem name="SearchButton">
+        <Title>Search</Title>
+        <Description>Shows page where you can find items by typing keywords.</Description>
+    </HelpItem>
+    <HelpItem name="DownloadAll">
+        <Title>Download all</Title>
+        <Description>Download all option downloads all Media Items contained that belong to our current location in a Library. 
 For example while pressed in the Catalogue List page it will add to download queue all Media Items in current Library while when pressed in Media List level only Media Items from currently visible list will be downloaded.</Description>
-	</HelpItem>
-	<HelpItem name="DeleteLibItem">
-		<Title>Delete Library Item</Title>
-		<Description>You can delete Library item from local copy of the Library by longpressing the item to be deleted. Selected item and all subitems will be removed. 
+    </HelpItem>
+    <HelpItem name="DeleteLibItem">
+        <Title>Delete Library Item</Title>
+        <Description>You can delete Library item from local copy of the Library by longpressing the item to be deleted. Selected item and all subitems will be removed. 
 To recover deleted items you have to use 'Check for updates' option in Library Manager (Warning: It will remove all current changes and downloaded files from updated library)</Description>
-	</HelpItem>
-	<HelpItem name="StartStopDownload">
-		<Title>Start/Stop download</Title>
-		<Description>Tap the item to toggle between Paused and Queued states. Once item is Queued it will automatically get downloaded.</Description>
-	</HelpItem>
-	<HelpItem name="DownloadItemStates">
-		<Title>Download States</Title>
-		<Description>There are four possible download states:
+    </HelpItem>
+    <HelpItem name="StartStopDownload">
+        <Title>Start/Stop download</Title>
+        <Description>Tap the item to toggle between Paused and Queued states. Once item is Queued it will automatically get downloaded.</Description>
+    </HelpItem>
+    <HelpItem name="DownloadItemStates">
+        <Title>Download States</Title>
+        <Description>There are four possible download states:
 Downloading - item is beeing currently downloaded from the server.
 Connecting - item is fetching file information and is about to start downloading.
 Queued - item will be downloaded as soon as possible
 Paused - item won't be downloaded until it is manually started</Description>
-	</HelpItem>
-	<HelpItem name="RemoveDownload">
-		<Title>Remove download</Title>
-		<Description>To remove download from the download queue longpress the item and press cancel.</Description>
-	</HelpItem>
-	<HelpItem name="LibraryIdTextField">
-		<Title>New library ID</Title>
-		<Description>Every library on server has it's unique ID. Enter it here and submit to check if it is available on server. It will be added to the list below the text field.</Description>
-	</HelpItem>
-	<HelpItem name="ListAddedLibraries">
-		<Title>Show Libraries list</Title>
-		<Description>All checked Libraries will be displayed in the List of Libraries. This way you can narrow down the List of Libraries to show only currently needed Libraries.</Description>
-	</HelpItem>
-	<HelpItem name="CheckLibraryUpdates">
-		<Title>Check for updates</Title>
-		<Description>Longpress and select 'Check for updates' on Library you want to update. Warning: It will remove all current changes and downloaded files from updated library</Description>
-	</HelpItem>
-	<HelpItem name="RemoveLibrary">
-		<Title>Remove library</Title>
-		<Description>Longpress and select 'Delete' on Library to remove it. It will also remove all files associated with the Library.</Description>
-	</HelpItem>
-	<HelpItem name="MediaDescription">
-		<Title>Description</Title>
-		<Description>Show additional Media Item description.</Description>
-	</HelpItem>
-	<HelpItem name="MediaLinks">
-		<Title>Links</Title>
-		<Description>Shows weblinks associated to this Media Item.</Description>
-	</HelpItem>
-	<HelpItem name="OpenMediaItem">
-		<Title>Open Media Item</Title>
-		<Description>When item is downloaded you can simply tap it to get it open.</Description>
-	</HelpItem>
-	<HelpItem name="DownloadNow">
-		<Title>Download Now</Title>
-		<Description>Download Now option adds item to download queue and will be downloaded as soon as possible regardless whether automatic downloads are turned On or Off.</Description>
-	</HelpItem>
-	<HelpItem name="AddToQueue">
-		<Title>Add to Queue</Title>
-		<Description>Add to Queue option adds item to download queue depending on downloads settings. If automatic download is On item will be downloaded as soon as possible, if Off item will be added to queue in Paused state and will have to be started manually. </Description>
-	</HelpItem>
-	<HelpItem name="AutoStats">
-		<Title>Automatic statistics upload</Title>
-		<Description>Select automatic or manual statistics upload. When toggled to 'On' statistics are uploaded automatically on every network communication, otherwise have to be uploaded manually from statistcs page</Description>
-	</HelpItem>
-	<HelpItem name="AutoDownloads">
-		<Title>Automatic downloads</Title>
-		<Description>Select automatic or manual downloads. When toggled to 'On' Media Items are automatically added to download queue and downloaded one by oneafter after beeing selected for downloading. Otherwise every Media Item download has to be started manually from Downloads page.</Description>
-	</HelpItem>
-	<HelpItem name="UploadStats">
-		<Title>Upload Statistics</Title>
-		<Description>Press Upload to immediately upload all current user statistics to server.</Description>
-	</HelpItem>
+    </HelpItem>
+    <HelpItem name="RemoveDownload">
+        <Title>Remove download</Title>
+        <Description>To remove download from the download queue longpress the item and press cancel.</Description>
+    </HelpItem>
+    <HelpItem name="LibraryIdTextField">
+        <Title>New library ID</Title>
+        <Description>Every library on server has it's unique ID. Enter it here and submit to check if it is available on server. It will be added to the list below the text field.</Description>
+    </HelpItem>
+    <HelpItem name="ListAddedLibraries">
+        <Title>Show Libraries list</Title>
+        <Description>All checked Libraries will be displayed in the List of Libraries. This way you can narrow down the List of Libraries to show only currently needed Libraries.</Description>
+    </HelpItem>
+    <HelpItem name="CheckLibraryUpdates">
+        <Title>Check for updates</Title>
+        <Description>Longpress and select 'Check for updates' on Library you want to update. Warning: It will remove all current changes and downloaded files from updated library</Description>
+    </HelpItem>
+    <HelpItem name="RemoveLibrary">
+        <Title>Remove library</Title>
+        <Description>Longpress and select 'Delete' on Library to remove it. It will also remove all files associated with the Library.</Description>
+    </HelpItem>
+    <HelpItem name="MediaDescription">
+        <Title>Description</Title>
+        <Description>Show additional Media Item description.</Description>
+    </HelpItem>
+    <HelpItem name="MediaLinks">
+        <Title>Links</Title>
+        <Description>Shows weblinks associated to this Media Item.</Description>
+    </HelpItem>
+    <HelpItem name="OpenMediaItem">
+        <Title>Open Media Item</Title>
+        <Description>When item is downloaded you can simply tap it to get it open.</Description>
+    </HelpItem>
+    <HelpItem name="DownloadNow">
+        <Title>Download Now</Title>
+        <Description>Download Now option adds item to download queue and will be downloaded as soon as possible regardless whether automatic downloads are turned On or Off.</Description>
+    </HelpItem>
+    <HelpItem name="AddToQueue">
+        <Title>Add to Queue</Title>
+        <Description>Add to Queue option adds item to download queue depending on downloads settings. If automatic download is On item will be downloaded as soon as possible, if Off item will be added to queue in Paused state and will have to be started manually. </Description>
+    </HelpItem>
+    <HelpItem name="AutoStats">
+        <Title>Automatic statistics upload</Title>
+        <Description>Select automatic or manual statistics upload. When toggled to 'On' statistics are uploaded automatically on every network communication, otherwise have to be uploaded manually from statistcs page</Description>
+    </HelpItem>
+    <HelpItem name="AutoDownloads">
+        <Title>Automatic downloads</Title>
+        <Description>Select automatic or manual downloads. When toggled to 'On' Media Items are automatically added to download queue and downloaded one by oneafter after beeing selected for downloading. Otherwise every Media Item download has to be started manually from Downloads page.</Description>
+    </HelpItem>
+    <HelpItem name="UploadStats">
+        <Title>Upload Statistics</Title>
+        <Description>Press Upload to immediately upload all current user statistics to server.</Description>
+    </HelpItem>
   </Items>
 </Help>
