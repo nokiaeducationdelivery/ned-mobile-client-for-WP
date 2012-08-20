@@ -60,7 +60,7 @@ namespace NedWp
             String url = MediaItemModel.ExternalLinks[LinksList.SelectedIndex]; 
             App.Engine.StatisticsManager.LogOpenLink(new Uri(url));
             WebBrowserTask webBrowserTask = new WebBrowserTask();
-            webBrowserTask.URL = url;
+            webBrowserTask.Uri = new Uri(url);
             webBrowserTask.Show();
         }
     }

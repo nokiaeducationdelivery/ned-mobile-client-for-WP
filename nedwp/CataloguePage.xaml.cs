@@ -48,7 +48,7 @@ namespace NedWp
             CatalogueList.DataContext = CollectionFilter;
 
             ApplicationBar = new ApplicationBar();
-            ApplicationBar.IsMenuEnabled = false;
+            ApplicationBar.IsMenuEnabled = true;
             CreateApplicationBarButtons();
         }
 
@@ -58,10 +58,11 @@ namespace NedWp
             Search,
             DownloadAll,
             Update,
-            Home
+            Home,
+            DownloadManager
         }
 
-        private Dictionary<ApplicationBarButtons, ApplicationBarIconButton> _applicationBarButtons = new Dictionary<ApplicationBarButtons, ApplicationBarIconButton>();
+        private Dictionary<ApplicationBarButtons, IApplicationBarMenuItem> _applicationBarButtons = new Dictionary<ApplicationBarButtons, IApplicationBarMenuItem>();
         private void CreateApplicationBarButtons()
         {
             ApplicationBarIconButton helpButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative));
@@ -80,16 +81,22 @@ namespace NedWp
             homeButton.Click += OnHomeClicked;
             homeButton.Text = AppResources.CataloguePage_HomeButton;
 
+            ApplicationBarMenuItem downloadManagerButton = new ApplicationBarMenuItem();
+            downloadManagerButton.Click += OnGotoDownloadManager;
+            downloadManagerButton.Text = AppResources.MainPage_Downloads;
+
             _applicationBarButtons.Add(ApplicationBarButtons.Update, updateButton);
             _applicationBarButtons.Add(ApplicationBarButtons.DownloadAll, downloadAllButton);
             _applicationBarButtons.Add(ApplicationBarButtons.Search, searchButton);
             _applicationBarButtons.Add(ApplicationBarButtons.Help, helpButton);
             _applicationBarButtons.Add(ApplicationBarButtons.Home, homeButton);
+            _applicationBarButtons.Add(ApplicationBarButtons.DownloadManager, downloadManagerButton );
         }
 
         private void UpdateApplicationBarButtons()
         {
             ApplicationBar.Buttons.Clear();
+            ApplicationBar.MenuItems.Clear();
 
             if (PageType == LibraryModel.LibraryLevel.Catalogue)
             {
@@ -103,6 +110,7 @@ namespace NedWp
             ApplicationBar.Buttons.Add(_applicationBarButtons[ApplicationBarButtons.DownloadAll]);
             ApplicationBar.Buttons.Add(_applicationBarButtons[ApplicationBarButtons.Search]);
             ApplicationBar.Buttons.Add(_applicationBarButtons[ApplicationBarButtons.Help]);
+            ApplicationBar.MenuItems.Add(_applicationBarButtons[ApplicationBarButtons.DownloadManager] );
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -157,6 +165,11 @@ namespace NedWp
         {
             App.RecursiveBack = true;
             NavigationService.GoBack();
+        }
+
+        private void OnGotoDownloadManager( object sender, EventArgs args )
+        {
+            NedEngine.Utils.NavigateTo( "/MainPage.xaml?MainMenuScreen.SelectedIndex=2" );
         }
 
         private void OnRefreshClicked(object sender, EventArgs args)
