@@ -39,7 +39,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Image      Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="12, 0, 12, 0" Source="{Binding MediaIcon}" Stretch="None" />
-        <TextBlock  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0, 0, 0, 6" Text="{Binding Title}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextLargeStyle}"/>
+        <TextBlock  Grid.Row="0" Grid.Column="1" Foreground="{Binding Color}" VerticalAlignment="Center" Margin="0, 0, 0, 6" Text="{Binding Title}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextLargeStyle}"/>
         <Image      Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="12, 0, 12, 0" Source="{Binding ItemState, Converter={StaticResource AvailabilityIconConverter}}" Stretch="None" />
         <Image      Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Source="Resources/HorizontalSplitter.png" Stretch="Fill" Opacity="0.10"/>
         <toolkit:ContextMenuService.ContextMenu>

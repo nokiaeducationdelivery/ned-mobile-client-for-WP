@@ -362,6 +362,7 @@ namespace NedEngine
                                    library.Version = libUpdate.Version;
                                    library.CatalogueCount = LibraryModel.GetCatalogueCount(libUpdate.Contents);
                                    Library.SaveLibraryContents(libUpdate.Contents, library, LoggedUser);
+                                   Library.PrepareDiffXml(library, LoggedUser);
                                })
                            .Select(_ => library);
         }
@@ -438,6 +439,26 @@ namespace NedEngine
             }
         }
 
+        public void PrepareToUpdateLibraryData(Library library)
+        {
+            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                string libraryDirectory = Utils.LibraryDirPath(LoggedUser, library);
+                if (isf.DirectoryExists(libraryDirectory))
+                {
+                    if (isf.FileExists(Utils.LibraryXmlPath(LoggedUser, library)) && !isf.FileExists(Utils.LibraryXmlPreviousPath(LoggedUser, library)))
+                    {
+                        isf.MoveFile(Utils.LibraryXmlPath(LoggedUser, library), Utils.LibraryXmlPreviousPath(LoggedUser, library));
+                    }
+                    else
+                    {
+                        //shouldnt happen, will lose recent history
+                        isf.DeleteFile(Utils.LibraryXmlPath(LoggedUser, library));
+                    }
+                }
+            }
+        }
+
         public IObservable<Library> UpdateLibrary(Library library)
         {
             return CheckForUpdates(library)
@@ -445,7 +466,7 @@ namespace NedEngine
                    .Do(
                    lib =>
                    {
-                       DeleteLibraryData(lib);
+                       PrepareToUpdateLibraryData(lib);
                        lib.CatalogueCount = -1;
                    })
                    .SelectMany(DownloadLibrary);

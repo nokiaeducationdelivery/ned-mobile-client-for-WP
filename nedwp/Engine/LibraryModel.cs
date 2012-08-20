@@ -48,6 +48,7 @@ namespace NedEngine
             MediaItemsList,
         }
         private XDocument LibraryDocument { get; set; }
+        public XDocument ChangedContent { get; set; }
         public string LibraryName { get; private set; }
         public string LibraryId { get; private set; }
         public Library ActiveLibrary { get; private set; }
@@ -101,6 +102,8 @@ namespace NedEngine
             LibraryDocument = Library.GetLibraryContents(ActiveLibrary, App.Engine.LoggedUser);
             LibraryDocument.Changed += OnLibraryDocumentChanged;
 
+            ChangedContent = Library.GetChangedContent(ActiveLibrary, App.Engine.LoggedUser);
+
             LibraryId = LibraryDocument.Root.Attribute(NedNodeIdAttribute).Value;
 
             var mediaItemsQuery = 
@@ -117,7 +120,10 @@ namespace NedEngine
                         ItemType = MediaItemsListModelItem.GetTypeFromString(nedNodeChildren.Attribute(NedNodeTypeAttribute).Value),
                         Description = nedNodeChildren.Element(NedNodeDescriptionTag) != null ? nedNodeChildren.Element(NedNodeDescriptionTag).Value : String.Empty,
                         ExternalLinks = (from linkElement in nedNodeChildren.Elements(NedNodeLinkTag) select linkElement.Value).ToList(),
-                        Keywords = (from keywordElement in nedNodeChildren.Elements(NedNodeKeywordTag) select keywordElement.Value).ToList()
+                        Keywords = (from keywordElement in nedNodeChildren.Elements(NedNodeKeywordTag) select keywordElement.Value).ToList(),
+                        IsChanged = ChangedContent != null ? (from changedElements in ChangedContent.Root.Descendants(NedNodeTag)
+                                                              where changedElements.Attribute(NedNodeIdAttribute).Value == nedNodeChildren.Attribute(NedNodeIdAttribute).Value
+                                                              select changedElements).Count() > 0 : false
                     };
             ObservableCollection<MediaItemsListModelItem> AllMediaItemsTemp = new ObservableCollection<MediaItemsListModelItem>();
             foreach (MediaItemsListModelItem item in mediaItemsQuery)
@@ -135,6 +141,9 @@ namespace NedEngine
                         Id = nedNodeChildren.Attribute(NedNodeIdAttribute).Value,
                         ParentId = nedNodeElements.Attribute(NedNodeIdAttribute).Value,
                         Title = nedNodeChildren.Element(TitleTag).Value,
+                        IsChanged = ChangedContent != null ? (from changedElements in ChangedContent.Root.Descendants(NedNodeTag)
+                                                              where changedElements.Attribute(NedNodeIdAttribute).Value == nedNodeChildren.Attribute(NedNodeIdAttribute).Value
+                                                              select changedElements).Count() > 0 : false
                     };
             ObservableCollection<CategoryModelItem> AllCategoryItemsTemp = new ObservableCollection<CategoryModelItem>();
             foreach (CategoryModelItem item in categoryItemsQuery)
@@ -156,7 +165,10 @@ namespace NedEngine
                         Id = nedNodeChildren.Attribute(NedNodeIdAttribute).Value,
                         ParentId = nedNodeElements.Attribute(NedNodeIdAttribute).Value,
                         Title = nedNodeChildren.Element(TitleTag).Value,
-                        Subtitle = CatalogueModelItem.GetSubtitleString(nedNodeChildren.Element(NedNodeChildrenTag).Elements().Count<XElement>())
+                        Subtitle = CatalogueModelItem.GetSubtitleString(nedNodeChildren.Element(NedNodeChildrenTag).Elements().Count<XElement>()),
+                        IsChanged = ChangedContent != null ? (from changedElements in ChangedContent.Root.Descendants(NedNodeTag)
+                                                              where changedElements.Attribute(NedNodeIdAttribute).Value == nedNodeChildren.Attribute(NedNodeIdAttribute).Value
+                                                              select changedElements).Count() > 0 : false
                     };
             ObservableCollection<CatalogueModelItem> CatalogueItemsTemp = new ObservableCollection<CatalogueModelItem>();
             foreach (CatalogueModelItem item in catalogueItemsQuery)

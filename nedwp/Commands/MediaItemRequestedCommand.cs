@@ -45,6 +45,11 @@ namespace NedWp
                 case MediaItemState.Local:
                     // TEMPORARY: log media item playback
                     App.Engine.StatisticsManager.LogMediaPlayback(mediaItem);
+                    if (mediaItem.IsChanged)
+                    {
+                        mediaItem.IsChanged = false;
+                        Library.markItemWatched(mediaItem.Id);
+                    }
                     NedEngine.Utils.NavigateTo("/MediaItemsViewerPage.xaml?id=" + mediaItem.Id);
                     break;
                 case MediaItemState.Downloading:

@@ -27,6 +27,8 @@ namespace NedWp
         public const int KSplashScreenDuration = 1000;
         public static TimeSpan KFakeNetworkLatency = new TimeSpan(0, 0, 2);
         public const string KLibraryXmlFilename = "library.xml";
+        public const string KLibraryPreviousFilename = "library.bak";
+        public const string KLibraryDiffFilename = "diff.xml";
         public const string KPdfExt = ".pdf";
     }
 }

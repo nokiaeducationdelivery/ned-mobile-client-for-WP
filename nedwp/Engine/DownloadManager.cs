@@ -257,6 +257,7 @@ namespace NedEngine
                                                     {
                                                              downloadRequest.DownloadLocation = new Uri(Utils.BackgroundFilePath(App.Engine.LoggedUser, dl.Download), UriKind.RelativeOrAbsolute);
                                                              downloadRequest.TransferPreferences = TransferPreferences.AllowCellularAndBattery;
+                                                             e.Result = activeDownload.Download;
                                                              BackgroundTransferService.Add(downloadRequest);
                                                     }
                                                     downloadRequest.TransferProgressChanged += (senderBackground, eventBackground) =>
@@ -308,13 +309,25 @@ namespace NedEngine
 
                                                 }
                                             }
+                                            else if (e.Error != null)
+                                            {
+                                                startedDownloads.Remove(download);
+                                                _downloadErrorEvent.OnNext(download);
+                                            }
                                             else
                                             {
                                                 if (activeDownload is Transport.BackgroundDownload)
                                                 {
-                                                    BackgroundTransferService.Remove((activeDownload as Transport.BackgroundDownload).Request);
+                                                    try
+                                                    {
+                                                        BackgroundTransferService.Remove((activeDownload as Transport.BackgroundDownload).Request);
+                                                        _downloadStoppedEvent.OnNext(activeDownload.Download);
+                                                    }
+                                                    catch (InvalidOperationException)
+                                                    {
+                                                        startedDownloads.Remove(download);
+                                                    }
                                                 }
-                                                _downloadStoppedEvent.OnNext(activeDownload.Download);
                                             }
                                         };
                                     worker.RunWorkerAsync(activeDownload);

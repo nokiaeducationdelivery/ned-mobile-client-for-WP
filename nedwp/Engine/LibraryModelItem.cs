@@ -18,6 +18,29 @@ namespace NedEngine
         public string ParentId { get; set; }
         public string LibraryId { get; set; }
         public string Title { get; set; }
+
+        private bool _isChanged;
+        public bool IsChanged
+        {
+            get { return _isChanged; }
+            set
+            {
+                if (value != _isChanged)
+                {
+                    _isChanged = value;
+                    OnPropertyChanged("IsChanged");
+                }
+            }
+        }
+
+        public string Color
+        {
+            get
+            {
+                return IsChanged ?
+                    "Green" : "White";
+            }
+        }
         private string mSubtitle;
         public string Subtitle {
             get { return mSubtitle; }

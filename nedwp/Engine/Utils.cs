@@ -79,6 +79,16 @@ namespace NedEngine
             return Path.Combine(LibraryDirPath(user, library), NedWp.Constants.KLibraryXmlFilename);
         }
 
+        public static string LibraryXmlPreviousPath(User user, Library library)
+        {
+            return Path.Combine(LibraryDirPath(user, library), NedWp.Constants.KLibraryPreviousFilename);
+        }
+
+        public static string LibraryXmlDiffPath(User user, Library library)
+        {
+            return Path.Combine(LibraryDirPath(user, library), NedWp.Constants.KLibraryDiffFilename);
+        }
+
         private static Library FindLibraryById(User user, string libraryId)
         {
             return (from lib in user.Libraries where lib.ServerId == libraryId select lib).First();
