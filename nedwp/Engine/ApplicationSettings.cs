@@ -131,6 +131,9 @@ namespace NedEngine
             appSettings.TryGetValue(KRememberMeKey, out _rememberMe);
             appSettings.TryGetValue(KRememberedLoginKey, out _rememberedLogin);
             appSettings.TryGetValue(KRememberedPasswordKey, out _rememberedPassword);
+            AvailableLanguages = new Languages();
         }
+
+        public Languages AvailableLanguages { get; set; }
     }
 }

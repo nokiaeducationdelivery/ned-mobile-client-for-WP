@@ -55,6 +55,7 @@
                     </DataTemplate>
                 </toolkit:ToggleSwitch.ContentTemplate>
             </toolkit:ToggleSwitch>
+            <Button Content="{Binding LocalizedResources.SettingsPage_SelectLanguageContent ,Source={StaticResource LanguageStrings}}" Click="OnSelectLanguageClicked" />
             <Button Content="{Binding LocalizedResources.SettingsPage_LogoutButtonContent ,Source={StaticResource LanguageStrings}}" Click="OnLogoutButtonClicked"/>
             <Button Content="{Binding LocalizedResources.SettingsPage_RemoveUserButtonContent ,Source={StaticResource LanguageStrings}}" Click="OnRemoveUserButtonClicked"/>
             <Button Content="{Binding LocalizedResources.SettingsPage_FactoryResetButtonContent ,Source={StaticResource LanguageStrings}}" Click="OnFactoryResetButtonClicked"/>

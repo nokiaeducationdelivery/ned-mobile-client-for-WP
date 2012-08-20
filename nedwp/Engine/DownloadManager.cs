@@ -18,6 +18,7 @@ using NedWp;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Net;
+using Microsoft.Phone.BackgroundTransfer;
 
 namespace NedEngine
 {
@@ -186,10 +187,10 @@ namespace NedEngine
 
             pendingDownload.Response
                         .ObserveOnDispatcher()
-                        .Subscribe<Transport.ActiveDownload>(
+                        .Subscribe<Transport.RunningDownload>(
                                 activeDownload =>
                                 {
-                                    if (activeDownload.Download.DownloadSize == long.MaxValue)
+                                    if (activeDownload.Download.DownloadSize == long.MaxValue || activeDownload.Download.DownloadSize == 0)
                                     {
                                         activeDownload.Download.DownloadSize = activeDownload.ContentLength;
                                     }
@@ -200,7 +201,7 @@ namespace NedEngine
 
                                     worker.DoWork += (sender, e) =>
                                         {
-                                            Transport.ActiveDownload dl = (Transport.ActiveDownload)e.Argument;
+                                            Transport.RunningDownload dl = (Transport.RunningDownload)e.Argument;
                                             BackgroundWorker bw = (BackgroundWorker)sender;
                                             long bytesRead = dl.Download.DownloadedBytes;
 
@@ -218,31 +219,74 @@ namespace NedEngine
                                                     }
                                                 });
 
-                                            string filePath = Utils.MediaFilePath(App.Engine.LoggedUser, dl.Download);
-                                            using (Stream writer = new IsolatedStorageFileStream(filePath, FileMode.Append, IsolatedStorageFile.GetUserStoreForApplication()))
+                                            if (dl is Transport.ActiveDownload)
                                             {
-                                                using (Stream reader = dl.Stream)
+                                                string filePath = Utils.MediaFilePath(App.Engine.LoggedUser, dl.Download);
+                                                using (Stream writer = new IsolatedStorageFileStream(filePath, FileMode.Append, IsolatedStorageFile.GetUserStoreForApplication()))
                                                 {
-                                                    byte[] buffer = new byte[16 * 1024];
-                                                    int readCount;
-                                                    while ((readCount = reader.Read(buffer, 0, buffer.Length)) > 0)
+                                                    using (Stream reader = ((Transport.ActiveDownload)dl).Stream)
                                                     {
-                                                        bytesRead += readCount;
-                                                        writer.Write(buffer, 0, readCount);
-                                                        uiUpdates.OnNext(bytesRead);
-
-                                                        if (bw.CancellationPending)
+                                                        byte[] buffer = new byte[16 * 1024];
+                                                        int readCount;
+                                                        while ((readCount = reader.Read(buffer, 0, buffer.Length)) > 0)
                                                         {
-                                                            pendingDownload.Cancel();
-                                                            e.Cancel = true;
-                                                            break;
+                                                            bytesRead += readCount;
+                                                            writer.Write(buffer, 0, readCount);
+                                                            uiUpdates.OnNext(bytesRead);
+
+                                                            if (bw.CancellationPending)
+                                                            {
+                                                                pendingDownload.Cancel();
+                                                                e.Cancel = true;
+                                                                break;
+                                                            }
                                                         }
+                                                        bw.ReportProgress(0, bytesRead);
+                                                        e.Result = activeDownload.Download;
                                                     }
-                                                    bw.ReportProgress(0, bytesRead);
-                                                    e.Result = activeDownload.Download;
                                                 }
+                                                cancelUiUpdates.Dispose();
                                             }
-                                            cancelUiUpdates.Dispose();
+                                            if (dl is Transport.BackgroundDownload)
+                                            {
+                                                BackgroundTransferRequest downloadRequest = ((Transport.BackgroundDownload)dl).Request;
+                                                IObservable< IEvent <BackgroundTransferEventArgs> > requestObserver = Observable.FromEvent<BackgroundTransferEventArgs>(downloadRequest, "TransferStatusChanged");
+                                                if (downloadRequest.TransferStatus != TransferStatus.Completed)
+                                                {
+                                                    if (downloadRequest.TransferStatus == TransferStatus.None)
+                                                    {
+                                                             downloadRequest.DownloadLocation = new Uri(Utils.BackgroundFilePath(App.Engine.LoggedUser, dl.Download), UriKind.RelativeOrAbsolute);
+                                                             downloadRequest.TransferPreferences = TransferPreferences.AllowCellularAndBattery;
+                                                             BackgroundTransferService.Add(downloadRequest);
+                                                    }
+                                                    downloadRequest.TransferProgressChanged += (senderBackground, eventBackground) =>
+                                                        {
+                                                            if (activeDownload.Download.DownloadSize == long.MaxValue || activeDownload.Download.DownloadSize == 0)
+                                                            {
+                                                                activeDownload.Download.DownloadSize = 
+                                                                    activeDownload.ContentLength == -1 ?
+                                                                    0:
+                                                                    activeDownload.ContentLength;
+                                                            }
+                                                            uiUpdates.OnNext(eventBackground.Request.BytesReceived);
+                                                        };
+                                                    IDisposable cancelOnStop =  DownloadStopPendingEvent.Subscribe( stoppedDownload => 
+                                                                        {
+                                                                            if (dl.Download == stoppedDownload)
+                                                                            {
+                                                                                BackgroundTransferService.Remove(downloadRequest);
+                                                                                dl.Download.State = QueuedDownload.DownloadState.Stopped;
+                                                                                dl.Download.DownloadedBytes = 0;
+                                                                            }
+                                                                        });
+                                                    bw.ReportProgress(0,
+                                                             requestObserver
+                                                            .First()
+                                                            .EventArgs.Request.BytesReceived);
+                                                    cancelOnStop.Dispose();
+                                                }
+                                                e.Result = activeDownload.Download;
+                                            }
                                         };
                                     worker.ProgressChanged += (sender, e) =>
                                         {
@@ -250,16 +294,26 @@ namespace NedEngine
                                         };
                                     worker.RunWorkerCompleted += (sender, e) =>
                                         {
-                                            startedDownloads.Remove(activeDownload.Download);
-
-                                            if (IsFileDownloadSuccessful(e))
+                                            if (!e.Cancelled && e.Error == null)
                                             {
-                                                _downloadCompletedEvent.OnNext(activeDownload.Download);
-                                                App.Engine.StatisticsManager.LogDownloadCompleted(activeDownload.Download, "Completed" );
-                                                
+                                                startedDownloads.Remove(activeDownload.Download);
+                                                QueuedDownload result = (QueuedDownload)e.Result;
+                                                bool downloadSuccess = activeDownload is Transport.BackgroundDownload ?
+                                                    IsBackgroundTransferSuccesfull(((Transport.BackgroundDownload)activeDownload).Request, result) :
+                                                    IsFileDownloadSuccessful(result);
+                                                if (downloadSuccess)
+                                                {
+                                                    _downloadCompletedEvent.OnNext(activeDownload.Download);
+                                                    App.Engine.StatisticsManager.LogDownloadCompleted(activeDownload.Download, "Completed");
+
+                                                }
                                             }
                                             else
                                             {
+                                                if (activeDownload is Transport.BackgroundDownload)
+                                                {
+                                                    BackgroundTransferService.Remove((activeDownload as Transport.BackgroundDownload).Request);
+                                                }
                                                 _downloadStoppedEvent.OnNext(activeDownload.Download);
                                             }
                                         };
@@ -283,6 +337,68 @@ namespace NedEngine
             return new PendingDownloadCancelHandle(pendingDownload);
         }
 
+        private bool IsBackgroundTransferSuccesfull(BackgroundTransferRequest backgroundTransferRequest, QueuedDownload result)
+        {
+            foreach (BackgroundTransferRequest request in BackgroundTransferService.Requests)
+            {
+                if (request.RequestUri.ToString().EndsWith(result.Filename))
+                {
+                    if (request.TransferStatus == TransferStatus.Completed)
+                    {
+                        if (request.StatusCode == 200 || request.StatusCode == 206)
+                        {
+                            if (request.TransferError == null)
+                            {
+                                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                                {
+                                    string filename = Uri.UnescapeDataString(request.DownloadLocation.RemoveTransferPath().ToString());
+                                    if (isoStore.FileExists(filename))
+                                    {
+                                        isoStore.DeleteFile(filename);
+                                    }
+                                    isoStore.MoveFile(request.DownloadLocation.OriginalString, filename);
+                                }
+                                BackgroundTransferService.Remove(request);
+                                request.Dispose();
+                                return true;
+                            }
+                            else
+                            {
+                                //move request to standard queue
+                                BackgroundTransferService.Remove(request);
+                                request.Dispose();
+                                result.ForceActiveDownload = true;
+                                StartDownload(result);
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            BackgroundTransferService.Remove(request);
+                            request.Dispose();
+                            _downloadStoppedEvent.OnNext(result);
+                            return false;
+                        }
+                    }
+                    else if (request.TransferStatus == TransferStatus.WaitingForExternalPower
+                        || request.TransferStatus == TransferStatus.WaitingForNonVoiceBlockingNetwork
+                        || request.TransferStatus == TransferStatus.WaitingForWiFi
+                        || request.TransferStatus == TransferStatus.Waiting
+                        || request.TransferStatus == TransferStatus.WaitingForExternalPowerDueToBatterySaverMode)
+                    {
+                        //move request to standard queue
+                        BackgroundTransferService.Remove(request);
+                        request.Dispose();
+                        result.ForceActiveDownload = true;
+                        StartDownload(result);
+                        return false;
+                    }
+                }
+                request.Dispose();
+            }
+            return false;
+        }
+
         // When network fails during file download loop no exception is
         // thrown, the Stream.Read method returns 0 just like in case of
         // successfully finished download. The only way to handle error
@@ -294,17 +410,14 @@ namespace NedEngine
         // This method assumes that e.Result contains QueuedDownload object
         // if the worker wasn't cancelled and no exception was thrown in
         // DoWork.
-        private bool IsFileDownloadSuccessful(RunWorkerCompletedEventArgs e)
+        private bool IsFileDownloadSuccessful(QueuedDownload result)
         {
-            if (!e.Cancelled && e.Error == null)
+            bool retval = result.DownloadedBytes == result.DownloadSize;
+            if (!retval && result.State == QueuedDownload.DownloadState.Downloading)
             {
-                QueuedDownload result = (QueuedDownload)e.Result;
-                if (result.DownloadedBytes == result.DownloadSize)
-                {
-                    return true;
-                }
+                StartDownload(result);
             }
-            return false;
+            return retval;
         }
 
         private bool IsFileMissingFromServer(Exception error)

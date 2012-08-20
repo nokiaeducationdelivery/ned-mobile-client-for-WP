@@ -109,23 +109,28 @@ namespace NedEngine
 
                     _loggedUser = value;
 
-                    if (_loggedUser != null)
-                    {
-                        if (_loggedUser.Settings.AutomaticDownloads == false)
-                        {
-                            foreach (QueuedDownload download in _loggedUser.Downloads)
-                            {
-                                download.State = QueuedDownload.DownloadState.Paused;
-                            }
-                        }
-                        DownloadManager.InitializeQueue();
-
-                        _loggedUser.Settings.PropertyChanged += OnAutomaticStatisticUploadChanged;
-                        UpdateAutomaticStatisticUploadSubscription();
-                    }
-                    
+                    processUserLogged();
+                   
                     OnPropertyChanged("LoggedUser");
                 }
+            }
+        }
+
+        public void processUserLogged()
+        {
+            if (_loggedUser != null)
+            {
+                if (_loggedUser.Settings.AutomaticDownloads == false)
+                {
+                    foreach (QueuedDownload download in _loggedUser.Downloads)
+                    {
+                        download.State = QueuedDownload.DownloadState.Paused;
+                    }
+                }
+                DownloadManager.InitializeQueue();
+
+                _loggedUser.Settings.PropertyChanged += OnAutomaticStatisticUploadChanged;
+                UpdateAutomaticStatisticUploadSubscription();
             }
         }
 
@@ -258,6 +263,7 @@ namespace NedEngine
             using (IsolatedStorageFile appDirectory = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 appDirectory.CreateDirectory(newUser.LocalId.ToString());
+                appDirectory.CreateDirectory("shared/transfers/" + newUser.LocalId.ToString());
             }
 
             return newUser;
@@ -556,6 +562,35 @@ namespace NedEngine
 
         #endregion MOTD
 
+        #region Languages
+
+        public IObservable<List<LanguageInfo>> RequestLanguageListUpdate()
+        {
+            return Transport.GetLanguges();
+        }
+
+        public IObservable<bool> DownloadLocalization(string remoteFileName)
+        {
+            return Transport.DownloadLocalization(remoteFileName);
+        }
+
+     //   private object updateLanguageSettings(List<LanguageInfoRemote> languages)
+      //  {
+       //     throw new NotImplementedException();
+        //}
+
+     //   private object DisplayError()
+       // {
+         //   throw new NotImplementedException();
+        //}
+
+        //private object ParseLanguages(string xml)
+       // {
+       //     throw new NotImplementedException();
+       // }
+
+        #endregion Languages
+
         #region Downloads
 
         private void SubscribeForDownloadManagerEvents()
@@ -563,7 +598,11 @@ namespace NedEngine
             DownloadManager.DownloadEnqueuedEvent.Subscribe(download => download.State = QueuedDownload.DownloadState.Queued);
             DownloadManager.DownloadStartedEvent.Subscribe(download => download.State = QueuedDownload.DownloadState.Downloading);
             DownloadManager.DownloadStopPendingEvent.Subscribe(download => download.State = QueuedDownload.DownloadState.Paused);
-            DownloadManager.DownloadStoppedEvent.Subscribe(download => download.State = QueuedDownload.DownloadState.Paused);
+            DownloadManager.DownloadStoppedEvent.Subscribe(download =>
+            {
+                if (download.State != QueuedDownload.DownloadState.Stopped)
+                    download.State = QueuedDownload.DownloadState.Paused;
+            });
 
             DownloadManager.DownloadCompletedEvent
                            .Merge(DownloadManager.DownloadErrorEvent)
@@ -603,7 +642,7 @@ namespace NedEngine
                 LoggedUser.Downloads.Add(queuedDownload);
                 _downloadEnqueuedEvent.OnNext(queuedDownload);
 
-                if (initialState != QueuedDownload.DownloadState.Paused)
+                if (initialState != QueuedDownload.DownloadState.Stopped)
                 {
                     DownloadManager.StartDownload(queuedDownload);
                 }
@@ -661,7 +700,10 @@ namespace NedEngine
         public void LoadSessionData()
         {
             if (IsLoaded)
+            {
+                processUserLogged();
                 return;
+            }
 
             IDictionary<string, object> state = PhoneApplicationService.Current.State;
             if (state.ContainsKey(LoggedUserTag))
@@ -686,6 +728,7 @@ namespace NedEngine
         }
 
         #endregion Tombstoning and Exiting
+
     }
 
 }

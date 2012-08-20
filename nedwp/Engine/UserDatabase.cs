@@ -55,6 +55,16 @@ namespace NedEngine
         public const string DownloadState = "DownloadState";
         public const string Filename = "Filename";
         public const string DownloadSize = "DownloadSize";
+        public const string ActiveDownload = "ActiveDownload";
+        public const string Language = "language";
+        public const string Languages = "languages";
+        public const string LanguageId = "id";
+        public const string LanguageLocale = "locale";
+        public const string LanguageFile = "file";
+        public const string LanguageName = "name";
+        public const string LanguageIsLocal = "local";
+        public const string LanguageCurrent = "current";
+
     }
 
     public class UserDatabase : LinqToXmlDatabase

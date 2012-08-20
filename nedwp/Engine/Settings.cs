@@ -90,5 +90,6 @@ namespace NedEngine
                         new XAttribute(Tags.AutoDownload, Convert.ToString(AutomaticDownloads)));
             }
         }
+
     }
 }

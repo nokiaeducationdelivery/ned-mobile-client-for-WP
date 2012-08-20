@@ -36,10 +36,11 @@ namespace NedWp
             RemovingUsers,
             FactoryReseting,
             LoggingOut,
-            WaitingForUserCommand
+            WaitingForUserCommand,
+            SelectingLanguages
         }
         private OperationsStates _operationsState = OperationsStates.WaitingForUserCommand;
-        private const string _opetationsStateKey = "SettingsOperationsState";
+        private const string _operationsStateKey = "SettingsOperationsState";
         private bool _isNewInstance = true;
 
         public SettingsPage()
@@ -70,9 +71,9 @@ namespace NedWp
             {
                 _isNewInstance = false;
                 IDictionary<string, object> state = PhoneApplicationService.Current.State;
-                if (state.ContainsKey(_opetationsStateKey))
+                if (state.ContainsKey(_operationsStateKey))
                 {
-                    _operationsState = (OperationsStates)state[(_opetationsStateKey)];
+                    _operationsState = (OperationsStates)state[(_operationsStateKey)];
                     switch (_operationsState)
                     {
                         case OperationsStates.FactoryReseting:
@@ -82,7 +83,7 @@ namespace NedWp
                             {
                                 try
                                 {
-                                    state.Remove(_opetationsStateKey);
+                                    state.Remove(_operationsStateKey);
                                     NavigationService.GoBack();
                                 }
                                 catch (InvalidOperationException) { }
@@ -101,17 +102,24 @@ namespace NedWp
             if (_operationsState != OperationsStates.WaitingForUserCommand)
             {
                 IDictionary<string, object> state = PhoneApplicationService.Current.State;
-                if (state.ContainsKey(_opetationsStateKey))
+                if (state.ContainsKey(_operationsStateKey))
                 {
-                    state[_opetationsStateKey] = _operationsState;
+                    state[_operationsStateKey] = _operationsState;
                 }
                 else
                 {
-                    state.Add(_opetationsStateKey, _operationsState);
+                    state.Add(_operationsStateKey, _operationsState);
                 }
             }
             base.OnNavigatedFrom(e);
         }
+
+        private void OnSelectLanguageClicked(object sender, RoutedEventArgs e)
+        {
+            _operationsState = OperationsStates.SelectingLanguages;
+            NavigationService.Navigate(new Uri("/LanguagePage.xaml", UriKind.Relative));
+        }
+
         private void OnLogoutButtonClicked(object sender, RoutedEventArgs e)
         {
             _operationsState = OperationsStates.LoggingOut;

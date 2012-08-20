@@ -115,6 +115,7 @@ namespace NedEngine
                 if (!isolatedStorage.DirectoryExists(libraryDirectoryPath))
                 {
                     isolatedStorage.CreateDirectory(libraryDirectoryPath);
+                    isolatedStorage.CreateDirectory("shared/transfers/" + libraryDirectoryPath);
                 }
 
                 using (StreamWriter writer = new StreamWriter(new IsolatedStorageFileStream(Utils.LibraryXmlPath(owner, libToUpdate), FileMode.Create, isolatedStorage)))

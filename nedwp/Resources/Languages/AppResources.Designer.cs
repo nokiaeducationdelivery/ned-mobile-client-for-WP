@@ -340,6 +340,15 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Language.
+        /// </summary>
+        public static string Language_Title {
+            get {
+                return ResourceManager.GetString("Language_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tried to remove unknown item type.
         /// </summary>
         public static string LibraryModel_RemovingUnknowTypeError {
@@ -715,6 +724,15 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stopped.
+        /// </summary>
+        public static string MainPage_Stopped {
+            get {
+                return ResourceManager.GetString("MainPage_Stopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update not necessary.
         /// </summary>
         public static string MainPage_UpdateNotNecessaryHeader {
@@ -969,6 +987,15 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string SettingsPage_SelectLanguageContent {
+            get {
+                return ResourceManager.GetString("SettingsPage_SelectLanguageContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to settings.
         /// </summary>
         public static string SettingsPage_Title {
@@ -1066,6 +1093,14 @@ namespace NedWp.Resources.Languages {
         public static string ToggleSwitch_ON {
             get {
                 return ResourceManager.GetString("ToggleSwitch_ON", resourceCulture);
+            }
+        }
+
+        public static string RestartApplicationForLanguage
+        {
+            get
+            { //!!!! TODO
+                return "Please restart application to change language";
             }
         }
     }

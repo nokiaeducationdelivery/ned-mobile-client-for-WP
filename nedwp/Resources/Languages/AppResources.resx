@@ -496,4 +496,13 @@ Statistics are uploaded automatically when 'Automatic upload' turned on in setti
   <data name="DemoLibId" xml:space="preserve">
     <value>Demo library id 'khan'</value>
   </data>
+  <data name="Language_Title" xml:space="preserve">
+    <value>Select Language</value>
+  </data>
+  <data name="MainPage_Stopped" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
+  <data name="SettingsPage_SelectLanguageContent" xml:space="preserve">
+    <value>Language</value>
+  </data>
 </root>

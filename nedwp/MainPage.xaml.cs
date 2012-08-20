@@ -618,7 +618,7 @@ namespace NedWp
                 Debug.Assert( clickedDownload != null );
 
                 // pause/resume download
-                if( clickedDownload.State == QueuedDownload.DownloadState.Paused )
+                if( clickedDownload.State == QueuedDownload.DownloadState.Paused || clickedDownload.State == QueuedDownload.DownloadState.Stopped )
                 {
                     App.Engine.StartDownload( clickedDownload );
                 }
@@ -868,6 +868,7 @@ namespace NedWp
                 case QueuedDownload.DownloadState.Downloading: return AppResources.MainPage_Downloading;
                 case QueuedDownload.DownloadState.Paused: return AppResources.MainPage_Paused;
                 case QueuedDownload.DownloadState.Queued: return AppResources.MainPage_Queued;
+                case QueuedDownload.DownloadState.Stopped: return AppResources.MainPage_Stopped;
                 default: throw new ArgumentOutOfRangeException();
             }
         }

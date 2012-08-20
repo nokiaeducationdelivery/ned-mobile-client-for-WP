@@ -462,4 +462,13 @@ Statystyki są wysyłane automatycznie kiedy 'Automatyczne wysyłanie statystyk'
   <data name="DemoLibId" xml:space="preserve">
     <value>Id biblioteki demo 'khan'</value>
   </data>
+  <data name="Language_Title" xml:space="preserve">
+    <value>Wybierz Język</value>
+  </data>
+  <data name="MainPage_Stopped" xml:space="preserve">
+    <value>Zatrzymane</value>
+  </data>
+  <data name="SettingsPage_SelectLanguageContent" xml:space="preserve">
+    <value>Język</value>
+  </data>
 </root>

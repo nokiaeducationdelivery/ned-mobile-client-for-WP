@@ -94,6 +94,31 @@ namespace NedEngine
             return MediaFilePath(user, file.LibraryId, file.LocalFilename);
         }
 
+        public static string LocalizationsFilePath(string langId)
+        {
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (!isoStore.DirectoryExists("/Localizations"))
+                {
+                    isoStore.CreateDirectory("/Localizations");
+                }
+            }
+            return Path.Combine("/Localizations", langId + ".xml");
+        }
+
+        public static string BackgroundFilePath(User user, QueuedDownload queuedDownload)
+        {
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (!isoStore.DirectoryExists("/shared/transfers"))
+                {
+                    isoStore.CreateDirectory("/shared/transfers");
+                }
+            }
+            string basicPath = MediaFilePath(user, queuedDownload);
+            return Path.Combine("/shared/transfers/", basicPath);
+        }
+
         public static string MediaFilePath(User user, MediaItemsListModelItem item)
         {
             return MediaFilePath(user, item.LibraryId, FilenameToLocalFilename(item.FileName));
@@ -163,6 +188,7 @@ namespace NedEngine
         public static string GetUtf8Content(this WebResponse response)
         {
             if (response.Headers.AllKeys.Contains("Content-Length"))
+
             {
                 byte[] buffer = new byte[response.ContentLength];
                 int read = response.GetResponseStream().Read(buffer, 0, buffer.Length);
@@ -199,6 +225,13 @@ namespace NedEngine
                 builder.Append("/");
             }
             return new Uri(uri, builder.ToString().Trim('/'));
+        }
+
+        public static Uri RemoveTransferPath(this Uri uri)
+        {
+            StringBuilder builder = new StringBuilder(uri.OriginalString);
+            builder.Remove(0, "\\shared\\transfers".Length);
+            return new Uri(builder.ToString().Replace('\\', '/').Trim('/'), UriKind.RelativeOrAbsolute);
         }
 
         public static T PopFirst<T>(this ICollection<T> collection)

@@ -9,12 +9,12 @@ namespace NedWp.Resources.Languages
     /// </summary>
     public class LanguageResources
     {
-        private static AppResources _localizedResources = new AppResources();
+        private static FileLanguage _localizedResources = new FileLanguage();
 
         /// <summary>
         /// Get text in right language.
         /// </summary>
-        public AppResources LocalizedResources 
+        public FileLanguage LocalizedResources 
         { 
             get 
             { 

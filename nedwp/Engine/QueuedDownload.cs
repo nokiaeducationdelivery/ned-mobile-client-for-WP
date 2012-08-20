@@ -19,7 +19,8 @@ namespace NedEngine
         {
             Queued,
             Downloading,
-            Paused
+            Paused,
+            Stopped
         }
 
         public string Id { get; private set; }
@@ -108,6 +109,7 @@ namespace NedEngine
             State = DownloadState.Queued;
             DownloadedBytes = 0;
             DownloadSize = long.MaxValue;
+            ForceActiveDownload = false;
         }
 
         public QueuedDownload(XElement xElement)
@@ -119,6 +121,7 @@ namespace NedEngine
             Filename = xElement.Attribute(Tags.Filename).Value;
             State = (DownloadState)Enum.Parse(typeof(DownloadState), xElement.Attribute(Tags.DownloadState).Value, true);
             DownloadSize = Convert.ToInt64(xElement.Attribute(Tags.DownloadSize).Value);
+            ForceActiveDownload = Convert.ToBoolean(xElement.Attribute(Tags.ActiveDownload).Value);
         }
 
         public XElement Data
@@ -132,9 +135,16 @@ namespace NedEngine
                         new XAttribute(Tags.Library, LibraryId),
                         new XAttribute(Tags.Filename, Filename),
                         new XAttribute(Tags.DownloadState, State.ToString()),
-                        new XAttribute(Tags.DownloadSize, Convert.ToString(DownloadSize))
+                        new XAttribute(Tags.DownloadSize, Convert.ToString(DownloadSize)),
+                        new XAttribute(Tags.ActiveDownload, Convert.ToString(ForceActiveDownload))
                         );
             }
+        }
+
+        public bool ForceActiveDownload
+        {
+            get;
+            set;
         }
     }
 }

@@ -14,12 +14,17 @@ using System.IO;
 using System.Net;
 using Microsoft.Phone.Reactive;
 using NedWp.Resources.Languages;
+using Microsoft.Phone.BackgroundTransfer;
+using System.IO.IsolatedStorage;
+
 
 namespace NedEngine
 {
     public class Transport
     {
         private const String MetadataPath = "NEDCatalogTool2";
+        private const String LocalizationsPath = "Localizations?action=list";
+        private const String LocalizationsDownload = "Localizations?action=do&";
         private const String LoginPath = "LoginServlet";
         private const String MotdPath = "MotdUpdateServlet";
         private const String LibraryPath = "XmlContentServlet";
@@ -84,6 +89,54 @@ namespace NedEngine
             request.SetCredentials(LoggedUser);
             return Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.SaneEndGetResponse)()
                              .Select(response => { return response.GetUtf8Content(); })
+                             .Finally(() => request.Abort());
+        }
+
+        public IObservable<List<LanguageInfo>> GetLanguges()
+        {
+            OnNetworkRequestStarted();
+            HttpWebRequest request = WebRequest.CreateHttp(ApplicationSettings.ServerUrl.CombinePath(MetadataPath, LocalizationsPath));
+            request.SetCredentials(LoggedUser);
+            return Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.SaneEndGetResponse)()
+                             .Select(response =>
+                             {
+                                 HttpWebResponse webResponse = (HttpWebResponse) response;
+                                 string languagesXml = response.GetUtf8Content();
+                                 return ApplicationSettings.AvailableLanguages.parseRemote(languagesXml);
+                             })
+                             .Finally(() => request.Abort());
+        }
+
+        public IObservable<bool> DownloadLocalization(string remoteFileId)
+        {
+            OnNetworkRequestStarted();
+            HttpWebRequest request = WebRequest.CreateHttp(ApplicationSettings.ServerUrl.CombinePath(MetadataPath, LocalizationsDownload + "id=" + remoteFileId + "&type=WP"));
+            request.SetCredentials(LoggedUser);
+            return Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.SaneEndGetResponse)()
+                             .Select(response =>
+                             {
+                                 HttpWebResponse webResponse = (HttpWebResponse)response;
+                                 string localizationFile = response.GetUtf8Content();
+                                 bool requestSuccesfull = false;
+                                 try
+                                 {
+                                     using (IsolatedStorageFileStream isfStream = new IsolatedStorageFileStream(Utils.LocalizationsFilePath(remoteFileId), FileMode.Create, IsolatedStorageFile.GetUserStoreForApplication()))
+                                     {
+                                         using (StreamWriter writeFile = new StreamWriter(isfStream))
+                                         {
+                                             writeFile.Write(localizationFile);
+                                             writeFile.Close();
+                                             requestSuccesfull = true;
+                                         }
+                                     }
+
+                                 }
+                                 catch (Exception ex)
+                                 {
+                                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to save data to file: {0}", "/Localizations/" + remoteFileId + ".xml"));
+                                 }
+                                 return requestSuccesfull;
+                             })
                              .Finally(() => request.Abort());
         }
 
@@ -161,16 +214,26 @@ namespace NedEngine
                              .Finally(() => request.Abort());
         }
 
-        public class ActiveDownload
+        public abstract class RunningDownload
         {
-            public ActiveDownload(WebResponse response, QueuedDownload download)
+            public RunningDownload(QueuedDownload download)
             {
-                Response = response;
                 Download = download;
             }
 
+            public QueuedDownload Download { get; protected set; }
+            public abstract long ContentLength { get; }
+        }
+
+        public class ActiveDownload : RunningDownload
+        {
+            public ActiveDownload(WebResponse response, QueuedDownload download)
+                : base(download)
+            {
+                Response = response;
+            }
+
             private WebResponse Response { get; set; }
-            public QueuedDownload Download { get; private set; }
             public Stream Stream
             {
                 get
@@ -178,7 +241,7 @@ namespace NedEngine
                     return Response.GetResponseStream();
                 }
             }
-            public long ContentLength
+            public override long ContentLength
             {
                 get
                 {
@@ -187,34 +250,113 @@ namespace NedEngine
             }
         }
 
-        public class PendingDownload
+        public class BackgroundDownload : RunningDownload
         {
-            public PendingDownload(WebRequest request, IObservable<ActiveDownload> response)
+            public BackgroundDownload(BackgroundTransferRequest request, QueuedDownload download)
+                : base(download)
+            {
+                Request = request;
+            }
+
+            public BackgroundTransferRequest Request {get; set;}
+
+            public override long ContentLength
+            {
+                get
+                {
+                    return Request.TotalBytesToReceive;
+                }
+            }
+
+        }
+
+        public abstract class PendingDownload
+        {
+            public PendingDownload(IObservable<RunningDownload> response)
+            {
+                Response = response;
+            }
+
+            public IObservable<RunningDownload> Response { get; set; }
+
+            public abstract void Cancel();
+        }
+
+        public class PendingActiveDownload : PendingDownload
+        {
+            public PendingActiveDownload(WebRequest request, IObservable<RunningDownload> response) : base(response)
             {
                 Request = request;
                 Response = response;
             }
 
-            public void Cancel()
+            public override void Cancel()
             {
                 Request.Abort();
             }
 
             private WebRequest Request { get; set; }
-            public IObservable<ActiveDownload> Response { get; set; }
+        }
+
+        public class PendingBackgroundDownload : PendingDownload
+        {
+            public PendingBackgroundDownload(BackgroundTransferRequest request, IObservable<RunningDownload> response)
+                : base(response)
+            {
+                Request = request;
+            }
+
+            private BackgroundTransferRequest Request { get; set; }
+
+            public override void Cancel()
+            {
+                try
+                {
+                    BackgroundTransferService.Remove(Request);
+                    Request.Dispose();
+                }
+                catch (InvalidOperationException)
+                {
+                    // request is alreadty completed/ cancelled
+                }
+                
+            }
         }
 
         public PendingDownload StartQueuedDownload(QueuedDownload queuedDownload)
         {
-            HttpWebRequest request = WebRequest.CreateHttp(ApplicationSettings.ServerUrl.DownloadPath(queuedDownload));
-            request.SetCredentials(LoggedUser);
-            request.Headers["Range"] = "bytes=" + queuedDownload.DownloadedBytes.ToString() + "-";
-            request.AllowReadStreamBuffering = false;
-
-            return new PendingDownload(request,
-                    Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.SaneEndGetResponse)()
-                              .Select(response => new ActiveDownload(response, queuedDownload)));
+            return chooseDownloadMethod(queuedDownload);
         }
+
+        private PendingDownload chooseDownloadMethod(QueuedDownload queuedDownload)
+        {
+            if(queuedDownload.ForceActiveDownload || queuedDownload.DownloadSize >= 20000000L && queuedDownload.DownloadSize != long.MaxValue)
+            {
+                HttpWebRequest request = WebRequest.CreateHttp(ApplicationSettings.ServerUrl.DownloadPath(queuedDownload));
+                request.SetCredentials(LoggedUser);
+                request.Headers["Range"] = "bytes=" + queuedDownload.DownloadedBytes.ToString() + "-";
+                request.AllowReadStreamBuffering = false;
+                return new PendingActiveDownload(request,
+                  Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.SaneEndGetResponse)()
+                 .Select(response => (RunningDownload)new ActiveDownload(response, queuedDownload)));
+            }
+            else
+            {
+                //first check if there is not tranfer request already added to service
+                foreach( BackgroundTransferRequest request in BackgroundTransferService.Requests)
+                {
+                    if(request.RequestUri.Equals(ApplicationSettings.ServerUrl.DownloadPath(queuedDownload)))
+                    {
+                        return new PendingBackgroundDownload(request, Observable.Return( new BackgroundDownload(request, queuedDownload) as RunningDownload));
+                    }
+                    request.Dispose();
+                }
+                BackgroundTransferRequest transferRequest = new BackgroundTransferRequest(ApplicationSettings.ServerUrl.DownloadPath(queuedDownload));
+                return new PendingBackgroundDownload(transferRequest, Observable.Return(new BackgroundDownload(transferRequest, queuedDownload) as RunningDownload));
+            }
+        }
+
+
     }
 
     public static class TransportExtensions
