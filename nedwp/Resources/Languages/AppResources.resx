@@ -479,4 +479,13 @@ Statistics are uploaded automatically when 'Automatic upload' turned on in setti
   <data name="MSG_RESTART_NEEDED2" xml:space="preserve">
     <value>Application restart is required to apply the changes.</value>
   </data>
+  <data name="DOWNLOAD_AGAIN" xml:space="preserve">
+    <value>download again</value>
+  </data>
+  <data name="ITEM" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="MSG_LANG_ALREADY_QUEUED" xml:space="preserve">
+    <value>is already queued for download</value>
+  </data>
 </root>

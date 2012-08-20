@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Phone.Reactive;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,24 +25,35 @@ using NedEngine;
 using System.Windows.Data;
 using System.Globalization;
 using Coding4Fun.Phone.Controls;
+using System.Diagnostics;
 
 namespace NedWp
 {
     public partial class LanguageItemControl : UserControl
     {
-        private const string DeleteTag = "DeleteTag";
-        private const string DownloadNowTag = "DownloadNowTag";
-        private const string AddToQueueTag = "AddToQueueTag";
-        private const string ShowLinksTag = "ShowLinksTag";
-        private const string ShowDescriptionTag = "ShowDescriptionTag";
 
-        public static readonly DependencyProperty IsDownloadedProperty = DependencyProperty.Register("IsDownloaded", typeof(bool), typeof(LanguageItemControl), new PropertyMetadata(false, new PropertyChangedCallback(OnIsDownloadedChangedChanged)));
+        private const string DownloadNowTag = "DownloadNowTag";
+        private const string DownloadAgainTag = "DownloadAgainTag";
+
+        public static readonly DependencyProperty ContextMenuProperty = DependencyProperty.Register("LanguageContextMenu", typeof(ContextMenu), typeof(LanguageItemControl), null);
+        public ContextMenu ContextMenu
+        {
+            get { return GetValue(ContextMenuProperty) as ContextMenu; }
+            set
+            {
+                SetValue(ContextMenuProperty, value);
+            }
+        }
+
+
+        public static readonly DependencyProperty IsDownloadedProperty = DependencyProperty.Register("IsDownloaded", typeof(bool), typeof(LanguageItemControl), new PropertyMetadata(new PropertyChangedCallback(OnIsDownloadedChangedChanged)));
         public bool IsDownloaded
         {
             get { return (bool)GetValue(IsDownloadedProperty); }
             set
             {
                 SetValue(IsDownloadedProperty, value);
+                OnDownloadedChanged();
             }
         }
 
@@ -52,16 +64,83 @@ namespace NedWp
             set { SetValue(AvailabilityIconProperty, value); }
         }
 
-
         public LanguageItemControl()
         {
             InitializeComponent();
+            ContextMenu = ContextMenuService.GetContextMenu((UIElement)FindName("LanguageItemRoot"));
+            OnDownloadedChanged();
         }
 
         private static void OnIsDownloadedChangedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             LanguageItemControl userControl = sender as LanguageItemControl;
             userControl.IsDownloaded = (bool)args.NewValue;
+        }
+
+        private void OnContextMenuActivated(object sender, RoutedEventArgs args)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            Debug.Assert(menuItem != null);
+            LanguageInfo downloadItem = menuItem.CommandParameter as LanguageInfo;
+            Debug.Assert(downloadItem != null);
+
+            switch (menuItem.Tag.ToString())
+            {
+                case DownloadAgainTag:
+                    downloadItem.ItemState = MediaItemState.Downloading;
+                    App.Engine.DownloadLocalization(downloadItem.Id)
+                        .ObserveOnDispatcher()
+                        .Subscribe<bool>(success => 
+                        {
+                            downloadItem.ItemState = MediaItemState.Local;
+                        }
+                        , ex => 
+                        { 
+                            System.Diagnostics.Debug.Assert(false, "Exception in donwloading laguage again");
+                            downloadItem.ItemState = MediaItemState.Local;
+                        });
+                    break;
+                case DownloadNowTag:
+                    downloadItem.ItemState = MediaItemState.Downloading;
+                    App.Engine.DownloadLocalization(downloadItem.Id)
+                        .ObserveOnDispatcher()
+                        .Subscribe<bool>(success =>
+                        {
+                            if (success)
+                            {
+                                downloadItem.IsLocal = true;
+                            }
+                            else
+                            {
+                                downloadItem.ItemState = MediaItemState.Remote;
+                            }
+                        }
+                        , ex =>
+                        {
+                            System.Diagnostics.Debug.Assert(false, "Exception in donwloading laguage now");
+                            downloadItem.ItemState = MediaItemState.Local;
+                        });
+                    break;
+            }
+        }
+
+        private void OnDownloadedChanged()
+        {
+            // NOTE: Implemented this way because could not apply converter to MenuItems
+            foreach (MenuItem item in ContextMenu.Items)
+            {
+                switch (item.Tag as string)
+                {
+                    case DownloadNowTag:
+                        item.Visibility = IsDownloaded ? Visibility.Collapsed : Visibility.Visible;
+                        break;
+                    case DownloadAgainTag:
+                        item.Visibility = IsDownloaded ? Visibility.Visible : Visibility.Collapsed;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 

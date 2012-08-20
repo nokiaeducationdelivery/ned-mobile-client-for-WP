@@ -1795,5 +1795,43 @@ namespace NedWp.Resources.Languages
                 return AppResources.ResourceManager.GetString( "MSG_RESTART_NEEDED2", AppResources.Culture );
             }
         }
+
+        public static string MSG_LANG_ALREADY_QUEUED
+        {
+            get
+            {
+                string customLocalization = getMessage("MSG_LANG_ALREADY_QUEUED");
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return AppResources.ResourceManager.GetString("MSG_LANG_ALREADY_QUEUED", AppResources.Culture);
+            }
+        }
+
+        public static string ITEM {
+            get
+            {
+                string customLocalization = getMessage("ITEM");
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return AppResources.ResourceManager.GetString("ITEM", AppResources.Culture);
+            }
+        }
+
+        public static string DOWNLOAD_AGAIN
+        {
+            get
+            {
+                string customLocalization = getMessage("DOWNLOAD_AGAIN");
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return AppResources.ResourceManager.GetString("DOWNLOAD_AGAIN", AppResources.Culture);
+            }
+        }
     }
 }

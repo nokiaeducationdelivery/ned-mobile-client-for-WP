@@ -79,10 +79,14 @@
     <Compile Include="Commands\MediaItemRequestedCommand.cs" />
     <Compile Include="Commands\ShowDescriptionCommand.cs" />
     <Compile Include="Commands\ShowLinksCommand.cs" />
+    <Compile Include="Controls\DefaultLanguageItemControl.xaml.cs">
+      <DependentUpon>DefaultLanguageItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DownloadListItemControl.xaml.cs">
       <DependentUpon>DownloadListItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LanguageItemControl.xaml.cs" />
+    <Compile Include="Controls\LanguageItemTemplateSelector.cs" />
     <Compile Include="Controls\MarqueeTextBlock.xaml.cs">
       <DependentUpon>MarqueeTextBlock.xaml</DependentUpon>
     </Compile>
@@ -169,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="CataloguePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DefaultLanguageItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,6 +20,8 @@ namespace NedEngine
 {
     public class LanguageInfo : PropertyNotifierBase, IEquatable<LanguageInfo>
     {
+        public const string DEFAULT_ENGLISH = "English ( Default )";
+
         public string Id { get; set; }
 
         public LanguageInfo( string id, string languageName, string locale, bool isLocal, string remoteName )
@@ -44,6 +46,14 @@ namespace NedEngine
             IsLocal = true;
             ItemState = MediaItemState.Local;
             Id = "";
+        }
+
+        public bool IsDefault
+        {
+            get
+            {
+                return LangName == DEFAULT_ENGLISH;
+            }
         }
 
         public LanguageInfo( XElement element )
@@ -298,7 +308,7 @@ namespace NedEngine
                 Id = "0",
                 IsLocal = true,
                 ItemState = MediaItemState.Local,
-                LangName = "English ( Default )",
+                LangName = LanguageInfo.DEFAULT_ENGLISH,
                 Locale = "en-us"
             };
         }

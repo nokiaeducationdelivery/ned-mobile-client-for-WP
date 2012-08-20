@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 using NedEngine;
 using Coding4Fun.Phone.Controls;
 using Microsoft.Phone.Reactive;
-
+using NedWp.Resources.Languages;
 
 namespace NedWp.Commands
 {
@@ -52,7 +52,7 @@ namespace NedWp.Commands
                     break;
                 case MediaItemState.Downloading:
                     ToastPrompt toast = new ToastPrompt();
-                    toast.Message = String.Format("{0} is already queued for download", languageToDownload.LangName == String.Empty ? "Item" : languageToDownload.LangName);
+                    toast.Message = String.Format("{0} " + FileLanguage.MSG_LANG_ALREADY_QUEUED, languageToDownload.LangName == String.Empty ? FileLanguage.ITEM : languageToDownload.LangName);
                     toast.Show();
                     break;
                 case MediaItemState.Remote:
@@ -78,7 +78,7 @@ namespace NedWp.Commands
                                 {
                                     languageToDownload.ItemState = MediaItemState.Remote;
                                     ToastPrompt toastMsg = new ToastPrompt();
-                                    toastMsg.Message = String.Format("Connection error"); //TODO localize
+                                    toastMsg.Message = FileLanguage.Error_Connection;
                                     toastMsg.Show();
                                 }
                             );

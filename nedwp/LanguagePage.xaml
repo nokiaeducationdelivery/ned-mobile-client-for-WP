@@ -50,7 +50,18 @@
         </ListBox.ItemContainerStyle>
         <ListBox.ItemTemplate>
           <DataTemplate>
-            <local:LanguageItemControl IsDownloaded="{Binding IsLocal}"/>
+            <local:LanguageItemTemplateSelector Content="{Binding}" HorizontalContentAlignment = "Stretch" >
+              <local:LanguageItemTemplateSelector.DefaultLanguageTemplate>
+                <DataTemplate>
+                  <local:DefaultLanguageItemControl/>
+                </DataTemplate>
+                </local:LanguageItemTemplateSelector.DefaultLanguageTemplate>
+              <local:LanguageItemTemplateSelector.DownloadedLanguageTemplate>
+                <DataTemplate>
+                  <local:LanguageItemControl IsDownloaded="{Binding IsItemDownloaded}"/>
+                </DataTemplate>
+              </local:LanguageItemTemplateSelector.DownloadedLanguageTemplate>
+            </local:LanguageItemTemplateSelector>  
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
