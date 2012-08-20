@@ -49,7 +49,6 @@ namespace NedWp.Commands
                 case MediaItemState.Local:
                     // select language
                     App.Engine.ApplicationSettings.AvailableLanguages.CurrentLanguage = languageToDownload.Id;
-                    App.Engine.ApplicationSettings.AvailableLanguages.Save(false);
                     break;
                 case MediaItemState.Downloading:
                     ToastPrompt toast = new ToastPrompt();
@@ -74,7 +73,15 @@ namespace NedWp.Commands
                                 {
                                     languageToDownload.ItemState = MediaItemState.Remote;
                                 }
-                            });
+                            },
+                            error => 
+                                {
+                                    languageToDownload.ItemState = MediaItemState.Remote;
+                                    ToastPrompt toastMsg = new ToastPrompt();
+                                    toastMsg.Message = String.Format("Connection error"); //TODO localize
+                                    toastMsg.Show();
+                                }
+                            );
                     break;
                 default:
                     System.Diagnostics.Debug.Assert(false, "Unknown language item download state");

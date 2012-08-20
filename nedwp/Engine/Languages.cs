@@ -90,7 +90,7 @@ namespace NedEngine
                     ItemState = _isLocal ?
                         MediaItemState.Local :
                         MediaItemState.Remote;
-
+                    OnPropertyChanged("IsLocal");
                 }
             }
         }
@@ -232,6 +232,7 @@ namespace NedEngine
                         _currentLanguage = value;
                         previous.IsCurrent = false;
                         current.IsCurrent = true;
+                        Save(false);
                     }
                     else
                     {

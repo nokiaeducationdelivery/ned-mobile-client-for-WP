@@ -38,7 +38,7 @@
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
-    <RadioButton Name="IsChecked" Grid.Row="0" Grid.Column="0" IsChecked="{Binding Path=IsCurrent, Mode=TwoWay}" GroupName="AvailableLanguages"/>
+    <RadioButton Name="IsChecked" Grid.Row="0" Grid.Column="0" IsChecked="{Binding Path=IsCurrent, Mode=TwoWay}" IsEnabled="{Binding Path=IsLocal}" GroupName="AvailableLanguages"/>
     <TextBlock  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0, 0, 0, 6" Text="{Binding LangName}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextLargeStyle}"/>
     <Image      Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="12, 0, 12, 0" Source="{Binding ItemState, Converter={StaticResource AvailabilityIconConverter}}" Stretch="None" />
     <Image      Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Source="Resources/HorizontalSplitter.png" Stretch="Fill" Opacity="0.10"/>
