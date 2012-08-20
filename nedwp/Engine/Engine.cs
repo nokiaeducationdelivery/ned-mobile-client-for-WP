@@ -24,6 +24,9 @@ namespace NedEngine
 {
     public class Engine : PropertyNotifierBase, ILoggedUser
     {
+
+        public const string KDemoURL = "http://217.74.73.16:8083";
+
         public Engine()
         {
             ApplicationSettings = new ApplicationSettings();
@@ -124,6 +127,16 @@ namespace NedEngine
                     OnPropertyChanged("LoggedUser");
                 }
             }
+        }
+
+        public static bool IsDemoServerSelected()
+        {
+            return App.Engine != null && App.Engine.ApplicationSettings != null && App.Engine.ApplicationSettings.ServerUrl != null
+                        && ( App.Engine.ApplicationSettings.ServerUrl.Equals( new Uri( NedEngine.Engine.KDemoURL ) )
+#if DEBUG
+ || App.Engine.ApplicationSettings.ServerUrl.Equals( new Uri( "http://10.133.105.67:8083" ) )
+#endif
+ );
         }
 
         #region ServerSelection

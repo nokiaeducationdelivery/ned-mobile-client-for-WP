@@ -487,4 +487,13 @@ Statistics are uploaded automatically when 'Automatic upload' turned on in setti
   <data name="DownloadCommand_Item" xml:space="preserve">
     <value>Item</value>
   </data>
+  <data name="DEMOURL" xml:space="preserve">
+    <value>For demo please use:</value>
+  </data>
+  <data name="DemoLoginDetails" xml:space="preserve">
+    <value>For demo please use login and password 'guest'</value>
+  </data>
+  <data name="DemoLibId" xml:space="preserve">
+    <value>Demo library id 'khan'</value>
+  </data>
 </root>

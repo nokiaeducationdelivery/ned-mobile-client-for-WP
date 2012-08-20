@@ -453,4 +453,13 @@ Statystyki są wysyłane automatycznie kiedy 'Automatyczne wysyłanie statystyk'
   <data name="DownloadCommand_Item" xml:space="preserve">
     <value>Element</value>
   </data>
+  <data name="DEMOURL" xml:space="preserve">
+    <value>Serwer demonstracyjny:</value>
+  </data>
+  <data name="DemoLoginDetails" xml:space="preserve">
+    <value>Do serwera demo zalogujesz się korzystając z nazwy użytkownika i hasła 'guest'</value>
+  </data>
+  <data name="DemoLibId" xml:space="preserve">
+    <value>Id biblioteki demo 'khan'</value>
+  </data>
 </root>

@@ -42,7 +42,7 @@ namespace NedWp
         public DownloadListItemControl()
         {
             InitializeComponent();
-            DataContextChangedHelper<DownloadListItemControl>.Bind(this); 
+            DataContextChangedHelper<DownloadListItemControl>.Bind(this);
         }
 
         // In sliverligh there is no readily available change event for DataContext.

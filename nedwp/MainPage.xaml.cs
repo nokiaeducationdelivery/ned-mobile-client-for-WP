@@ -43,6 +43,22 @@ namespace NedWp
             MainMenu
         }
 
+        public string DemoUrl
+        {
+            get
+            {
+                return NedEngine.Engine.KDemoURL;
+            }
+        }
+
+        public bool IsDemoServerSelected
+        {
+            get
+            {
+                return NedEngine.Engine.IsDemoServerSelected();
+            }
+        }
+
         // mNextTranistionIsForward and TemporaryVisibleScreen are used to aid a workaround for page transition issue.
         // We can't apply normal page transitions as page object is not changed (only its contents are changed) therefore we have to detect when contents change and run custom transitions.
         private bool mNextTranistionIsForward = false; // Indicates wheteher next tranistion will be 'forward like' or 'backward like'
@@ -830,6 +846,45 @@ namespace NedWp
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class BoolToVisibilityConverter : IValueConverter
+    {
+        public object Convert( object value, Type targetType, object parameter, CultureInfo culture )
+        {
+            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class DemoInfoToVisibilityConverter : IValueConverter
+    {
+        public object Convert( object value, Type targetType, object parameter, CultureInfo culture )
+        {
+            bool found = false;
+            try
+            {
+                Library o = ( (NedEngine.ObservableCollectionEx<NedEngine.Library>)value ).First<Library>( ( Library inLib ) =>
+                {
+                    return inLib.ServerId == "khan";
+                } );
+                found = true;
+            }
+            catch( InvalidOperationException ex )
+            {
+            }
+
+            return !found && Engine.IsDemoServerSelected() && App.Engine!= null && App.Engine.LoggedUser != null && App.Engine.LoggedUser.Username == "guest" ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )
         {
             throw new NotImplementedException();
         }

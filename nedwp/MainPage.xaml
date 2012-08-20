@@ -28,71 +28,77 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     Style="{StaticResource TransitionPageStyle}">
-	<phone:PhoneApplicationPage.Resources>
-		<local:CatalogueCountConverter x:Key="CatalogueCountConverter" />
-	</phone:PhoneApplicationPage.Resources>
+    <phone:PhoneApplicationPage.Resources>
+        <local:CatalogueCountConverter x:Key="CatalogueCountConverter" />
+    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.Resources>
             <local:ScreenVisibilityCoverter x:Key="ScreenVisibilityCoverter" />
             <local:IntegerToVisibilityConverter x:Key="ShowWhenListIsEmptyConverter" />
+            <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <local:DemoInfoToVisibilityConverter x:Key="DemoInfoToVisibilityConverter"/>
         </Grid.Resources>
 
         <controls:Pivot x:Name="MainMenuScreen" Title="{Binding LocalizedResources.App_ApplicationTitle ,Source={StaticResource LanguageStrings}}" Visibility="{Binding Path=VisibleScreen, Converter={StaticResource ScreenVisibilityCoverter}, ConverterParameter=MainMenu}">
-        	<controls:Pivot.Resources>
-        		<DataTemplate x:Key="PivotHeader">
+            <controls:Pivot.Resources>
+                <DataTemplate x:Key="PivotHeader">
                     <TextBlock Margin="{StaticResource PhoneVerticalMargin}" TextWrapping="Wrap" Text="{Binding}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" TextAlignment="Center"/>
-        		</DataTemplate>
-        	</controls:Pivot.Resources>
-        	<controls:Pivot.HeaderTemplate>
-        		<StaticResource ResourceKey="PivotHeader"/>
-        	</controls:Pivot.HeaderTemplate>
+                </DataTemplate>
+            </controls:Pivot.Resources>
+            <controls:Pivot.HeaderTemplate>
+                <StaticResource ResourceKey="PivotHeader"/>
+            </controls:Pivot.HeaderTemplate>
             <controls:PivotItem x:Name="LibraryManager" Header="{Binding LocalizedResources.MainPage_LibraryManager ,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
-            	<Grid Margin="{StaticResource PhoneHorizontalMargin}">
-            		<Grid.RowDefinitions>
-            			<RowDefinition Height="Auto"/>
-            			<RowDefinition Height="Auto"/>
-            			<RowDefinition Height="Auto"/>
-            			<RowDefinition Height="*"/>
-            		</Grid.RowDefinitions>
-            		<Grid.ColumnDefinitions>
-            			<ColumnDefinition/>
-            			<ColumnDefinition Width="Auto"/>
-            		</Grid.ColumnDefinitions>
+                <Grid Margin="{StaticResource PhoneHorizontalMargin}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_NewLibraryID, Source={StaticResource LanguageStrings}}" VerticalAlignment="Top"/>
-                    <TextBox x:Name="NewLibraryId" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="1"/>
-                    <Button x:Name="NewLibraryAddButton" Content="{Binding LocalizedResources.MainPage_Add ,Source={StaticResource LanguageStrings}}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Click="OnAddLibraryButtonClicked"/>
-                    <TextBlock Grid.Row="2"
+                    <TextBlock Grid.Row="1" Text="{Binding LocalizedResources.DemoLibId, Source={StaticResource LanguageStrings}}" 
+                               Visibility="{Binding LoggedUser.Libraries, Converter={StaticResource DemoInfoToVisibilityConverter}}"
+                               TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="NewLibraryId" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="2"/>
+                    <Button x:Name="NewLibraryAddButton" Content="{Binding LocalizedResources.MainPage_Add ,Source={StaticResource LanguageStrings}}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" Click="OnAddLibraryButtonClicked"/>
+                    <TextBlock Grid.Row="3"
                                HorizontalAlignment="Left" VerticalAlignment="Top" 
                                TextWrapping="Wrap" 
                                Text="{Binding LocalizedResources.MainPage_ShowLibraries ,Source={StaticResource LanguageStrings}}" 
                                Visibility="{Binding LoggedUser.Libraries.Count, Converter={StaticResource ShowWhenListIsEmptyConverter}}"/>
-            		<ListBox x:Name="LibraryManagerList" 
-                        Grid.Row="3" Grid.ColumnSpan="2" 
+                    <ListBox x:Name="LibraryManagerList" 
+                        Grid.Row="4" Grid.ColumnSpan="2" 
                         ItemsSource="{Binding LoggedUser.Libraries}"
                         Visibility="{Binding LoggedUser.Libraries.Count, Converter={StaticResource ShowWhenListIsEmptyConverter}}">
-            			<ListBox.Resources>
-            				<DataTemplate x:Key="LibraryVisibility">
-            					<Grid>
-            						<toolkit:ContextMenuService.ContextMenu>
-            							<toolkit:ContextMenu x:Name="ItemContextMenu">
+                        <ListBox.Resources>
+                            <DataTemplate x:Key="LibraryVisibility">
+                                <Grid>
+                                    <toolkit:ContextMenuService.ContextMenu>
+                                        <toolkit:ContextMenu x:Name="ItemContextMenu">
                                             <toolkit:MenuItem Header="{Binding LocalizedResources.MainPage_CheckForUpdates ,Source={StaticResource LanguageStrings}}" Tag="CheckForUpdatesTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
                                             <toolkit:MenuItem Header="{Binding LocalizedResources.MainPage_Delete ,Source={StaticResource LanguageStrings}}" Tag="DeleteTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
-            							</toolkit:ContextMenu>
-            						</toolkit:ContextMenuService.ContextMenu>
-            						<CheckBox d:LayoutOverrides="Width, Height" IsChecked="{Binding Visible, Mode=TwoWay}" Content="{Binding Name}"/>
-            					</Grid>
-            				</DataTemplate>
-            			</ListBox.Resources>
-            			<ListBox.ItemContainerStyle>
-            				<Style TargetType="ListBoxItem">
-            					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            				</Style>
-            			</ListBox.ItemContainerStyle>
-            			<ListBox.ItemTemplate>
-            				<StaticResource ResourceKey="LibraryVisibility"/>
-            			</ListBox.ItemTemplate>
+                                        </toolkit:ContextMenu>
+                                    </toolkit:ContextMenuService.ContextMenu>
+                                    <CheckBox d:LayoutOverrides="Width, Height" IsChecked="{Binding Visible, Mode=TwoWay}" Content="{Binding Name}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.Resources>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <StaticResource ResourceKey="LibraryVisibility"/>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                     <TextBlock x:Name="EmptyLibraryManagerInstruction"
                         Grid.Row="3" Grid.ColumnSpan="2" 
@@ -106,28 +112,28 @@
             </controls:PivotItem>
             <controls:PivotItem x:Name="Libraries" Header="{Binding LocalizedResources.MainPage_Libraries ,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
                 <controls:PivotItem.Resources>
-                	<local:CatalogueCountConverter x:Key="CatalogueCountConverter" />
+                    <local:CatalogueCountConverter x:Key="CatalogueCountConverter" />
                 </controls:PivotItem.Resources>
                 <Grid Margin="{StaticResource PhoneHorizontalMargin}">
-                	<Grid.RowDefinitions>
-                		<RowDefinition Height="Auto"/>
-                		<RowDefinition/>
-                	</Grid.RowDefinitions>
-            		<Border BorderThickness="0 2" Opacity="0.3">
-            			<Border.BorderBrush>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border BorderThickness="0 2" Opacity="0.3">
+                        <Border.BorderBrush>
                             <StaticResource ResourceKey="Gradient_NearTrans_Contrast_NearTrans"/>
-            			</Border.BorderBrush>
-            		</Border>
-            		<local:MarqueeTextBlock Margin="4" x:Name="MottoOfTheDay" MarqueeText="{Binding MOTD}"/>
+                        </Border.BorderBrush>
+                    </Border>
+                    <local:MarqueeTextBlock Margin="4" x:Name="MottoOfTheDay" MarqueeText="{Binding MOTD}"/>
                     <ListBox x:Name="AllLibrariesList" 
                         Grid.Row="1"
                         Visibility="{Binding Count, Converter={StaticResource ShowWhenListIsEmptyConverter}}"
                         ItemsSource="{Binding}"
                         VerticalAlignment="Stretch" 
                         SelectionChanged="OnLibraryClicked">
-            			<ListBox.Resources>
-            				<DataTemplate x:Key="LibraryListItem">
-            					<Grid>
+                        <ListBox.Resources>
+                            <DataTemplate x:Key="LibraryListItem">
+                                <Grid>
                                     <toolkit:ContextMenuService.ContextMenu>
                                         <toolkit:ContextMenu x:Name="ItemContextMenu">
                                             <toolkit:MenuItem Header="{Binding LocalizedResources.CataloguePage_SearchButton ,Source={StaticResource LanguageStrings}}" Tag="SearchTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
@@ -135,23 +141,23 @@
                                         </toolkit:ContextMenu>
                                     </toolkit:ContextMenuService.ContextMenu>
                                     <Grid.RowDefinitions>
-            							<RowDefinition Height="Auto"/>
-            							<RowDefinition/>
-            						</Grid.RowDefinitions>
-            						<TextBlock x:Name="LibraryName" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Top" d:LayoutOverrides="Width" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="0" />
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock x:Name="LibraryName" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Top" d:LayoutOverrides="Width" Style="{StaticResource PhoneTextExtraLargeStyle}" Margin="0" />
                                     <TextBlock x:Name="CataloguesCount" Text="{Binding CatalogueCount, Converter={StaticResource CatalogueCountConverter}}" TextWrapping="Wrap" VerticalAlignment="Top" d:LayoutOverrides="Width" Grid.Row="1" Style="{StaticResource PhoneTextSubtleStyle}" Margin="0" />
-            					</Grid>
-            				</DataTemplate>
-            			</ListBox.Resources>
-            			<ListBox.ItemContainerStyle>
-            				<Style TargetType="ListBoxItem">
-            					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            				</Style>
-            			</ListBox.ItemContainerStyle>
-            			<ListBox.ItemTemplate>
-            				<StaticResource ResourceKey="LibraryListItem"/>
-            			</ListBox.ItemTemplate>
-            		</ListBox>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.Resources>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <StaticResource ResourceKey="LibraryListItem"/>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                     <TextBlock x:Name="EmptyLibraryListInstruction"
                         Grid.Row="1"
                         Visibility="{Binding Count, Converter={StaticResource ShowWhenListIsEmptyConverter}, ConverterParameter=ShowWhenZero}"
@@ -160,7 +166,7 @@
                         Text="{Binding LocalizedResources.MainPage_NoLibrariesToDisplay ,Source={StaticResource LanguageStrings}}" 
                         FontSize="{StaticResource PhoneFontSizeLarge}">
                     </TextBlock>
-            	</Grid>
+                </Grid>
             </controls:PivotItem>
             <controls:PivotItem x:Name="Downloads" Header="{Binding LocalizedResources.MainPage_Downloads ,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
                 <Grid Margin="{StaticResource PhoneHorizontalMargin}">
@@ -194,47 +200,53 @@
         </controls:Pivot>
 
         <Grid x:Name="SelectServerScreen" Background="Transparent" Visibility="{Binding Path=VisibleScreen, Converter={StaticResource ScreenVisibilityCoverter}, ConverterParameter=SelectServer}">
-        	<Grid.ColumnDefinitions>
-        		<ColumnDefinition/>
-        	</Grid.ColumnDefinitions>
-        	<Grid.RowDefinitions>
-        		<RowDefinition Height="Auto"/>
-        		<RowDefinition/>
-        	</Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
             <local:TitlePanelControl x:Name="ServerWizardTitlePanel" TitleText="{Binding LocalizedResources.MainPage_ServerWizard ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Bottom"/>
-        	<Grid Grid.ColumnSpan="2" Height="99" Grid.Row="2" VerticalAlignment="Top" Margin="{StaticResource PhoneHorizontalMargin}">
-        		<Grid.RowDefinitions>
-        			<RowDefinition Height="Auto"/>
-        			<RowDefinition/>
-        		</Grid.RowDefinitions>
-        		<Grid.ColumnDefinitions>
-        			<ColumnDefinition/>
-        			<ColumnDefinition Width="Auto"/>
-        		</Grid.ColumnDefinitions>
+            <Grid Grid.ColumnSpan="2" Height="199" Grid.Row="4" VerticalAlignment="Top" Margin="{StaticResource PhoneHorizontalMargin}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_EnterServerAddress ,Source={StaticResource LanguageStrings}}" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
+
+                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_EnterServerAddress ,Source={StaticResource LanguageStrings}}" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
                 <TextBox x:Name="ServerUrl" TextWrapping="Wrap" Text="http://" InputScope="Url" HorizontalContentAlignment="Stretch" d:LayoutOverrides="Height" Grid.Row="1"/>
                 <Button x:Name="ServerUrlButton" Content="{Binding LocalizedResources.MainPage_OK ,Source={StaticResource LanguageStrings}}" UseLayoutRounding="True" HorizontalAlignment="Right" d:LayoutOverrides="HorizontalAlignment, Height" Grid.Column="1" Grid.Row="1" Click="OnServerAddressSelected" />
-        	</Grid>
+                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.DEMOURL ,Source={StaticResource LanguageStrings}}" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding DemoUrl}" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
+            </Grid>
         </Grid>
 
         <Grid x:Name="LoginScreen" Background="Transparent" Visibility="{Binding Path=VisibleScreen, Converter={StaticResource ScreenVisibilityCoverter}, ConverterParameter=Login}">
-        	<Grid.RowDefinitions>
-        		<RowDefinition Height="Auto"/>
-        		<RowDefinition/>
-        	</Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
             <local:TitlePanelControl x:Name="LoginTitlePanel" TitleText="{Binding LocalizedResources.MainPage_UserLogin ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Bottom"/>
-        	<StackPanel Margin="{StaticResource PhoneHorizontalMargin}" Grid.Row="1">
-        		<TextBlock x:Name="ServerAddress" Text="{Binding ServerUrl}" TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Center"/>
+            <StackPanel Margin="{StaticResource PhoneHorizontalMargin}" Grid.Row="1">
+                <TextBlock x:Name="ServerAddress" Text="{Binding ServerUrl}" TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding LocalizedResources.DemoLoginDetails, Source={StaticResource LanguageStrings}}" Visibility="{Binding IsDemoServerSelected, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Left"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_UserName ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
                 <TextBox x:Name="Username" Text="{Binding UsernameBoxText, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_Password ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
                 <PasswordBox x:Name="Password" Password="{Binding PasswordBoxText, Mode=TwoWay}" VerticalAlignment="Top"/>
                 <Button x:Name="LoginButton" Content="{Binding LocalizedResources.MainPage_logIn ,Source={StaticResource LanguageStrings}}" Click="Login"/>
                 <CheckBox x:Name="RememberMe" IsChecked="{Binding Path=RememberMe, Mode=TwoWay}" Content="{Binding LocalizedResources.MainPage_RememberMe ,Source={StaticResource LanguageStrings}}"/>
-        	</StackPanel>
+            </StackPanel>
         </Grid>
         <local:ProgressDialog x:Name="ProgressBarOverlay"/>
     </Grid>
