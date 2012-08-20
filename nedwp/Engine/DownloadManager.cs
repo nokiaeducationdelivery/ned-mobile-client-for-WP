@@ -136,16 +136,22 @@ namespace NedEngine
             }
         }
 
-        public void StartDownload(QueuedDownload download)
+        public void StartDownload(QueuedDownload download, bool resume = false)
         {
             if (queuedDownloads.Contains(download) || startedDownloads.Keys.Contains(download))
             {
                 return;
             }
-
-            queuedDownloads.Add(download);
-            _downloadEnqueuedEvent.OnNext(download);
-
+            if (resume)
+            {
+                queuedDownloads.Insert(0, download);
+            }
+            else
+            {
+                queuedDownloads.Add(download);
+                _downloadEnqueuedEvent.OnNext(download);
+            }
+            
             StartEnqueuedItemsIfPossible();
         }
 
@@ -295,33 +301,40 @@ namespace NedEngine
                                         };
                                     worker.RunWorkerCompleted += (sender, e) =>
                                         {
-                                            if (!e.Cancelled && e.Error == null)
+                                            if (activeDownload is Transport.ActiveDownload)
                                             {
                                                 startedDownloads.Remove(activeDownload.Download);
-                                                QueuedDownload result = (QueuedDownload)e.Result;
-                                                bool downloadSuccess = activeDownload is Transport.BackgroundDownload ?
-                                                    IsBackgroundTransferSuccesfull(((Transport.BackgroundDownload)activeDownload).Request, result) :
-                                                    IsFileDownloadSuccessful(result);
-                                                if (downloadSuccess)
-                                                {
-                                                    _downloadCompletedEvent.OnNext(activeDownload.Download);
-                                                    App.Engine.StatisticsManager.LogDownloadCompleted(activeDownload.Download, "Completed");
 
+                                                if (!IsFileDownloadSuccessfulOrResumed(e,activeDownload.Download))
+                                                {
+                                                    _downloadStoppedEvent.OnNext(activeDownload.Download);
                                                 }
-                                            }
-                                            else if (e.Error != null)
-                                            {
-                                                startedDownloads.Remove(download);
-                                                _downloadErrorEvent.OnNext(download);
                                             }
                                             else
                                             {
-                                                if (activeDownload is Transport.BackgroundDownload)
+                                                if (!e.Cancelled && e.Error == null)
+                                                {
+                                                    startedDownloads.Remove(activeDownload.Download);
+                                                    QueuedDownload result = (QueuedDownload)e.Result;
+                                                    if (IsBackgroundTransferSuccesfull(((Transport.BackgroundDownload)activeDownload).Request, result))
+                                                    {
+                                                        _downloadCompletedEvent.OnNext(activeDownload.Download);
+                                                        App.Engine.StatisticsManager.LogDownloadCompleted(activeDownload.Download, "Completed");
+
+                                                    }
+                                                }
+                                                else if (e.Error != null)
+                                                {
+                                                    startedDownloads.Remove(download);
+                                                    _downloadErrorEvent.OnNext(download);
+                                                }
+                                                else
                                                 {
                                                     try
                                                     {
                                                         BackgroundTransferService.Remove((activeDownload as Transport.BackgroundDownload).Request);
                                                         _downloadStoppedEvent.OnNext(activeDownload.Download);
+                                                        startedDownloads.Remove(download);
                                                     }
                                                     catch (InvalidOperationException)
                                                     {
@@ -348,6 +361,26 @@ namespace NedEngine
                                 }
                             );
             return new PendingDownloadCancelHandle(pendingDownload);
+        }
+
+        private bool IsFileDownloadSuccessfulOrResumed(RunWorkerCompletedEventArgs e, QueuedDownload queuedDownload)
+        {
+            if (!e.Cancelled && e.Error == null)
+            {
+                QueuedDownload result = (QueuedDownload)e.Result;
+                if (result.DownloadedBytes == result.DownloadSize)
+                {
+                    _downloadCompletedEvent.OnNext(queuedDownload);
+                    App.Engine.StatisticsManager.LogDownloadCompleted(queuedDownload, "Completed");
+                }
+                else
+                {
+                    StartDownload(result, true);
+                }
+                return true;
+            }
+            return false;
+
         }
 
         private bool IsBackgroundTransferSuccesfull(BackgroundTransferRequest backgroundTransferRequest, QueuedDownload result)
@@ -410,27 +443,6 @@ namespace NedEngine
                 request.Dispose();
             }
             return false;
-        }
-
-        // When network fails during file download loop no exception is
-        // thrown, the Stream.Read method returns 0 just like in case of
-        // successfully finished download. The only way to handle error
-        // is to check if the file was completely downloaded.
-        //
-        // The cancellation and DoWork exception cases are also checked for
-        // in this method.
-        //
-        // This method assumes that e.Result contains QueuedDownload object
-        // if the worker wasn't cancelled and no exception was thrown in
-        // DoWork.
-        private bool IsFileDownloadSuccessful(QueuedDownload result)
-        {
-            bool retval = result.DownloadedBytes == result.DownloadSize;
-            if (!retval && result.State == QueuedDownload.DownloadState.Downloading)
-            {
-                StartDownload(result);
-            }
-            return retval;
         }
 
         private bool IsFileMissingFromServer(Exception error)

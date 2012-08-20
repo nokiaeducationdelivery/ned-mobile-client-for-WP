@@ -332,7 +332,7 @@ namespace NedEngine
 
         private PendingDownload chooseDownloadMethod( QueuedDownload queuedDownload )
         {
-            if( queuedDownload.ForceActiveDownload || queuedDownload.DownloadSize >= 20000000L && queuedDownload.DownloadSize != long.MaxValue )
+            if( queuedDownload.ForceActiveDownload || queuedDownload.DownloadSize >= 20000000L && queuedDownload.DownloadSize != long.MaxValue ||true)
             {
                 HttpWebRequest request = WebRequest.CreateHttp( ApplicationSettings.ServerUrl.DownloadPath( queuedDownload ) );
                 request.SetCredentials( LoggedUser );
