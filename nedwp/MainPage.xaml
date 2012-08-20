@@ -239,7 +239,7 @@
             <local:TitlePanelControl x:Name="LoginTitlePanel" TitleText="{Binding LocalizedResources.USER_AUTHENTICATION ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Bottom"/>
             <StackPanel Margin="{StaticResource PhoneHorizontalMargin}" Grid.Row="1">
                 <TextBlock x:Name="ServerAddress" Text="{Binding ServerUrl}" TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding LocalizedResources.DemoLoginDetails, Source={StaticResource LanguageStrings}}" Visibility="{Binding IsDemoServerSelected, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="DemoLoginDetailsLabel" Text="{Binding LocalizedResources.DemoLoginDetails, Source={StaticResource LanguageStrings}}" Visibility="{Binding IsDemoServerSelected, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Left"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.USER_NAME ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
                 <TextBox x:Name="Username" Text="{Binding UsernameBoxText, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.PASSWORD ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Top" d:LayoutOverrides="Width"/>

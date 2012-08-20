@@ -20,14 +20,14 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="60" d:DesignWidth="480">
-	<UserControl.Resources>
-		<Storyboard x:Name="MarqueeStoryboard">
-			<DoubleAnimation x:Name="MarqueeAnimation" Duration="0:0:10" To="480" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AnimatedTextBlock"/>
-		</Storyboard>
-	</UserControl.Resources>
+    <UserControl.Resources>
+        <Storyboard x:Name="MarqueeStoryboard">
+            <DoubleAnimation x:Name="MarqueeAnimation" Duration="0:0:10" To="480" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AnimatedTextBlock"/>
+        </Storyboard>
+    </UserControl.Resources>
     <TextBlock x:Name="AnimatedTextBlock" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeMedium}">
         <TextBlock.RenderTransform>
-    		<CompositeTransform/>
-    	</TextBlock.RenderTransform>
+            <CompositeTransform/>
+        </TextBlock.RenderTransform>
     </TextBlock>
 </UserControl>

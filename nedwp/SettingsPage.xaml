@@ -11,21 +11,21 @@
 *******************************************************************************
 -->
 <phone:PhoneApplicationPage 
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:local="clr-namespace:NedWp"
-	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-	mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
-	x:Class="NedWp.SettingsPage"
-	FontFamily="{StaticResource PhoneFontFamilyNormal}"
-	FontSize="{StaticResource PhoneFontSizeNormal}"
-	Foreground="{StaticResource PhoneForegroundBrush}"
-	Orientation="Portrait"
-	shell:SystemTray.IsVisible="True"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:NedWp"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    x:Class="NedWp.SettingsPage"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
     Style="{StaticResource TransitionPageStyle}">
 
     <phone:PhoneApplicationPage.Resources>
@@ -33,12 +33,12 @@
     </phone:PhoneApplicationPage.Resources>
     
     <Grid x:Name="LayoutRoot" Background="Transparent">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <local:TitlePanelControl Grid.Row="0" TitleText="{Binding LocalizedResources.MID_SETTINGS_TITLE ,Source={StaticResource LanguageStrings}}"/>
-		<StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1">
             <toolkit:ToggleSwitch x:Name="AutoStatUploadSwitch" Header="{Binding LocalizedResources.STATISTICS_SENDING_MODE ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticStatisticsUpload, Mode=TwoWay}">
                 <toolkit:ToggleSwitch.ContentTemplate>
                     <DataTemplate>
@@ -58,7 +58,7 @@
             <Button Content="{Binding LocalizedResources.SWITCH_USER ,Source={StaticResource LanguageStrings}}" Click="OnLogoutButtonClicked"/>
             <Button Content="{Binding LocalizedResources.REMOVE_USER ,Source={StaticResource LanguageStrings}}" Click="OnRemoveUserButtonClicked"/>
             <Button Content="{Binding LocalizedResources.FACTORY_SETTINGS ,Source={StaticResource LanguageStrings}}" Click="OnFactoryResetButtonClicked"/>
-		</StackPanel>
+        </StackPanel>
         <local:ProgressDialog x:Name="ProgressBarOverlay" Grid.RowSpan="2" />
-	</Grid>
+    </Grid>
 </phone:PhoneApplicationPage>

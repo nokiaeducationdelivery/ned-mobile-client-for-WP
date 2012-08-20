@@ -77,16 +77,28 @@ namespace NedWp.Resources.Languages
                                    };
             if( translationQuery.Count() == 0 ) // Page does not have help
                 return null;
-            string conv1 = Regex.Replace( translationQuery.First().Translation,
-                                          @"\\u(?<Value>[a-zA-Z0-9]{4})",
-                                          m =>
-                                          {
-                                              return ( (char)int.Parse( m.Groups["Value"].Value, NumberStyles.HexNumber ) ).ToString();
-                                          } );//convertion of '/u' UTF16 notation to string
-            string conv2 = Regex.Replace( conv1,
-                                          @"\\n",
-                                         "\n" );//convertion of newline ('/n') character
-            return conv2;
+            return ConvertUTFNotation( translationQuery.First().Translation );
+        }
+
+        private static string ConvertUTFNotation( String input )
+        {
+            if( input == null )
+            {
+                return null;
+            }
+            else
+            {
+                string conv1 = Regex.Replace( input,
+                                             @"\\u(?<Value>[a-zA-Z0-9]{4})",
+                                             m =>
+                                             {
+                                                 return ( (char)int.Parse( m.Groups["Value"].Value, NumberStyles.HexNumber ) ).ToString();
+                                             } );//convertion of '/u' UTF16 notation to string
+                string conv2 = Regex.Replace( conv1,
+                                              @"\\n",
+                                             "\n" );//convertion of newline ('/n') character
+                return conv2;
+            }
         }
 
         /// <summary>
@@ -96,12 +108,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage( "App_ApplicationTitle" );
+                string customLocalization = getMessage( "MID_TITLE" );
                 if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "App_ApplicationTitle", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_TITLE", AppResources.Culture ) );
             }
         }
 
@@ -117,7 +129,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_DEFAULTMOTD", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_DEFAULTMOTD", AppResources.Culture ) );
             }
         }
 
@@ -133,7 +145,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "HELP", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "HELP", AppResources.Culture ) );
             }
         }
 
@@ -149,7 +161,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "App_OpeningHelpErrorUnknowScreen", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "App_OpeningHelpErrorUnknowScreen", AppResources.Culture ) );
             }
         }
 
@@ -165,7 +177,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "CATEGORIES", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "CATEGORIES", AppResources.Culture ) );
             }
         }
 
@@ -181,7 +193,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DELETE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DELETE", AppResources.Culture ) );
             }
         }
 
@@ -197,7 +209,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DOWNLOAD_ALL", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DOWNLOAD_ALL", AppResources.Culture ) );
             }
         }
 
@@ -213,7 +225,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_BACK_COMMAND", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_BACK_COMMAND", AppResources.Culture ) );
             }
         }
 
@@ -229,7 +241,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "CataloguePage_RefreshButton", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "CataloguePage_RefreshButton", AppResources.Culture ) );
             }
         }
 
@@ -245,7 +257,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_SEARCH_COMMAND", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_SEARCH_COMMAND", AppResources.Culture ) );
             }
         }
 
@@ -261,7 +273,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "ITEM_ADDED_TO_QUEUE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "ITEM_ADDED_TO_QUEUE", AppResources.Culture ) );
             }
         }
 
@@ -277,7 +289,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MEDIA_ITEMS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MEDIA_ITEMS", AppResources.Culture ) );
             }
         }
 
@@ -293,7 +305,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DEMOLIBID", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DEMOLIBID", AppResources.Culture ) );
             }
         }
 
@@ -309,7 +321,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DemoLoginDetails", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DemoLoginDetails", AppResources.Culture ) );
             }
         }
 
@@ -325,7 +337,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DEMOURL", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DEMOURL", AppResources.Culture ) );
             }
         }
 
@@ -341,7 +353,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DownloadCommand_AddedToDownload", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DownloadCommand_AddedToDownload", AppResources.Culture ) );
             }
         }
 
@@ -357,7 +369,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DownloadCommand_AlreadyDownloaded", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DownloadCommand_AlreadyDownloaded", AppResources.Culture ) );
             }
         }
 
@@ -373,7 +385,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DownloadCommand_DownloadingStarted", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DownloadCommand_DownloadingStarted", AppResources.Culture ) );
             }
         }
 
@@ -389,7 +401,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DownloadCommand_Item", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DownloadCommand_Item", AppResources.Culture ) );
             }
         }
 
@@ -405,7 +417,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "CANCEL", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "CANCEL", AppResources.Culture ) );
             }
         }
 
@@ -421,7 +433,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "Error_Connection", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "Error_Connection", AppResources.Culture ) );
             }
         }
 
@@ -437,7 +449,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "Error_EmptyUsernameOrPassword", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "Error_EmptyUsernameOrPassword", AppResources.Culture ) );
             }
         }
 
@@ -453,7 +465,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "BAD_LOGIN", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "BAD_LOGIN", AppResources.Culture ) );
             }
         }
 
@@ -469,7 +481,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "NEDSERVICENOTPRESENT", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "NEDSERVICENOTPRESENT", AppResources.Culture ) );
             }
         }
 
@@ -485,7 +497,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LIBRARY_ALREADY_EXISTS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LIBRARY_ALREADY_EXISTS", AppResources.Culture ) );
             }
         }
 
@@ -501,7 +513,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "Error_LibraryDeletedFromServer", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "Error_LibraryDeletedFromServer", AppResources.Culture ) );
             }
         }
 
@@ -517,7 +529,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LIBRARY_NOT_EXISTS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LIBRARY_NOT_EXISTS", AppResources.Culture ) );
             }
         }
 
@@ -533,7 +545,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "Error_LibraryIdEmpty", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "Error_LibraryIdEmpty", AppResources.Culture ) );
             }
         }
 
@@ -549,7 +561,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "Error_Unexpected", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "Error_Unexpected", AppResources.Culture ) );
             }
         }
 
@@ -565,7 +577,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MISSING_HELP", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MISSING_HELP", AppResources.Culture ) );
             }
         }
 
@@ -581,7 +593,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "CHOOSE_LANGUAGE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "CHOOSE_LANGUAGE", AppResources.Culture ) );
             }
         }
 
@@ -597,7 +609,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LibraryModel_RemovingUnknowTypeError", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LibraryModel_RemovingUnknowTypeError", AppResources.Culture ) );
             }
         }
 
@@ -613,7 +625,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LibraryUnavailableAfterFailedUpdate", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LibraryUnavailableAfterFailedUpdate", AppResources.Culture ) );
             }
         }
 
@@ -629,7 +641,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "NO_LINKS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "NO_LINKS", AppResources.Culture ) );
             }
         }
 
@@ -645,7 +657,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SHOW_LINKS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SHOW_LINKS", AppResources.Culture ) );
             }
         }
 
@@ -661,7 +673,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "ABOUT", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "ABOUT", AppResources.Culture ) );
             }
         }
 
@@ -677,7 +689,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "VERSION", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "VERSION", AppResources.Culture ) );
             }
         }
 
@@ -693,7 +705,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_Add", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_Add", AppResources.Culture ) );
             }
         }
 
@@ -709,7 +721,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_AddingLibrary", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_AddingLibrary", AppResources.Culture ) );
             }
         }
 
@@ -725,7 +737,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "CATALOGS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "CATALOGS", AppResources.Culture ) );
             }
         }
 
@@ -741,7 +753,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "CHECK_FOR_UPDATE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "CHECK_FOR_UPDATE", AppResources.Culture ) );
             }
         }
 
@@ -757,7 +769,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_ClosingApplicationMessage", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_ClosingApplicationMessage", AppResources.Culture ) );
             }
         }
 
@@ -773,7 +785,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "ARE_YOU_SURE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "ARE_YOU_SURE", AppResources.Culture ) );
             }
         }
 
@@ -789,7 +801,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "CONNECTING", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "CONNECTING", AppResources.Culture ) );
             }
         }
 
@@ -805,7 +817,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "QUESTION_REMOVE_LIBRARY", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "QUESTION_REMOVE_LIBRARY", AppResources.Culture ) );
             }
         }
 
@@ -822,7 +834,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_Downloading", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_Downloading", AppResources.Culture ) );
             }
         }
 
@@ -838,7 +850,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_DownloadingLib", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_DownloadingLib", AppResources.Culture ) );
             }
         }
 
@@ -854,7 +866,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_DOWNLOADS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_DOWNLOADS", AppResources.Culture ) );
             }
         }
 
@@ -870,7 +882,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "ENTER_SERVER_ADDRESS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "ENTER_SERVER_ADDRESS", AppResources.Culture ) );
             }
         }
 
@@ -886,7 +898,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "FACTORY_SETTINGS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "FACTORY_SETTINGS", AppResources.Culture ) );
             }
         }
 
@@ -902,7 +914,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LIBRARIES", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LIBRARIES", AppResources.Culture ) );
             }
         }
 
@@ -918,7 +930,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LIBRARY_MANAGER", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LIBRARY_MANAGER", AppResources.Culture ) );
             }
         }
 
@@ -934,7 +946,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LOGIN", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LOGIN", AppResources.Culture ) );
             }
         }
 
@@ -950,7 +962,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LIBRARY_ID", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LIBRARY_ID", AppResources.Culture ) );
             }
         }
 
@@ -966,7 +978,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_NewVersionAvailableHeader", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_NewVersionAvailableHeader", AppResources.Culture ) );
             }
         }
 
@@ -982,7 +994,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_NewVersionAvailableMessage", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_NewVersionAvailableMessage", AppResources.Culture ) );
             }
         }
 
@@ -1000,7 +1012,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_NoDownloadPending", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_NoDownloadPending", AppResources.Culture ) );
             }
         }
 
@@ -1018,7 +1030,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_NoLibrariesToDisplay", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_NoLibrariesToDisplay", AppResources.Culture ) );
             }
         }
 
@@ -1036,7 +1048,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_NoLibrariesToDisplayTypeID", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_NoLibrariesToDisplayTypeID", AppResources.Culture ) );
             }
         }
 
@@ -1052,7 +1064,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_OK", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_OK", AppResources.Culture ) );
             }
         }
 
@@ -1068,7 +1080,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "PASSWORD", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "PASSWORD", AppResources.Culture ) );
             }
         }
 
@@ -1084,7 +1096,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_Paused", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_Paused", AppResources.Culture ) );
             }
         }
 
@@ -1100,7 +1112,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_Queued", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_Queued", AppResources.Culture ) );
             }
         }
 
@@ -1116,7 +1128,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "REMEMBERME", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "REMEMBERME", AppResources.Culture ) );
             }
         }
 
@@ -1132,7 +1144,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SERVER_WIZARD", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SERVER_WIZARD", AppResources.Culture ) );
             }
         }
 
@@ -1148,7 +1160,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_OPTIONS_COMMAND", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_OPTIONS_COMMAND", AppResources.Culture ) );
             }
         }
 
@@ -1164,7 +1176,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SHOW_LIBRARY", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SHOW_LIBRARY", AppResources.Culture ) );
             }
         }
 
@@ -1180,7 +1192,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_STATISTICS_COMMAND", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_STATISTICS_COMMAND", AppResources.Culture ) );
             }
         }
 
@@ -1196,7 +1208,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_Stopped", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_Stopped", AppResources.Culture ) );
             }
         }
 
@@ -1212,7 +1224,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_UpdateNotNecessaryHeader", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_UpdateNotNecessaryHeader", AppResources.Culture ) );
             }
         }
 
@@ -1228,7 +1240,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_UpdateNotNecessaryMessage", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_UpdateNotNecessaryMessage", AppResources.Culture ) );
             }
         }
 
@@ -1244,7 +1256,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "USER_AUTHENTICATION", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "USER_AUTHENTICATION", AppResources.Culture ) );
             }
         }
 
@@ -1260,7 +1272,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "USER_NAME", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "USER_NAME", AppResources.Culture ) );
             }
         }
 
@@ -1276,7 +1288,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MainPage_ViewsCount", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MainPage_ViewsCount", AppResources.Culture ) );
             }
         }
 
@@ -1292,7 +1304,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "ADDTOQUEUE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "ADDTOQUEUE", AppResources.Culture ) );
             }
         }
 
@@ -1308,7 +1320,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DOWNLOAD_NOW", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DOWNLOAD_NOW", AppResources.Culture ) );
             }
         }
 
@@ -1324,7 +1336,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "NO_DETAILS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "NO_DETAILS", AppResources.Culture ) );
             }
         }
 
@@ -1340,7 +1352,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SHOW_DETAILS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SHOW_DETAILS", AppResources.Culture ) );
             }
         }
 
@@ -1356,7 +1368,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MediaItemViewerPage_CanNotOpenItem", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MediaItemViewerPage_CanNotOpenItem", AppResources.Culture ) );
             }
         }
 
@@ -1372,7 +1384,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MediaItemViewerPage_Title", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MediaItemViewerPage_Title", AppResources.Culture ) );
             }
         }
 
@@ -1388,7 +1400,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MediaItemViewerPage_UnableToOpenDocument", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MediaItemViewerPage_UnableToOpenDocument", AppResources.Culture ) );
             }
         }
 
@@ -1404,7 +1416,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "ProgressOverlay_UpdatingLibrary", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "ProgressOverlay_UpdatingLibrary", AppResources.Culture ) );
             }
         }
 
@@ -1422,7 +1434,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SearchPage_NoResultsToDisplay", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SearchPage_NoResultsToDisplay", AppResources.Culture ) );
             }
         }
 
@@ -1438,7 +1450,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_SEARCH_TITLE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_SEARCH_TITLE", AppResources.Culture ) );
             }
         }
 
@@ -1454,7 +1466,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_DOWNLOAD_STATE_SETTINGS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_DOWNLOAD_STATE_SETTINGS", AppResources.Culture ) );
             }
         }
 
@@ -1470,7 +1482,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "STATISTICS_SENDING_MODE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "STATISTICS_SENDING_MODE", AppResources.Culture ) );
             }
         }
 
@@ -1486,7 +1498,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SettingsPage_ClearingData", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SettingsPage_ClearingData", AppResources.Culture ) );
             }
         }
 
@@ -1502,7 +1514,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SettingsPage_FactoryResetInfoMessage", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SettingsPage_FactoryResetInfoMessage", AppResources.Culture ) );
             }
         }
 
@@ -1518,7 +1530,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SettingsPage_LoggingOut", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SettingsPage_LoggingOut", AppResources.Culture ) );
             }
         }
 
@@ -1534,7 +1546,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SWITCH_USER", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SWITCH_USER", AppResources.Culture ) );
             }
         }
 
@@ -1550,7 +1562,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "QUESTION_LOGOUT_USER", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "QUESTION_LOGOUT_USER", AppResources.Culture ) );
             }
         }
 
@@ -1566,7 +1578,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "REMOVE_USER", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "REMOVE_USER", AppResources.Culture ) );
             }
         }
 
@@ -1582,7 +1594,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SettingsPage_RemovingUser", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SettingsPage_RemovingUser", AppResources.Culture ) );
             }
         }
 
@@ -1598,7 +1610,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "LANGUAGE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "LANGUAGE", AppResources.Culture ) );
             }
         }
 
@@ -1614,7 +1626,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_SETTINGS_TITLE", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_SETTINGS_TITLE", AppResources.Culture ) );
             }
         }
 
@@ -1630,7 +1642,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "SettingsPage_UsersRemovedInfoMessage", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SettingsPage_UsersRemovedInfoMessage", AppResources.Culture ) );
             }
         }
 
@@ -1648,7 +1660,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "StatisticPage_NoMediaOpened", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "StatisticPage_NoMediaOpened", AppResources.Culture ) );
             }
         }
 
@@ -1664,7 +1676,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "StatisticPage_NoStatisticToUpload", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "StatisticPage_NoStatisticToUpload", AppResources.Culture ) );
             }
         }
 
@@ -1680,7 +1692,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "StatisticPage_StartedUploading", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "StatisticPage_StartedUploading", AppResources.Culture ) );
             }
         }
 
@@ -1696,7 +1708,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "StatisticPage_Title", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "StatisticPage_Title", AppResources.Culture ) );
             }
         }
 
@@ -1712,7 +1724,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_UPLOAD_COMMAND", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_UPLOAD_COMMAND", AppResources.Culture ) );
             }
         }
 
@@ -1728,7 +1740,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "StatisticPage_UploadFiles", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "StatisticPage_UploadFiles", AppResources.Culture ) );
             }
         }
 
@@ -1744,7 +1756,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "DLM_SUCCESSFULLUPLOAD", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DLM_SUCCESSFULLUPLOAD", AppResources.Culture ) );
             }
         }
 
@@ -1760,7 +1772,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_OFF_SETTINGS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_OFF_SETTINGS", AppResources.Culture ));
             }
         }
 
@@ -1776,7 +1788,7 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MID_ON_SETTINGS", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MID_ON_SETTINGS", AppResources.Culture ) );
             }
         }
 
@@ -1792,45 +1804,20 @@ namespace NedWp.Resources.Languages
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString( "MSG_RESTART_NEEDED2", AppResources.Culture );
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "MSG_RESTART_NEEDED2", AppResources.Culture ) );
             }
         }
 
-        public static string MSG_LANG_ALREADY_QUEUED
+        public static string DOWNLOAD_AGAIN_LANGUAGE
         {
             get
             {
-                string customLocalization = getMessage("MSG_LANG_ALREADY_QUEUED");
+                string customLocalization = getMessage( "DOWNLOAD_AGAIN_LANGUAGE" );
                 if (customLocalization != null)
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MSG_LANG_ALREADY_QUEUED", AppResources.Culture);
-            }
-        }
-
-        public static string ITEM {
-            get
-            {
-                string customLocalization = getMessage("ITEM");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("ITEM", AppResources.Culture);
-            }
-        }
-
-        public static string DOWNLOAD_AGAIN
-        {
-            get
-            {
-                string customLocalization = getMessage("DOWNLOAD_AGAIN");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("DOWNLOAD_AGAIN", AppResources.Culture);
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DOWNLOAD_AGAIN_LANGUAGE", AppResources.Culture ) );
             }
         }
     }

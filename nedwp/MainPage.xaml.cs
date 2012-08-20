@@ -145,6 +145,13 @@ namespace NedWp
                         SubscribeForLibraryChanges();
                     }
                 };
+            App.Engine.ApplicationSettings.PropertyChanged += ( sender, args ) =>
+                {
+                    if( args.PropertyName == "ServerUrl" )
+                    {
+                        DemoLoginDetailsLabel.Visibility = IsDemoServerSelected ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                };
         }
 
         private void CreateApplicationBarButtons()

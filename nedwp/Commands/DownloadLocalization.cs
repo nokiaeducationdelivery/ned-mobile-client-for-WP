@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*******************************************************************************
+* Copyright (c) 2012 Nokia Corporation
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************/
+using System;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,7 +62,7 @@ namespace NedWp.Commands
                     break;
                 case MediaItemState.Downloading:
                     ToastPrompt toast = new ToastPrompt();
-                    toast.Message = String.Format("{0} " + FileLanguage.MSG_LANG_ALREADY_QUEUED, languageToDownload.LangName == String.Empty ? FileLanguage.ITEM : languageToDownload.LangName);
+                    toast.Message = String.Format( "{0} " + FileLanguage.MainPage_Queued, languageToDownload.LangName == String.Empty ? FileLanguage.DownloadCommand_Item : languageToDownload.LangName );
                     toast.Show();
                     break;
                 case MediaItemState.Remote:

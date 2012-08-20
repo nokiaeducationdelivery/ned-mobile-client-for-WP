@@ -24,7 +24,7 @@
     
     <Grid x:Name="LayoutRoot">
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="{Binding LocalizedResources.App_ApplicationTitle ,Source={StaticResource LanguageStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="{Binding LocalizedResources.MID_TITLE ,Source={StaticResource LanguageStrings}}" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock x:Name="PageTitle" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
     </Grid>

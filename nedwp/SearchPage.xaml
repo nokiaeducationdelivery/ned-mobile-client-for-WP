@@ -46,7 +46,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-			<TextBox x:Name="SearchTextBox" TextWrapping="Wrap" InputScope="Search" />
+            <TextBox x:Name="SearchTextBox" TextWrapping="Wrap" InputScope="Search" />
             <Image HorizontalAlignment="Right" Margin="0,0,15,0" Source="Resources/OriginalPlatformIcons/appbar.feature.search.rest-textbox.png" Width="48" Opacity="0.5" ManipulationCompleted="OnSearchButtonClicked"/>
         </Grid>
         <Grid x:Name="ContentPanel" Grid.Row="2" Margin="{StaticResource PhoneHorizontalMargin}">

@@ -216,9 +216,9 @@ namespace NedWp.Resources.Languages {
         /// <summary>
         ///   Looks up a localized string similar to download again.
         /// </summary>
-        public static string DOWNLOAD_AGAIN {
+        public static string DOWNLOAD_AGAIN_LANGUAGE {
             get {
-                return ResourceManager.GetString("DOWNLOAD_AGAIN", resourceCulture);
+                return ResourceManager.GetString("DOWNLOAD_AGAIN_LANGUAGE", resourceCulture);
             }
         }
         
@@ -765,15 +765,6 @@ namespace NedWp.Resources.Languages {
         public static string MISSING_HELP {
             get {
                 return ResourceManager.GetString("MISSING_HELP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to is already queued for download.
-        /// </summary>
-        public static string MSG_LANG_ALREADY_QUEUED {
-            get {
-                return ResourceManager.GetString("MSG_LANG_ALREADY_QUEUED", resourceCulture);
             }
         }
         
