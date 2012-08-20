@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -26,11 +26,11 @@ namespace NedWp
     {
         public class MediaItemStatistic
         {
-            public MediaItemStatistic(int viewCount, string mediaName, string mediaType)
+            public MediaItemStatistic( int viewCount, string mediaName, string mediaType )
             {
                 ViewCount = viewCount;
                 MediaName = mediaName;
-                MediaIcon = NedEngine.Utils.GetMediaIcon((MediaItemType)Enum.Parse(typeof(MediaItemType), mediaType, true));
+                MediaIcon = NedEngine.Utils.GetMediaIcon( (MediaItemType)Enum.Parse( typeof( MediaItemType ), mediaType, true ) );
             }
 
             public int ViewCount { get; private set; }
@@ -54,38 +54,38 @@ namespace NedWp
             ApplicationBar = new ApplicationBar();
             ApplicationBar.IsMenuEnabled = false;
 
-            ApplicationBarIconButton helpButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative));
+            ApplicationBarIconButton helpButton = new ApplicationBarIconButton( new Uri( "/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative ) );
             helpButton.Click += NavigateToHelpView;
-            helpButton.Text = AppResources.App_HelpButtonContent;
+            helpButton.Text = FileLanguage.HELP;
 
-            ApplicationBarIconButton uploadButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.upload.rest.png", UriKind.Relative));
+            ApplicationBarIconButton uploadButton = new ApplicationBarIconButton( new Uri( "/Resources/OriginalPlatformIcons/appbar.upload.rest.png", UriKind.Relative ) );
             uploadButton.Click += UploadStatistics;
-            uploadButton.Text = AppResources.StatisticPage_UploadButton;
+            uploadButton.Text = FileLanguage.MID_UPLOAD_COMMAND;
 
 
-            ApplicationBar.PopulateWithButtons(new ApplicationBarIconButton[] {
+            ApplicationBar.PopulateWithButtons( new ApplicationBarIconButton[] {
                 uploadButton,
                 helpButton
-            });
+            } );
         }
         private IDisposable _disposeUpdateStatisticEvent;
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs navEvent)
+        protected override void OnNavigatedTo( System.Windows.Navigation.NavigationEventArgs navEvent )
         {
             _disposeUpdateStatisticEvent = App.Engine.StatisticsManager.UpdateStatisticEvent.Subscribe<StatisticsManager.StatisticsUploadStatus>
             (
-                result => { UploadStatusUpdated(result); },
-                error => { UploadStatusUpdated(StatisticsManager.StatisticsUploadStatus.Error); }
+                result => { UploadStatusUpdated( result ); },
+                error => { UploadStatusUpdated( StatisticsManager.StatisticsUploadStatus.Error ); }
             );
             RefreshData();
-            base.OnNavigatedTo(navEvent);
+            base.OnNavigatedTo( navEvent );
         }
 
-        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        protected override void OnNavigatedFrom( System.Windows.Navigation.NavigationEventArgs e )
         {
-            if (_disposeUpdateStatisticEvent != null)
+            if( _disposeUpdateStatisticEvent != null )
                 _disposeUpdateStatisticEvent.Dispose();
 
-            base.OnNavigatedFrom(e);
+            base.OnNavigatedFrom( e );
         }
 
         private void RefreshData()
@@ -95,22 +95,22 @@ namespace NedWp
                 from e in App.Engine.StatisticsManager.Statistics
                 where e.Type == StatisticType.PLAY_ITEM_START && e.Username == App.Engine.LoggedUser.Username
                 group e by new { MediaName = e.Details[MediaItemStatisticItem.DetailKeys.MediaTitle], MediaType = e.Details[MediaItemStatisticItem.DetailKeys.MediaType] } into grp
-                select new MediaItemStatistic(grp.Count(), grp.Key.MediaName, grp.Key.MediaType);
-            foreach (MediaItemStatistic item in events)
+                select new MediaItemStatistic( grp.Count(), grp.Key.MediaName, grp.Key.MediaType );
+            foreach( MediaItemStatistic item in events )
             {
-                MediaStatistics.Add(item);
+                MediaStatistics.Add( item );
             }
         }
 
 
-        private void UploadStatistics(object sender, EventArgs e)
+        private void UploadStatistics( object sender, EventArgs e )
         {
             App.Engine.StatisticsManager.UploadStatistics();
         }
 
-        private void UploadStatusUpdated(StatisticsManager.StatisticsUploadStatus result)
+        private void UploadStatusUpdated( StatisticsManager.StatisticsUploadStatus result )
         {
-            switch (result)
+            switch( result )
             {
                 case StatisticsManager.StatisticsUploadStatus.Success:
                 case StatisticsManager.StatisticsUploadStatus.Error:
@@ -123,9 +123,9 @@ namespace NedWp
             }
         }
 
-        public void NavigateToHelpView(object sender, EventArgs e)
+        public void NavigateToHelpView( object sender, EventArgs e )
         {
-            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/HelpPage.xaml?type=" + HelpPages.EStatisticsPage.ToString(), UriKind.Relative));
+            ( Application.Current.RootVisual as PhoneApplicationFrame ).Navigate( new Uri( "/HelpPage.xaml?type=" + HelpPages.EStatisticsPage.ToString(), UriKind.Relative ) );
         }
     }
 }

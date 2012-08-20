@@ -1,6 +1,6 @@
 ﻿<!--
 *******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This document and accompanying materials 
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -37,7 +37,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <local:TitlePanelControl x:Name="TitlePanel" Grid.Row="0" TitleText="{Binding LocalizedResources.SearchPage_Title ,Source={StaticResource LanguageStrings}}"/>
+        <local:TitlePanelControl x:Name="TitlePanel" Grid.Row="0" TitleText="{Binding LocalizedResources.MID_SEARCH_TITLE ,Source={StaticResource LanguageStrings}}"/>
         <Grid Grid.Row="1" Margin="{StaticResource PhoneHorizontalMargin}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -16,6 +16,8 @@ namespace NedWp.Resources.Languages
     using System.IO.IsolatedStorage;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Globalization;
 
     public class FileLanguage
     {
@@ -39,19 +41,19 @@ namespace NedWp.Resources.Languages
         public void LoadCustomTranslation()
         {
             string currentLanguageId = App.Engine.ApplicationSettings.AvailableLanguages.CurrentLanguage;
-            if(currentLanguageId == null || currentLanguageId == "0")
+            if( currentLanguageId == null || currentLanguageId == "0" )
             {
                 return;
             }
-            string localizationFilePath = NedEngine.Utils.LocalizationsFilePath(currentLanguageId);
+            string localizationFilePath = NedEngine.Utils.LocalizationsFilePath( currentLanguageId );
 
-            using (IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForApplication())
+            using( IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForApplication() )
             {
-                if (file.FileExists(localizationFilePath))
+                if( file.FileExists( localizationFilePath ) )
                 {
-                    using (IsolatedStorageFileStream isfStream = new IsolatedStorageFileStream(localizationFilePath, FileMode.Open, file))
+                    using( IsolatedStorageFileStream isfStream = new IsolatedStorageFileStream( localizationFilePath, FileMode.Open, file ) )
                     {
-                        LocalizationFile = XDocument.Load(isfStream);
+                        LocalizationFile = XDocument.Load( isfStream );
                     }
                 }
                 else
@@ -61,21 +63,30 @@ namespace NedWp.Resources.Languages
             }
         }
 
-        private static string getMessage(string name)
+        private static string getMessage( string name )
         {
-            if(_instance.LocalizationFile == null || _instance.LocalizationFile.Root == null)
+            if( _instance.LocalizationFile == null || _instance.LocalizationFile.Root == null )
             {
                 return null;
             }
-           var translationQuery = from translation in _instance.LocalizationFile.Root.Elements(TAG_DATA)
-                                     where translation.Attribute(ATTRIBUTE_NAME).Value == name
-                                           select new
-                                           {
-                                               Translation = translation.Element(TAG_VALUE).Value
-                                           };
-            if (translationQuery.Count() == 0) // Page does not have help
+            var translationQuery = from translation in _instance.LocalizationFile.Root.Elements( TAG_DATA )
+                                   where translation.Attribute( ATTRIBUTE_NAME ).Value == name
+                                   select new
+                                   {
+                                       Translation = translation.Element( TAG_VALUE ).Value
+                                   };
+            if( translationQuery.Count() == 0 ) // Page does not have help
                 return null;
-            return translationQuery.First().Translation;
+            string conv1 = Regex.Replace( translationQuery.First().Translation,
+                                          @"\\u(?<Value>[a-zA-Z0-9]{4})",
+                                          m =>
+                                          {
+                                              return ( (char)int.Parse( m.Groups["Value"].Value, NumberStyles.HexNumber ) ).ToString();
+                                          } );//convertion of '/u' UTF16 notation to string
+            string conv2 = Regex.Replace( conv1,
+                                          @"\\n",
+                                         "\n" );//convertion of newline ('/n') character
+            return conv2;
         }
 
         /// <summary>
@@ -85,44 +96,44 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("App_ApplicationTitle");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "App_ApplicationTitle" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("App_ApplicationTitle", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "App_ApplicationTitle", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Welcome.
         /// </summary>
-        public static string App_DefaultMOTD
+        public static string MID_DEFAULTMOTD
         {
             get
             {
-                string customLocalization = getMessage("App_DefaultMOTD");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_DEFAULTMOTD" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("App_DefaultMOTD", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_DEFAULTMOTD", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to help.
         /// </summary>
-        public static string App_HelpButtonContent
+        public static string HELP
         {
             get
             {
-                string customLocalization = getMessage("App_HelpButtonContent");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "HELP" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("App_HelpButtonContent", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "HELP", AppResources.Culture );
             }
         }
 
@@ -133,76 +144,76 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("App_OpeningHelpErrorUnknowScreen");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "App_OpeningHelpErrorUnknowScreen" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("App_OpeningHelpErrorUnknowScreen", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "App_OpeningHelpErrorUnknowScreen", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Categories: {0}.
         /// </summary>
-        public static string CatalogueModelItem_CategoriesCount
+        public static string CATEGORIES
         {
             get
             {
-                string customLocalization = getMessage("CatalogueModelItem_CategoriesCount");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "CATEGORIES" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("CatalogueModelItem_CategoriesCount", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "CATEGORIES", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to delete.
         /// </summary>
-        public static string CataloguePage_DeleteButton
+        public static string DELETE
         {
             get
             {
-                string customLocalization = getMessage("CataloguePage_DeleteButton");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DELETE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("CataloguePage_DeleteButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DELETE", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to download all.
         /// </summary>
-        public static string CataloguePage_DownloadAllButton
+        public static string DOWNLOAD_ALL
         {
             get
             {
-                string customLocalization = getMessage("CataloguePage_DownloadAllButton");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DOWNLOAD_ALL" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("CataloguePage_DownloadAllButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DOWNLOAD_ALL", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to back.
         /// </summary>
-        public static string CataloguePage_HomeButton
+        public static string MID_BACK_COMMAND
         {
             get
             {
-                string customLocalization = getMessage("CataloguePage_HomeButton");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_BACK_COMMAND" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("CataloguePage_HomeButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_BACK_COMMAND", AppResources.Culture );
             }
         }
 
@@ -213,76 +224,76 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("CataloguePage_RefreshButton");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "CataloguePage_RefreshButton" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("CataloguePage_RefreshButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "CataloguePage_RefreshButton", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to search.
         /// </summary>
-        public static string CataloguePage_SearchButton
+        public static string MID_SEARCH_COMMAND
         {
             get
             {
-                string customLocalization = getMessage("CataloguePage_SearchButton");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_SEARCH_COMMAND" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("CataloguePage_SearchButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_SEARCH_COMMAND", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Media items enqueued for download: {0}.
         /// </summary>
-        public static string CategoryModelItem_ItemsForDownload
+        public static string ITEM_ADDED_TO_QUEUE
         {
             get
             {
-                string customLocalization = getMessage("CategoryModelItem_ItemsForDownload");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "ITEM_ADDED_TO_QUEUE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("CategoryModelItem_ItemsForDownload", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "ITEM_ADDED_TO_QUEUE", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Media items: {0} (downloaded: {1}, on server: {2} ).
         /// </summary>
-        public static string CategoryModelItem_MediaItems
+        public static string MEDIA_ITEMS
         {
             get
             {
-                string customLocalization = getMessage("CategoryModelItem_MediaItems");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MEDIA_ITEMS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("CategoryModelItem_MediaItems", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MEDIA_ITEMS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Demo library id &apos;khan&apos;.
         /// </summary>
-        public static string DemoLibId
+        public static string DEMOLIBID
         {
             get
             {
-                string customLocalization = getMessage("DemoLibId");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DEMOLIBID" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("DemoLibId", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DEMOLIBID", AppResources.Culture );
             }
         }
 
@@ -293,12 +304,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("DemoLoginDetails");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DemoLoginDetails" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("DemoLoginDetails", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DemoLoginDetails", AppResources.Culture );
             }
         }
 
@@ -309,12 +320,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("DEMOURL");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DEMOURL" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("DEMOURL", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DEMOURL", AppResources.Culture );
             }
         }
 
@@ -325,12 +336,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("DownloadCommand_AddedToDownload");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DownloadCommand_AddedToDownload" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("DownloadCommand_AddedToDownload", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DownloadCommand_AddedToDownload", AppResources.Culture );
             }
         }
 
@@ -341,12 +352,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("DownloadCommand_AlreadyDownloaded");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DownloadCommand_AlreadyDownloaded" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("DownloadCommand_AlreadyDownloaded", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DownloadCommand_AlreadyDownloaded", AppResources.Culture );
             }
         }
 
@@ -357,12 +368,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("DownloadCommand_DownloadingStarted");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DownloadCommand_DownloadingStarted" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("DownloadCommand_DownloadingStarted", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DownloadCommand_DownloadingStarted", AppResources.Culture );
             }
         }
 
@@ -373,28 +384,28 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("DownloadCommand_Item");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DownloadCommand_Item" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("DownloadCommand_Item", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DownloadCommand_Item", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to cancel.
         /// </summary>
-        public static string DownloadListItemControl_CancelButton
+        public static string CANCEL
         {
             get
             {
-                string customLocalization = getMessage("DownloadListItemControl_CancelButton");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "CANCEL" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("DownloadListItemControl_CancelButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "CANCEL", AppResources.Culture );
             }
         }
 
@@ -405,12 +416,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("Error_Connection");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "Error_Connection" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_Connection", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "Error_Connection", AppResources.Culture );
             }
         }
 
@@ -421,60 +432,60 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("Error_EmptyUsernameOrPassword");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "Error_EmptyUsernameOrPassword" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_EmptyUsernameOrPassword", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "Error_EmptyUsernameOrPassword", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Invalid username or password.
         /// </summary>
-        public static string Error_InvalidCredentials
+        public static string BAD_LOGIN
         {
             get
             {
-                string customLocalization = getMessage("Error_InvalidCredentials");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "BAD_LOGIN" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_InvalidCredentials", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "BAD_LOGIN", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Invalid NED server address.
         /// </summary>
-        public static string Error_InvalidServerAddress
+        public static string NEDSERVICENOTPRESENT
         {
             get
             {
-                string customLocalization = getMessage("Error_InvalidServerAddress");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "NEDSERVICENOTPRESENT" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_InvalidServerAddress", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "NEDSERVICENOTPRESENT", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Library is already added.
         /// </summary>
-        public static string Error_LibraryAlreadyAdded
+        public static string LIBRARY_ALREADY_EXISTS
         {
             get
             {
-                string customLocalization = getMessage("Error_LibraryAlreadyAdded");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LIBRARY_ALREADY_EXISTS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_LibraryAlreadyAdded", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LIBRARY_ALREADY_EXISTS", AppResources.Culture );
             }
         }
 
@@ -485,28 +496,28 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("Error_LibraryDeletedFromServer");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "Error_LibraryDeletedFromServer" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_LibraryDeletedFromServer", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "Error_LibraryDeletedFromServer", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Library doesn&apos;t exist..
         /// </summary>
-        public static string Error_LibraryDoesNotExist
+        public static string LIBRARY_NOT_EXISTS
         {
             get
             {
-                string customLocalization = getMessage("Error_LibraryDoesNotExist");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LIBRARY_NOT_EXISTS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_LibraryDoesNotExist", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LIBRARY_NOT_EXISTS", AppResources.Culture );
             }
         }
 
@@ -517,12 +528,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("Error_LibraryIdEmpty");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "Error_LibraryIdEmpty" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_LibraryIdEmpty", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "Error_LibraryIdEmpty", AppResources.Culture );
             }
         }
 
@@ -533,60 +544,44 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("Error_Unexpected");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "Error_Unexpected" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Error_Unexpected", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "Error_Unexpected", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Help not available.
         /// </summary>
-        public static string HelpPage_HelpNotAvailable
+        public static string MISSING_HELP
         {
             get
             {
-                string customLocalization = getMessage("HelpPage_HelpNotAvailable");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MISSING_HELP" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("HelpPage_HelpNotAvailable", AppResources.Culture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to help.
-        /// </summary>
-        public static string HelpPage_Title
-        {
-            get
-            {
-                string customLocalization = getMessage("HelpPage_Title");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("HelpPage_Title", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MISSING_HELP", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Select Language.
         /// </summary>
-        public static string Language_Title
+        public static string CHOOSE_LANGUAGE
         {
             get
             {
-                string customLocalization = getMessage("Language_Title");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "CHOOSE_LANGUAGE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("Language_Title", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "CHOOSE_LANGUAGE", AppResources.Culture );
             }
         }
 
@@ -597,12 +592,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("LibraryModel_RemovingUnknowTypeError");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LibraryModel_RemovingUnknowTypeError" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("LibraryModel_RemovingUnknowTypeError", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LibraryModel_RemovingUnknowTypeError", AppResources.Culture );
             }
         }
 
@@ -613,76 +608,76 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("LibraryUnavailableAfterFailedUpdate");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LibraryUnavailableAfterFailedUpdate" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("LibraryUnavailableAfterFailedUpdate", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LibraryUnavailableAfterFailedUpdate", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to No links are attached to this media item..
         /// </summary>
-        public static string LinkPage_NoLinksInfo
+        public static string NO_LINKS
         {
             get
             {
-                string customLocalization = getMessage("LinkPage_NoLinksInfo");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "NO_LINKS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("LinkPage_NoLinksInfo", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "NO_LINKS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to links.
         /// </summary>
-        public static string LinksPage_Title
+        public static string SHOW_LINKS
         {
             get
             {
-                string customLocalization = getMessage("LinksPage_Title");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SHOW_LINKS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("LinksPage_Title", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SHOW_LINKS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to about.
         /// </summary>
-        public static string MainPage_AboutButtonText
+        public static string ABOUT
         {
             get
             {
-                string customLocalization = getMessage("MainPage_AboutButtonText");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "ABOUT" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_AboutButtonText", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "ABOUT", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Version: {0}.{1}.
         /// </summary>
-        public static string MainPage_AboutVersionInfo
+        public static string VERSION
         {
             get
             {
-                string customLocalization = getMessage("MainPage_AboutVersionInfo");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "VERSION" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_AboutVersionInfo", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "VERSION", AppResources.Culture );
             }
         }
 
@@ -693,12 +688,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Add");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_Add" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Add", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_Add", AppResources.Culture );
             }
         }
 
@@ -709,44 +704,44 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_AddingLibrary");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_AddingLibrary" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_AddingLibrary", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_AddingLibrary", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Catalogues: {0}.
         /// </summary>
-        public static string MainPage_CataloguesCount
+        public static string CATALOGS
         {
             get
             {
-                string customLocalization = getMessage("MainPage_CataloguesCount");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "CATALOGS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_CataloguesCount", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "CATALOGS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to check for updates.
         /// </summary>
-        public static string MainPage_CheckForUpdates
+        public static string CHECK_FOR_UPDATE
         {
             get
             {
-                string customLocalization = getMessage("MainPage_CheckForUpdates");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "CHECK_FOR_UPDATE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_CheckForUpdates", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "CHECK_FOR_UPDATE", AppResources.Culture );
             }
         }
 
@@ -757,110 +752,63 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_ClosingApplicationMessage");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_ClosingApplicationMessage" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_ClosingApplicationMessage", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_ClosingApplicationMessage", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
-        public static string MainPage_ClosingApplicationTitle
+        public static string ARE_YOU_SURE
         {
             get
             {
-                string customLocalization = getMessage("MainPage_ClosingApplicationTitle");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "ARE_YOU_SURE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_ClosingApplicationTitle", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "ARE_YOU_SURE", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Connecting.
         /// </summary>
-        public static string MainPage_Connecting
+        public static string CONNECTING
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Connecting");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "CONNECTING" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Connecting", AppResources.Culture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Connecting to server.
-        /// </summary>
-        public static string MainPage_ConnectingToServer
-        {
-            get
-            {
-                string customLocalization = getMessage("MainPage_ConnectingToServer");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("MainPage_ConnectingToServer", AppResources.Culture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to delete.
-        /// </summary>
-        public static string MainPage_Delete
-        {
-            get
-            {
-                string customLocalization = getMessage("MainPage_Delete");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("MainPage_Delete", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "CONNECTING", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Library will be removed from the device..
         /// </summary>
-        public static string MainPage_DeleteLibQuestionMessage
+        public static string QUESTION_REMOVE_LIBRARY
         {
             get
             {
-                string customLocalization = getMessage("MainPage_DeleteLibQuestionMessage");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "QUESTION_REMOVE_LIBRARY" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_DeleteLibQuestionMessage", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "QUESTION_REMOVE_LIBRARY", AppResources.Culture );
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure?.
-        /// </summary>
-        public static string MainPage_DeleteLibQuestionTitile
-        {
-            get
-            {
-                string customLocalization = getMessage("MainPage_DeleteLibQuestionTitile");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("MainPage_DeleteLibQuestionTitile", AppResources.Culture);
-            }
-        }
 
         /// <summary>
         ///   Looks up a localized string similar to Downloading.
@@ -869,12 +817,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Downloading");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_Downloading" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Downloading", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_Downloading", AppResources.Culture );
             }
         }
 
@@ -885,140 +833,124 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_DownloadingLib");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_DownloadingLib" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_DownloadingLib", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_DownloadingLib", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to downloads.
         /// </summary>
-        public static string MainPage_Downloads
+        public static string MID_DOWNLOADS
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Downloads");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_DOWNLOADS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Downloads", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_DOWNLOADS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Enter NED server address.
         /// </summary>
-        public static string MainPage_EnterServerAddress
+        public static string ENTER_SERVER_ADDRESS
         {
             get
             {
-                string customLocalization = getMessage("MainPage_EnterServerAddress");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "ENTER_SERVER_ADDRESS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_EnterServerAddress", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "ENTER_SERVER_ADDRESS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to factory reset.
         /// </summary>
-        public static string MainPage_FactoryResetMenuItemText
+        public static string FACTORY_SETTINGS
         {
             get
             {
-                string customLocalization = getMessage("MainPage_FactoryResetMenuItemText");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "FACTORY_SETTINGS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_FactoryResetMenuItemText", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "FACTORY_SETTINGS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to libraries.
         /// </summary>
-        public static string MainPage_Libraries
+        public static string LIBRARIES
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Libraries");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LIBRARIES" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Libraries", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LIBRARIES", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to library manager.
         /// </summary>
-        public static string MainPage_LibraryManager
+        public static string LIBRARY_MANAGER
         {
             get
             {
-                string customLocalization = getMessage("MainPage_LibraryManager");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LIBRARY_MANAGER" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_LibraryManager", AppResources.Culture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Logging in.
-        /// </summary>
-        public static string MainPage_LoggingIn
-        {
-            get
-            {
-                string customLocalization = getMessage("MainPage_LoggingIn");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("MainPage_LoggingIn", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LIBRARY_MANAGER", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to log in.
         /// </summary>
-        public static string MainPage_logIn
+        public static string LOGIN
         {
             get
             {
-                string customLocalization = getMessage("MainPage_logIn");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LOGIN" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_logIn", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LOGIN", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to New library ID.
         /// </summary>
-        public static string MainPage_NewLibraryID
+        public static string LIBRARY_ID
         {
             get
             {
-                string customLocalization = getMessage("MainPage_NewLibraryID");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LIBRARY_ID" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_NewLibraryID", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LIBRARY_ID", AppResources.Culture );
             }
         }
 
@@ -1029,12 +961,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_NewVersionAvailableHeader");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_NewVersionAvailableHeader" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_NewVersionAvailableHeader", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_NewVersionAvailableHeader", AppResources.Culture );
             }
         }
 
@@ -1045,12 +977,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_NewVersionAvailableMessage");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_NewVersionAvailableMessage" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_NewVersionAvailableMessage", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_NewVersionAvailableMessage", AppResources.Culture );
             }
         }
 
@@ -1063,12 +995,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_NoDownloadPending");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_NoDownloadPending" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_NoDownloadPending", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_NoDownloadPending", AppResources.Culture );
             }
         }
 
@@ -1081,12 +1013,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_NoLibrariesToDisplay");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_NoLibrariesToDisplay" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_NoLibrariesToDisplay", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_NoLibrariesToDisplay", AppResources.Culture );
             }
         }
 
@@ -1099,12 +1031,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_NoLibrariesToDisplayTypeID");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_NoLibrariesToDisplayTypeID" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_NoLibrariesToDisplayTypeID", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_NoLibrariesToDisplayTypeID", AppResources.Culture );
             }
         }
 
@@ -1115,28 +1047,28 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_OK");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_OK" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_OK", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_OK", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
-        public static string MainPage_Password
+        public static string PASSWORD
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Password");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "PASSWORD" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Password", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "PASSWORD", AppResources.Culture );
             }
         }
 
@@ -1147,12 +1079,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Paused");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_Paused" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Paused", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_Paused", AppResources.Culture );
             }
         }
 
@@ -1163,92 +1095,92 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Queued");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_Queued" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Queued", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_Queued", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Remember Me!.
         /// </summary>
-        public static string MainPage_RememberMe
+        public static string REMEMBERME
         {
             get
             {
-                string customLocalization = getMessage("MainPage_RememberMe");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "REMEMBERME" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_RememberMe", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "REMEMBERME", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to server wizard.
         /// </summary>
-        public static string MainPage_ServerWizard
+        public static string SERVER_WIZARD
         {
             get
             {
-                string customLocalization = getMessage("MainPage_ServerWizard");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SERVER_WIZARD" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_ServerWizard", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SERVER_WIZARD", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to settings.
         /// </summary>
-        public static string MainPage_SettingsButtonContent
+        public static string MID_OPTIONS_COMMAND
         {
             get
             {
-                string customLocalization = getMessage("MainPage_SettingsButtonContent");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_OPTIONS_COMMAND" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_SettingsButtonContent", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_OPTIONS_COMMAND", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Show Libraries.
         /// </summary>
-        public static string MainPage_ShowLibraries
+        public static string SHOW_LIBRARY
         {
             get
             {
-                string customLocalization = getMessage("MainPage_ShowLibraries");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SHOW_LIBRARY" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_ShowLibraries", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SHOW_LIBRARY", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to statistics.
         /// </summary>
-        public static string MainPage_StatisticsButtonContent
+        public static string MID_STATISTICS_COMMAND
         {
             get
             {
-                string customLocalization = getMessage("MainPage_StatisticsButtonContent");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_STATISTICS_COMMAND" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_StatisticsButtonContent", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_STATISTICS_COMMAND", AppResources.Culture );
             }
         }
 
@@ -1259,12 +1191,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_Stopped");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_Stopped" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_Stopped", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_Stopped", AppResources.Culture );
             }
         }
 
@@ -1275,12 +1207,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_UpdateNotNecessaryHeader");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_UpdateNotNecessaryHeader" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_UpdateNotNecessaryHeader", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_UpdateNotNecessaryHeader", AppResources.Culture );
             }
         }
 
@@ -1291,44 +1223,44 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_UpdateNotNecessaryMessage");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_UpdateNotNecessaryMessage" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_UpdateNotNecessaryMessage", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_UpdateNotNecessaryMessage", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to user login.
         /// </summary>
-        public static string MainPage_UserLogin
+        public static string USER_AUTHENTICATION
         {
             get
             {
-                string customLocalization = getMessage("MainPage_UserLogin");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "USER_AUTHENTICATION" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_UserLogin", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "USER_AUTHENTICATION", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to User name.
         /// </summary>
-        public static string MainPage_UserName
+        public static string USER_NAME
         {
             get
             {
-                string customLocalization = getMessage("MainPage_UserName");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "USER_NAME" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_UserName", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "USER_NAME", AppResources.Culture );
             }
         }
 
@@ -1339,108 +1271,76 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MainPage_ViewsCount");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MainPage_ViewsCount" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MainPage_ViewsCount", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MainPage_ViewsCount", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Add to queue.
         /// </summary>
-        public static string MediaItemControl_AddToQueue
+        public static string ADDTOQUEUE
         {
             get
             {
-                string customLocalization = getMessage("MediaItemControl_AddToQueue");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "ADDTOQUEUE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MediaItemControl_AddToQueue", AppResources.Culture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to delete.
-        /// </summary>
-        public static string MediaItemControl_DeleteButton
-        {
-            get
-            {
-                string customLocalization = getMessage("MediaItemControl_DeleteButton");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("MediaItemControl_DeleteButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "ADDTOQUEUE", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to download now.
         /// </summary>
-        public static string MediaItemControl_DonwloadNowButton
+        public static string DOWNLOAD_NOW
         {
             get
             {
-                string customLocalization = getMessage("MediaItemControl_DonwloadNowButton");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DOWNLOAD_NOW" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MediaItemControl_DonwloadNowButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DOWNLOAD_NOW", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to No description available.
         /// </summary>
-        public static string MediaItemsListModelItem_NoDescriptionAvailable
+        public static string NO_DETAILS
         {
             get
             {
-                string customLocalization = getMessage("MediaItemsListModelItem_NoDescriptionAvailable");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "NO_DETAILS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MediaItemsListModelItem_NoDescriptionAvailable", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "NO_DETAILS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to description.
         /// </summary>
-        public static string MediaItemsViewPage_DescriptionButtonText
+        public static string SHOW_DETAILS
         {
             get
             {
-                string customLocalization = getMessage("MediaItemsViewPage_DescriptionButtonText");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SHOW_DETAILS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MediaItemsViewPage_DescriptionButtonText", AppResources.Culture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to links.
-        /// </summary>
-        public static string MediaItemsViewPage_LinksButtonText
-        {
-            get
-            {
-                string customLocalization = getMessage("MediaItemsViewPage_LinksButtonText");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("MediaItemsViewPage_LinksButtonText", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SHOW_DETAILS", AppResources.Culture );
             }
         }
 
@@ -1451,12 +1351,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MediaItemViewerPage_CanNotOpenItem");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MediaItemViewerPage_CanNotOpenItem" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MediaItemViewerPage_CanNotOpenItem", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MediaItemViewerPage_CanNotOpenItem", AppResources.Culture );
             }
         }
 
@@ -1467,12 +1367,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MediaItemViewerPage_Title");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MediaItemViewerPage_Title" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MediaItemViewerPage_Title", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MediaItemViewerPage_Title", AppResources.Culture );
             }
         }
 
@@ -1483,12 +1383,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("MediaItemViewerPage_UnableToOpenDocument");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MediaItemViewerPage_UnableToOpenDocument" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("MediaItemViewerPage_UnableToOpenDocument", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MediaItemViewerPage_UnableToOpenDocument", AppResources.Culture );
             }
         }
 
@@ -1499,12 +1399,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("ProgressOverlay_UpdatingLibrary");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "ProgressOverlay_UpdatingLibrary" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("ProgressOverlay_UpdatingLibrary", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "ProgressOverlay_UpdatingLibrary", AppResources.Culture );
             }
         }
 
@@ -1517,60 +1417,60 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("SearchPage_NoResultsToDisplay");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SearchPage_NoResultsToDisplay" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SearchPage_NoResultsToDisplay", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SearchPage_NoResultsToDisplay", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to search.
         /// </summary>
-        public static string SearchPage_Title
+        public static string MID_SEARCH_TITLE
         {
             get
             {
-                string customLocalization = getMessage("SearchPage_Title");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_SEARCH_TITLE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SearchPage_Title", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_SEARCH_TITLE", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Automatic downloads.
         /// </summary>
-        public static string SettingsPage_AutomaticDownloads
+        public static string MID_DOWNLOAD_STATE_SETTINGS
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_AutomaticDownloads");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_DOWNLOAD_STATE_SETTINGS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_AutomaticDownloads", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_DOWNLOAD_STATE_SETTINGS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Automatic statistics upload.
         /// </summary>
-        public static string SettingsPage_AutomaticStatisticsUpload
+        public static string STATISTICS_SENDING_MODE
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_AutomaticStatisticsUpload");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "STATISTICS_SENDING_MODE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_AutomaticStatisticsUpload", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "STATISTICS_SENDING_MODE", AppResources.Culture );
             }
         }
 
@@ -1581,28 +1481,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_ClearingData");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SettingsPage_ClearingData" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_ClearingData", AppResources.Culture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to factory reset.
-        /// </summary>
-        public static string SettingsPage_FactoryResetButtonContent
-        {
-            get
-            {
-                string customLocalization = getMessage("SettingsPage_FactoryResetButtonContent");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("SettingsPage_FactoryResetButtonContent", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SettingsPage_ClearingData", AppResources.Culture );
             }
         }
 
@@ -1613,28 +1497,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_FactoryResetInfoMessage");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SettingsPage_FactoryResetInfoMessage" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_FactoryResetInfoMessage", AppResources.Culture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure?.
-        /// </summary>
-        public static string SettingsPage_InfoHeader
-        {
-            get
-            {
-                string customLocalization = getMessage("SettingsPage_InfoHeader");
-                if (customLocalization != null)
-                {
-                    return customLocalization;
-                }
-                return AppResources.ResourceManager.GetString("SettingsPage_InfoHeader", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SettingsPage_FactoryResetInfoMessage", AppResources.Culture );
             }
         }
 
@@ -1645,60 +1513,60 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_LoggingOut");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SettingsPage_LoggingOut" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_LoggingOut", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SettingsPage_LoggingOut", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to logout user.
         /// </summary>
-        public static string SettingsPage_LogoutButtonContent
+        public static string SWITCH_USER
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_LogoutButtonContent");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SWITCH_USER" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_LogoutButtonContent", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SWITCH_USER", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Current user will be logged out..
         /// </summary>
-        public static string SettingsPage_LogoutInfoMessage
+        public static string QUESTION_LOGOUT_USER
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_LogoutInfoMessage");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "QUESTION_LOGOUT_USER" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_LogoutInfoMessage", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "QUESTION_LOGOUT_USER", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to remove user.
         /// </summary>
-        public static string SettingsPage_RemoveUserButtonContent
+        public static string REMOVE_USER
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_RemoveUserButtonContent");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "REMOVE_USER" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_RemoveUserButtonContent", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "REMOVE_USER", AppResources.Culture );
             }
         }
 
@@ -1709,44 +1577,44 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_RemovingUser");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SettingsPage_RemovingUser" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_RemovingUser", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SettingsPage_RemovingUser", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
-        public static string SettingsPage_SelectLanguageContent
+        public static string LANGUAGE
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_SelectLanguageContent");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "LANGUAGE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_SelectLanguageContent", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "LANGUAGE", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to settings.
         /// </summary>
-        public static string SettingsPage_Title
+        public static string MID_SETTINGS_TITLE
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_Title");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_SETTINGS_TITLE" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_Title", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_SETTINGS_TITLE", AppResources.Culture );
             }
         }
 
@@ -1757,12 +1625,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("SettingsPage_UsersRemovedInfoMessage");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "SettingsPage_UsersRemovedInfoMessage" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("SettingsPage_UsersRemovedInfoMessage", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "SettingsPage_UsersRemovedInfoMessage", AppResources.Culture );
             }
         }
 
@@ -1775,12 +1643,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("StatisticPage_NoMediaOpened");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "StatisticPage_NoMediaOpened" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("StatisticPage_NoMediaOpened", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "StatisticPage_NoMediaOpened", AppResources.Culture );
             }
         }
 
@@ -1791,12 +1659,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("StatisticPage_NoStatisticToUpload");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "StatisticPage_NoStatisticToUpload" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("StatisticPage_NoStatisticToUpload", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "StatisticPage_NoStatisticToUpload", AppResources.Culture );
             }
         }
 
@@ -1807,12 +1675,12 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("StatisticPage_StartedUploading");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "StatisticPage_StartedUploading" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("StatisticPage_StartedUploading", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "StatisticPage_StartedUploading", AppResources.Culture );
             }
         }
 
@@ -1823,28 +1691,28 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("StatisticPage_Title");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "StatisticPage_Title" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("StatisticPage_Title", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "StatisticPage_Title", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to upload.
         /// </summary>
-        public static string StatisticPage_UploadButton
+        public static string MID_UPLOAD_COMMAND
         {
             get
             {
-                string customLocalization = getMessage("StatisticPage_UploadButton");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_UPLOAD_COMMAND" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("StatisticPage_UploadButton", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_UPLOAD_COMMAND", AppResources.Culture );
             }
         }
 
@@ -1855,60 +1723,76 @@ namespace NedWp.Resources.Languages
         {
             get
             {
-                string customLocalization = getMessage("StatisticPage_UploadFiles");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "StatisticPage_UploadFiles" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("StatisticPage_UploadFiles", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "StatisticPage_UploadFiles", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Statistics uploaded successfully.
         /// </summary>
-        public static string StatisticPage_UploadingSucces
+        public static string DLM_SUCCESSFULLUPLOAD
         {
             get
             {
-                string customLocalization = getMessage("StatisticPage_UploadingSucces");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "DLM_SUCCESSFULLUPLOAD" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("StatisticPage_UploadingSucces", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "DLM_SUCCESSFULLUPLOAD", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Off.
         /// </summary>
-        public static string ToggleSwitch_OFF
+        public static string MID_OFF_SETTINGS
         {
             get
             {
-                string customLocalization = getMessage("ToggleSwitch_OFF");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_OFF_SETTINGS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("ToggleSwitch_OFF", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_OFF_SETTINGS", AppResources.Culture );
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to On.
         /// </summary>
-        public static string ToggleSwitch_ON
+        public static string MID_ON_SETTINGS
         {
             get
             {
-                string customLocalization = getMessage("ToggleSwitch_ON");
-                if (customLocalization != null)
+                string customLocalization = getMessage( "MID_ON_SETTINGS" );
+                if( customLocalization != null )
                 {
                     return customLocalization;
                 }
-                return AppResources.ResourceManager.GetString("ToggleSwitch_ON", AppResources.Culture);
+                return AppResources.ResourceManager.GetString( "MID_ON_SETTINGS", AppResources.Culture );
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Restart needed.
+        /// </summary>
+        public static string MSG_RESTART_NEEDED2
+        {
+            get
+            {
+                string customLocalization = getMessage( "MSG_RESTART_NEEDED2" );
+                if( customLocalization != null )
+                {
+                    return customLocalization;
+                }
+                return AppResources.ResourceManager.GetString( "MSG_RESTART_NEEDED2", AppResources.Culture );
             }
         }
     }

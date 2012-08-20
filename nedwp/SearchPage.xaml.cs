@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -31,26 +31,26 @@ namespace NedWp
         private bool IsSearchListLoaded = false; // Dirty workaround for CollectionViewSource issue - it selects first item in collection by default and in WP7.0 we navigate basing on selection
 
         private CollectionViewSource CollectionFilter;
-        
+
         private string mCurrentKeyword = String.Empty;
-        public string CurrentKeyword 
-        { 
-            get { return mCurrentKeyword; } 
-            set 
+        public string CurrentKeyword
+        {
+            get { return mCurrentKeyword; }
+            set
             {
-                if (mCurrentKeyword != value)
+                if( mCurrentKeyword != value )
                 {
                     mCurrentKeyword = value;
-                    NotifyPropertyChanged("CurrentKeyword");
+                    NotifyPropertyChanged( "CurrentKeyword" );
                 }
-            } 
+            }
         }
         public string RootId { get; set; }
 
         public SearchPage()
         {
             InitializeComponent();
-            
+
             Loaded += OnPageLoaded;
 
             PrepareApplicationBar();
@@ -61,16 +61,16 @@ namespace NedWp
             ApplicationBar = new ApplicationBar();
             ApplicationBar.IsMenuEnabled = false;
 
-            ApplicationBarIconButton helpButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative));
+            ApplicationBarIconButton helpButton = new ApplicationBarIconButton( new Uri( "/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative ) );
             helpButton.Click += NavigateToHelpView;
-            helpButton.Text = AppResources.App_HelpButtonContent;
+            helpButton.Text = FileLanguage.HELP;
 
-            ApplicationBar.PopulateWithButtons(new ApplicationBarIconButton[] {
+            ApplicationBar.PopulateWithButtons( new ApplicationBarIconButton[] {
                 helpButton
-            });
+            } );
         }
 
-        private void OnPageLoaded(object sender, RoutedEventArgs args)
+        private void OnPageLoaded( object sender, RoutedEventArgs args )
         {
             LoadMediaItemsUnderRootId();
             PropertyChanged += OnCurrentKeywordChanged;
@@ -83,7 +83,7 @@ namespace NedWp
             IsDataLoaded = true;
         }
 
-        private void ReloadMediaItemsUnderRootId(object sender, EventArgs args)
+        private void ReloadMediaItemsUnderRootId( object sender, EventArgs args )
         {
             LoadMediaItemsUnderRootId();
         }
@@ -92,36 +92,36 @@ namespace NedWp
         {
             IsSearchListLoaded = false;
             CollectionFilter = Resources["CollectionFilter"] as CollectionViewSource;
-            CollectionFilter.Source = App.Engine.LibraryModel.GetAllMediaItemsUnderId(RootId);
-            CollectionFilter.View.Filter = new Predicate<Object>(FilterItemsByKeyword);
-            CollectionFilter.View.MoveCurrentToPosition(-1);
+            CollectionFilter.Source = App.Engine.LibraryModel.GetAllMediaItemsUnderId( RootId );
+            CollectionFilter.View.Filter = new Predicate<Object>( FilterItemsByKeyword );
+            CollectionFilter.View.MoveCurrentToPosition( -1 );
             IsSearchListLoaded = true;
         }
 
-        public bool FilterItemsByKeyword(object item)
+        public bool FilterItemsByKeyword( object item )
         {
-            if (item == null)
+            if( item == null )
                 return false;
             MediaItemsListModelItem mediaItem = item as MediaItemsListModelItem;
-            return (mediaItem.Keywords.Contains(CurrentKeyword));
+            return ( mediaItem.Keywords.Contains( CurrentKeyword ) );
         }
 
         private void Search()
         {
             CurrentKeyword = SearchTextBox.Text.Trim();
-            App.Engine.StatisticsManager.LogSearching(CurrentKeyword);
+            App.Engine.StatisticsManager.LogSearching( CurrentKeyword );
         }
 
-        private void OnSearchButtonClicked(object sender, ManipulationCompletedEventArgs args)
+        private void OnSearchButtonClicked( object sender, ManipulationCompletedEventArgs args )
         {
             Search();
         }
 
-        private void OnTextBoxKeyReleased(object sender, KeyEventArgs args)
+        private void OnTextBoxKeyReleased( object sender, KeyEventArgs args )
         {
-            if (args.Key == Key.Enter)
+            if( args.Key == Key.Enter )
             {
-                if (sender == SearchTextBox)
+                if( sender == SearchTextBox )
                 {
                     Search();
                     SearchList.Focus();
@@ -129,33 +129,33 @@ namespace NedWp
             }
         }
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
+        private void OnSelectionChanged( object sender, SelectionChangedEventArgs args )
         {
-            if (SearchList.SelectedIndex < 0 || !IsSearchListLoaded)
+            if( SearchList.SelectedIndex < 0 || !IsSearchListLoaded )
                 return;
-            
-            MediaItemRequestedCommand.GetCommand().Execute(SearchList.SelectedItem as MediaItemsListModelItem);
+
+            MediaItemRequestedCommand.GetCommand().Execute( SearchList.SelectedItem as MediaItemsListModelItem );
             SearchList.SelectedIndex = -1; // Reset selection
         }
 
-        private void OnCurrentKeywordChanged(object sender, PropertyChangedEventArgs args)
+        private void OnCurrentKeywordChanged( object sender, PropertyChangedEventArgs args )
         {
-            if (args.PropertyName == "CurrentKeyword")
+            if( args.PropertyName == "CurrentKeyword" )
             {
                 CollectionFilter.View.Refresh();
             }
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs args)
+        protected override void OnNavigatingFrom( NavigatingCancelEventArgs args )
         {
-            if (args.NavigationMode == NavigationMode.Back)
+            if( args.NavigationMode == NavigationMode.Back )
                 IsBackNavigating = true;
-            base.OnNavigatingFrom(args);
+            base.OnNavigatingFrom( args );
         }
 
-        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs args)
+        protected override void OnNavigatedFrom( System.Windows.Navigation.NavigationEventArgs args )
         {
-            if (IsBackNavigating) // search screen clearing when exited 
+            if( IsBackNavigating ) // search screen clearing when exited 
             {
                 ClearSearchState();
             }
@@ -164,19 +164,19 @@ namespace NedWp
                 SaveSearchState();
             }
             IsBackNavigating = false;
-            base.OnNavigatedFrom(args);
+            base.OnNavigatedFrom( args );
         }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs args)
+        protected override void OnNavigatedTo( System.Windows.Navigation.NavigationEventArgs args )
         {
             IDictionary<string, string> parameters = NavigationContext.QueryString;
             RootId = parameters["rootId"];
 
-            if (!IsDataLoaded)
+            if( !IsDataLoaded )
             {
                 LoadSearchState();
             }
-            base.OnNavigatedTo(args);
+            base.OnNavigatedTo( args );
         }
 
         #region Tombstoning
@@ -192,14 +192,14 @@ namespace NedWp
         private void ClearSearchState()
         {
             IDictionary<string, object> state = PhoneApplicationService.Current.State;
-            state.Remove(CurrentSearchKeywordKey);
+            state.Remove( CurrentSearchKeywordKey );
         }
 
         private void LoadSearchState()
         {
             IDictionary<string, object> state = PhoneApplicationService.Current.State;
             App.Engine.LibraryModel.LoadLibraryStateIfNotLoaded();
-            if (state.ContainsKey(CurrentSearchKeywordKey))
+            if( state.ContainsKey( CurrentSearchKeywordKey ) )
             {
                 CurrentKeyword = (string)state[CurrentSearchKeywordKey];
             }
@@ -209,17 +209,17 @@ namespace NedWp
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged(string propertyName)
+        public void NotifyPropertyChanged( string propertyName )
         {
-            if (PropertyChanged != null)
+            if( PropertyChanged != null )
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged( this, new PropertyChangedEventArgs( propertyName ) );
             }
         }
 
-        private void NavigateToHelpView(object sender, EventArgs e)
+        private void NavigateToHelpView( object sender, EventArgs e )
         {
-            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/HelpPage.xaml?type=" + HelpPages.ESearchPage.ToString(), UriKind.Relative));
-        } 
+            ( Application.Current.RootVisual as PhoneApplicationFrame ).Navigate( new Uri( "/HelpPage.xaml?type=" + HelpPages.ESearchPage.ToString(), UriKind.Relative ) );
+        }
     }
 }

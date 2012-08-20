@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -30,16 +30,16 @@ namespace NedEngine
     {
 
         private MediaItemType mMediType;
-        public MediaItemType ItemType 
+        public MediaItemType ItemType
         {
-            get 
+            get
             {
-                return mMediType; 
+                return mMediType;
             }
-            set 
+            set
             {
                 mMediType = value;
-                MediaIcon = Utils.GetMediaIcon(mMediType);
+                MediaIcon = Utils.GetMediaIcon( mMediType );
             }
         }
         private string mDescription;
@@ -47,8 +47,8 @@ namespace NedEngine
         {
             get
             {
-                if (String.IsNullOrEmpty(mDescription))
-                    return AppResources.MediaItemsListModelItem_NoDescriptionAvailable;
+                if( String.IsNullOrEmpty( mDescription ) )
+                    return FileLanguage.NO_DETAILS;
                 else
                     return mDescription;
             }
@@ -64,10 +64,10 @@ namespace NedEngine
             get { return mMediaIcon; }
             set
             {
-                if (mMediaIcon != value)
+                if( mMediaIcon != value )
                 {
                     mMediaIcon = value;
-                    OnPropertyChanged("MediaIcon");
+                    OnPropertyChanged( "MediaIcon" );
                 }
             }
         }
@@ -82,11 +82,11 @@ namespace NedEngine
             get { return mItemState; }
             set
             {
-                if (mItemState != value)
+                if( mItemState != value )
                 {
                     mItemState = value;
-                    OnPropertyChanged("ItemState");
-                    if (ItemState == MediaItemState.Local)
+                    OnPropertyChanged( "ItemState" );
+                    if( ItemState == MediaItemState.Local )
                         IsItemDownloaded = true;
                 }
 
@@ -99,10 +99,10 @@ namespace NedEngine
             get { return mIsItemDownloaded; }
             set
             {
-                if (mIsItemDownloaded != value)
+                if( mIsItemDownloaded != value )
                 {
                     mIsItemDownloaded = value;
-                    OnPropertyChanged("IsItemDownloaded");
+                    OnPropertyChanged( "IsItemDownloaded" );
                 }
             }
         }
@@ -118,17 +118,20 @@ namespace NedEngine
         public static MediaItemType GetTypeFromString( string typeString )
         {
             MediaItemType resolvedType = MediaItemType.Undefined;
-            try {
-                resolvedType = (NedEngine.MediaItemType)Enum.Parse(typeof(NedEngine.MediaItemType), typeString, true);
-            } catch (ArgumentException) {
-                System.Diagnostics.Debug.WriteLine("Library parse error: Could not parse item type, setting as Undefined");
+            try
+            {
+                resolvedType = (NedEngine.MediaItemType)Enum.Parse( typeof( NedEngine.MediaItemType ), typeString, true );
+            }
+            catch( ArgumentException )
+            {
+                System.Diagnostics.Debug.WriteLine( "Library parse error: Could not parse item type, setting as Undefined" );
             }
             return resolvedType;
         }
 
         public string GetMediaFileIsolatedStoragePath()
         {
-            return Utils.MediaFilePath(App.Engine.LoggedUser, this);
+            return Utils.MediaFilePath( App.Engine.LoggedUser, this );
         }
     }
 }

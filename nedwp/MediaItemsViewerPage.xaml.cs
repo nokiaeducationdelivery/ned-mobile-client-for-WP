@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -33,7 +33,7 @@ namespace NedWp
             set
             {
                 mMediaItemModel = value;
-                MediaSelector.UpdatedView(mMediaItemModel);
+                MediaSelector.UpdatedView( mMediaItemModel );
             }
         }
 
@@ -47,82 +47,82 @@ namespace NedWp
 
         private void PrepareApplicationBar()
         {
-            ApplicationBarIconButton descriptionButton = new ApplicationBarIconButton(new Uri("/Resources/Icons/info.png", UriKind.Relative));
+            ApplicationBarIconButton descriptionButton = new ApplicationBarIconButton( new Uri( "/Resources/Icons/info.png", UriKind.Relative ) );
             descriptionButton.Click += OnDescriptionButtonClicked;
-            descriptionButton.Text = AppResources.MediaItemsViewPage_DescriptionButtonText;
+            descriptionButton.Text = FileLanguage.SHOW_DETAILS;
 
-            ApplicationBarIconButton linksButton = new ApplicationBarIconButton(new Uri("/Resources/Icons/link.png", UriKind.Relative));
+            ApplicationBarIconButton linksButton = new ApplicationBarIconButton( new Uri( "/Resources/Icons/link.png", UriKind.Relative ) );
             linksButton.Click += OnLinksButtonClicked;
-            linksButton.Text = AppResources.MediaItemsViewPage_LinksButtonText;
+            linksButton.Text = FileLanguage.SHOW_LINKS;
 
-            ApplicationBarIconButton helpButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative));
+            ApplicationBarIconButton helpButton = new ApplicationBarIconButton( new Uri( "/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative ) );
             helpButton.Click += NavigateToHelpView;
-            helpButton.Text = AppResources.App_HelpButtonContent;
+            helpButton.Text = FileLanguage.HELP;
 
             ApplicationBar = new ApplicationBar();
             ApplicationBar.IsMenuEnabled = false;
-            ApplicationBar.PopulateWithButtons(new ApplicationBarIconButton[] {
+            ApplicationBar.PopulateWithButtons( new ApplicationBarIconButton[] {
                 descriptionButton,
                 linksButton,
                 helpButton
-            });
+            } );
         }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs args)
+        protected override void OnNavigatedTo( System.Windows.Navigation.NavigationEventArgs args )
         {
             IDictionary<string, string> parameters = NavigationContext.QueryString;
             string id = parameters["id"];
 
             App.Engine.LibraryModel.LoadLibraryStateIfNotLoaded();
-            MediaItemModel = App.Engine.LibraryModel.GetMediaItemForId(id);
+            MediaItemModel = App.Engine.LibraryModel.GetMediaItemForId( id );
 
-            if (id == null || MediaItemModel == null)
+            if( id == null || MediaItemModel == null )
             {
-                MessageBox.Show(AppResources.MediaItemViewerPage_CanNotOpenItem);
-                System.Diagnostics.Debug.Assert(false, "Navigated to MediaItemsViewerPage without or with non-existant item ID");
+                MessageBox.Show( FileLanguage.MediaItemViewerPage_CanNotOpenItem );
+                System.Diagnostics.Debug.Assert( false, "Navigated to MediaItemsViewerPage without or with non-existant item ID" );
             }
             else
             {
                 TitlePanel.TitleText = MediaItemModel.Title;
             }
-            base.OnNavigatedTo(args);
+            base.OnNavigatedTo( args );
         }
 
-        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs args)
+        protected override void OnNavigatedFrom( System.Windows.Navigation.NavigationEventArgs args )
         {
             App.Engine.LibraryModel.SaveLibraryState();
-            base.OnNavigatedFrom(args);
+            base.OnNavigatedFrom( args );
         }
 
-        private void OnWebBrowserLoaded(object sender, RoutedEventArgs e)
+        private void OnWebBrowserLoaded( object sender, RoutedEventArgs e )
         {
-            WebBrowser webBrowser = (sender as WebBrowser);
-            if (MediaItemModel.GetMediaFileIsolatedStoragePath().ToLower().EndsWith(Constants.KPdfExt))
+            WebBrowser webBrowser = ( sender as WebBrowser );
+            if( MediaItemModel.GetMediaFileIsolatedStoragePath().ToLower().EndsWith( Constants.KPdfExt ) )
             {
                 webBrowser.Visibility = Visibility.Collapsed;
-                MessageBox.Show(AppResources.MediaItemViewerPage_UnableToOpenDocument);
+                MessageBox.Show( FileLanguage.MediaItemViewerPage_UnableToOpenDocument );
             }
             else
             {
-                webBrowser.Navigate(new Uri(MediaItemModel.GetMediaFileIsolatedStoragePath(), UriKind.Relative));
+                webBrowser.Navigate( new Uri( MediaItemModel.GetMediaFileIsolatedStoragePath(), UriKind.Relative ) );
             }
         }
 
-        private void OnLinksButtonClicked(object sender, EventArgs args)
+        private void OnLinksButtonClicked( object sender, EventArgs args )
         {
-            ShowLinksCommand.GetCommand().Execute(MediaItemModel);
+            ShowLinksCommand.GetCommand().Execute( MediaItemModel );
         }
 
-        private void OnDescriptionButtonClicked(object sender, EventArgs args)
+        private void OnDescriptionButtonClicked( object sender, EventArgs args )
         {
-            ShowDescriptionCommand.GetCommand().Execute(MediaItemModel);
+            ShowDescriptionCommand.GetCommand().Execute( MediaItemModel );
         }
 
-        private void OnDesiredVideoOrientationChanged(object sender, DesiredOrientationEventArgs args)
+        private void OnDesiredVideoOrientationChanged( object sender, DesiredOrientationEventArgs args )
         {
-            if (args.DesiredOrientation == PageOrientation.Landscape ||
+            if( args.DesiredOrientation == PageOrientation.Landscape ||
                 args.DesiredOrientation == PageOrientation.LandscapeLeft ||
-                args.DesiredOrientation == PageOrientation.LandscapeRight)
+                args.DesiredOrientation == PageOrientation.LandscapeRight )
             {
                 SystemTray.IsVisible = false;
                 ApplicationBar.IsVisible = false;
@@ -140,15 +140,15 @@ namespace NedWp
             }
         }
 
-        private void OnBackKeyPressed(object sender, System.ComponentModel.CancelEventArgs e)
+        private void OnBackKeyPressed( object sender, System.ComponentModel.CancelEventArgs e )
         {
-            App.Engine.StatisticsManager.LogMediaStop(mMediaItemModel);
-            App.Engine.StatisticsManager.LogMediaItemBack(mMediaItemModel.Id);
+            App.Engine.StatisticsManager.LogMediaStop( mMediaItemModel );
+            App.Engine.StatisticsManager.LogMediaItemBack( mMediaItemModel.Id );
         }
 
-        private void NavigateToHelpView(object sender, EventArgs e)
+        private void NavigateToHelpView( object sender, EventArgs e )
         {
-            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/HelpPage.xaml?type=" + HelpPages.EMediaItemPage.ToString(), UriKind.Relative));
+            ( Application.Current.RootVisual as PhoneApplicationFrame ).Navigate( new Uri( "/HelpPage.xaml?type=" + HelpPages.EMediaItemPage.ToString(), UriKind.Relative ) );
         }
     }
 
@@ -160,13 +160,13 @@ namespace NedWp
         public DataTemplate AudioTemplate { get; set; }
         public DataTemplate VideoTemplate { get; set; }
 
-        public void UpdatedView(MediaItemsListModelItem mediaItem)
+        public void UpdatedView( MediaItemsListModelItem mediaItem )
         {
-            switch (mediaItem.ItemType)
+            switch( mediaItem.ItemType )
             {
                 case MediaItemType.Picture:
                     PictureItemModel pictureModel = new PictureItemModel();
-                    pictureModel.LoadImage(mediaItem.GetMediaFileIsolatedStoragePath());
+                    pictureModel.LoadImage( mediaItem.GetMediaFileIsolatedStoragePath() );
                     Content = pictureModel;
                     ContentTemplate = PictureTemplate;
                     break;
@@ -195,32 +195,32 @@ namespace NedWp
     {
         public BitmapSource PictureSource { get; set; }
 
-        public void LoadImage(string path)
+        public void LoadImage( string path )
         {
             byte[] data;
-            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            using( IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication() )
             {
-                using (IsolatedStorageFileStream isfs = isf.OpenFile(path, FileMode.Open, FileAccess.Read))
+                using( IsolatedStorageFileStream isfs = isf.OpenFile( path, FileMode.Open, FileAccess.Read ) )
                 {
                     data = new byte[isfs.Length];
-                    isfs.Read(data, 0, data.Length);
+                    isfs.Read( data, 0, data.Length );
                     isfs.Close();
                 }
             }
-            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms = new MemoryStream( data );
             BitmapImage bi = new BitmapImage();
-            bi.SetSource(ms);
+            bi.SetSource( ms );
             PictureSource = bi;
         }
 
-        public void OnFailedToLoadImage(object sender, EventArgs args)
+        public void OnFailedToLoadImage( object sender, EventArgs args )
         {
             FailedToLoadImage();
         }
 
         private void FailedToLoadImage()
         {
-            PictureSource = new BitmapImage(new Uri("Resources/Icons/failed_to_load_picture.png", UriKind.Relative));
+            PictureSource = new BitmapImage( new Uri( "Resources/Icons/failed_to_load_picture.png", UriKind.Relative ) );
         }
     }
     #endregion PictureItemModel

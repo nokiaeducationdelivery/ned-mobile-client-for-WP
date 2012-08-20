@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -19,22 +19,22 @@ namespace NedWp
 {
     public static class Utils
     {
-        public static void PopulateWithButtons(this IApplicationBar applicationBar, ApplicationBarIconButton[] buttons)
+        public static void PopulateWithButtons( this IApplicationBar applicationBar, ApplicationBarIconButton[] buttons )
         {
             // It seems that the list of buttons is 'specific' and calling Contans(x) ? Remove(x) won't work so it has to be cleared before"
             applicationBar.Buttons.Clear();
-            for (int i = 0; i < buttons.Length; i++ )
-                applicationBar.Buttons.Add(buttons[i]);
+            for( int i = 0; i < buttons.Length; i++ )
+                applicationBar.Buttons.Add( buttons[i] );
         }
 
-        public static void RemoveAppBarButtonByText(this IApplicationBar applicationBar, string buttonText)
+        public static void RemoveAppBarButtonByText( this IApplicationBar applicationBar, string buttonText )
         {
-            foreach (object button in applicationBar.Buttons)
+            foreach( object button in applicationBar.Buttons )
             {
                 ApplicationBarIconButton appBarButton = button as ApplicationBarIconButton;
-                if (appBarButton.Text == buttonText)
+                if( appBarButton.Text == buttonText )
                 {
-                    applicationBar.Buttons.Remove(button);
+                    applicationBar.Buttons.Remove( button );
                     return;
                 }
             }
@@ -42,37 +42,37 @@ namespace NedWp
 
         #region Errors
 
-        public static void StandardErrorHandler(Exception error)
+        public static void StandardErrorHandler( Exception error )
         {
-            HandleError(error,
-                        BuildErrorHandler(IsConnectionError, AppResources.Error_Connection),
-                        BuildErrorHandler(e => e is ArgumentException, error.Message));
+            HandleError( error,
+                        BuildErrorHandler( IsConnectionError, FileLanguage.Error_Connection ),
+                        BuildErrorHandler( e => e is ArgumentException, error.Message ) );
         }
 
-        private static void HandleError(Exception error, params Func<Exception, bool>[] errorHandlers)
+        private static void HandleError( Exception error, params Func<Exception, bool>[] errorHandlers )
         {
-            if (!errorHandlers.Any(handler => handler(error)))
+            if( !errorHandlers.Any( handler => handler( error ) ) )
             {
-                MessageBox.Show(AppResources.Error_Unexpected);
+                MessageBox.Show( FileLanguage.Error_Unexpected );
             }
         }
 
-        private static Func<Exception, bool> BuildErrorHandler(Func<Exception, bool> predicate, string errorMessage)
+        private static Func<Exception, bool> BuildErrorHandler( Func<Exception, bool> predicate, string errorMessage )
         {
             return error =>
             {
-                bool result = predicate(error);
-                if (result)
+                bool result = predicate( error );
+                if( result )
                 {
-                    MessageBox.Show(errorMessage);
+                    MessageBox.Show( errorMessage );
                 }
                 return result;
             };
         }
 
-        private static bool IsConnectionError(Exception exception)
+        private static bool IsConnectionError( Exception exception )
         {
-            return ((exception is WebException) && (exception as WebException).Status == WebExceptionStatus.ConnectFailure);
+            return ( ( exception is WebException ) && ( exception as WebException ).Status == WebExceptionStatus.ConnectFailure );
         }
 
         #endregion

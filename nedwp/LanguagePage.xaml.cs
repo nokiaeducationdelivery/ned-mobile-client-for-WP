@@ -1,23 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using Microsoft.Phone.Controls;
-using NedEngine;
-using System.Diagnostics;
-using System.Windows.Data;
-using Microsoft.Phone.Shell;
-using Coding4Fun.Phone.Controls;
-using NedWp.Resources.Languages;
-/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+﻿/*******************************************************************************
+* Copyright (c) 2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -26,10 +8,16 @@ using NedWp.Resources.Languages;
 * Contributors:
 * Comarch team - initial API and implementation
 *******************************************************************************/
-using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using Microsoft.Phone.Controls;
 using Microsoft.Phone.Reactive;
-using System.Collections.ObjectModel;
+using Microsoft.Phone.Shell;
+using NedEngine;
 using NedWp.Commands;
+using NedWp.Resources.Languages;
 
 namespace NedWp
 {
@@ -64,16 +52,16 @@ namespace NedWp
         private Dictionary<ApplicationBarButtons, IApplicationBarMenuItem> _applicationBarButtons = new Dictionary<ApplicationBarButtons, IApplicationBarMenuItem>();
         private void CreateApplicationBarButtons()
         {
-            ApplicationBarIconButton helpButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative));
+            ApplicationBarIconButton helpButton = new ApplicationBarIconButton( new Uri( "/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative ) );
             helpButton.Click += NavigateToHelpView;
-            helpButton.Text = AppResources.App_HelpButtonContent;
+            helpButton.Text = FileLanguage.HELP;
 
-            ApplicationBarIconButton updateButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.refresh.rest.png", UriKind.Relative));
+            ApplicationBarIconButton updateButton = new ApplicationBarIconButton( new Uri( "/Resources/OriginalPlatformIcons/appbar.refresh.rest.png", UriKind.Relative ) );
             updateButton.Click += OnRefreshClicked;
-            updateButton.Text = AppResources.CataloguePage_RefreshButton;
+            updateButton.Text = FileLanguage.CataloguePage_RefreshButton;
 
-            _applicationBarButtons.Add(ApplicationBarButtons.Help, helpButton);
-            _applicationBarButtons.Add(ApplicationBarButtons.RefreshLanguages, updateButton);
+            _applicationBarButtons.Add( ApplicationBarButtons.Help, helpButton );
+            _applicationBarButtons.Add( ApplicationBarButtons.RefreshLanguages, updateButton );
         }
 
         private void UpdateApplicationBarButtons()
@@ -82,35 +70,35 @@ namespace NedWp
             ApplicationBar.MenuItems.Clear();
 
 
-            ApplicationBar.Buttons.Add(_applicationBarButtons[ApplicationBarButtons.Help]);
-            ApplicationBar.Buttons.Add(_applicationBarButtons[ApplicationBarButtons.RefreshLanguages]);
+            ApplicationBar.Buttons.Add( _applicationBarButtons[ApplicationBarButtons.Help] );
+            ApplicationBar.Buttons.Add( _applicationBarButtons[ApplicationBarButtons.RefreshLanguages] );
         }
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
+        private void OnSelectionChanged( object sender, SelectionChangedEventArgs args )
         {
-            if (LanguageList.SelectedIndex < 0 || !IsLoaded)
+            if( LanguageList.SelectedIndex < 0 || !IsLoaded )
                 return;
-            DownloadLocalization.GetCommand().Execute(LanguageList.SelectedItem as LanguageInfo);
+            DownloadLocalization.GetCommand().Execute( LanguageList.SelectedItem as LanguageInfo );
 
-           // NavigationService.GoBack();
+            // NavigationService.GoBack();
             LanguageList.SelectedIndex = -1; // Reset selection
         }
 
-        private void OnContextMenuActivated(object sender, RoutedEventArgs args)
+        private void OnContextMenuActivated( object sender, RoutedEventArgs args )
         {
             var menuItem = (MenuItem)sender;
             var tag = menuItem.Tag.ToString();
-            switch (tag)
+            switch( tag )
             {
                 case "DeleteTag":
-                    DeleteLibraryItemCommand.GetCommand().Execute((sender as MenuItem).CommandParameter as LibraryModelItem);
+                    DeleteLibraryItemCommand.GetCommand().Execute( ( sender as MenuItem ).CommandParameter as LibraryModelItem );
                     break;
                 default:
                     break;
             }
         }
 
-        private void OnRefreshClicked(object sender, EventArgs args)
+        private void OnRefreshClicked( object sender, EventArgs args )
         {
             UpdateLanguages();
         }
@@ -118,7 +106,7 @@ namespace NedWp
         private IDisposable longRunningOperation = null;
         private void UpdateLanguages()
         {
-            ProgressBarOverlay.Show(AppResources.ProgressOverlay_UpdatingLibrary);
+            ProgressBarOverlay.Show( FileLanguage.ProgressOverlay_UpdatingLibrary );
 
             longRunningOperation = App.Engine.RequestLanguageListUpdate()
                                              .ObserveOnDispatcher()
@@ -128,51 +116,51 @@ namespace NedWp
                                                  ProgressBarOverlay.Close();
 
                                                  longRunningOperation = null;
-                                                 PhoneApplicationService.Current.State.Remove(KLanguagesPageUpdateInProgress);
+                                                 PhoneApplicationService.Current.State.Remove( KLanguagesPageUpdateInProgress );
 
                                                  // leave this page if library contents were deleted (for example
                                                  // on failed update or after user interruption)
-                                                 if (App.Engine.ApplicationSettings.AvailableLanguages.LanguageList.Count == -1)
+                                                 if( App.Engine.ApplicationSettings.AvailableLanguages.LanguageList.Count == -1 )
                                                  {
-                                                     MessageBox.Show(AppResources.LibraryUnavailableAfterFailedUpdate);
+                                                     MessageBox.Show( FileLanguage.LibraryUnavailableAfterFailedUpdate );
                                                      NavigationService.GoBack();
                                                  }
-                                             })
+                                             } )
                                              .Subscribe<List<LanguageInfo>>(
-                                                 languageList => ReloadLanguages(languageList),
+                                                 languageList => ReloadLanguages( languageList ),
                                                  Utils.StandardErrorHandler
                                              );
         }
 
-        private void ReloadLanguages(List<LanguageInfo> languageList)
+        private void ReloadLanguages( List<LanguageInfo> languageList )
         {
-            App.Engine.ApplicationSettings.AvailableLanguages.LoadNewList(languageList);
+            App.Engine.ApplicationSettings.AvailableLanguages.LoadNewList( languageList );
         }
 
-        public void NavigateToHelpView(object sender, EventArgs e)
+        public void NavigateToHelpView( object sender, EventArgs e )
         {
             HelpPages pageToShow = HelpPages.EUnknownPage;
-            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/HelpPage.xaml?type=" + pageToShow.ToString(), UriKind.Relative));
+            ( Application.Current.RootVisual as PhoneApplicationFrame ).Navigate( new Uri( "/HelpPage.xaml?type=" + pageToShow.ToString(), UriKind.Relative ) );
         }
 
-        private void OnSearchButtonClicked(object sender, EventArgs e)
+        private void OnSearchButtonClicked( object sender, EventArgs e )
         {
-            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/SearchPage.xaml?rootId=" + ContentId, UriKind.Relative));
+            ( Application.Current.RootVisual as PhoneApplicationFrame ).Navigate( new Uri( "/SearchPage.xaml?rootId=" + ContentId, UriKind.Relative ) );
         }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs args)
+        protected override void OnNavigatedTo( System.Windows.Navigation.NavigationEventArgs args )
         {
-            base.OnNavigatedTo(args);
-            if (App.RecursiveBack)
+            base.OnNavigatedTo( args );
+            if( App.RecursiveBack )
             {
-                TransitionService.SetNavigationInTransition(this, null);
-                TransitionService.SetNavigationOutTransition(this, null);
+                TransitionService.SetNavigationInTransition( this, null );
+                TransitionService.SetNavigationOutTransition( this, null );
                 NavigationService.GoBack();
                 return;
             }
 
-            if (PhoneApplicationService.Current.State.ContainsKey(KLanguagesPageUpdateInProgress) &&
-                (bool)(PhoneApplicationService.Current.State[KLanguagesPageUpdateInProgress]))
+            if( PhoneApplicationService.Current.State.ContainsKey( KLanguagesPageUpdateInProgress ) &&
+                (bool)( PhoneApplicationService.Current.State[KLanguagesPageUpdateInProgress] ) )
             {
                 UpdateApplicationBarButtons();
                 UpdateLanguages();
@@ -184,7 +172,7 @@ namespace NedWp
             }
 
             // workaround for flicker during recursive back
-            if (!ApplicationBar.IsVisible)
+            if( !ApplicationBar.IsVisible )
                 ApplicationBar.IsVisible = true;
 
             pageNavigatedLanguage = App.Engine.ApplicationSettings.AvailableLanguages.CurrentLanguage;
@@ -195,38 +183,38 @@ namespace NedWp
             IsLoaded = true;
         }
 
-        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs args)
+        protected override void OnNavigatedFrom( System.Windows.Navigation.NavigationEventArgs args )
         {
             // workaround for flicker during recursive back
-            if (!(args.Content is LinksListPage))
+            if( !( args.Content is LinksListPage ) )
             {
                 ApplicationBar.IsVisible = false;
             }
 
-            if (App.Engine.ApplicationSettings.AvailableLanguages.CurrentLanguage != pageNavigatedLanguage)
+            if( App.Engine.ApplicationSettings.AvailableLanguages.CurrentLanguage != pageNavigatedLanguage )
             {
-                MessageBox.Show(AppResources.RestartApplicationForLanguage);
+                MessageBox.Show( FileLanguage.MSG_RESTART_NEEDED2 );
             }
 
             pageNavigatedLanguage = null;
 
-            if (longRunningOperation != null)
+            if( longRunningOperation != null )
             {
                 PhoneApplicationService.Current.State[KLanguagesPageUpdateInProgress] = true;
             }
 
-            base.OnNavigatedFrom(args);
+            base.OnNavigatedFrom( args );
         }
 
-        private void OnBackKeyPressed(object sender, System.ComponentModel.CancelEventArgs e)
+        private void OnBackKeyPressed( object sender, System.ComponentModel.CancelEventArgs e )
         {
-            if (ProgressBarOverlay.IsOpen() && longRunningOperation != null)
+            if( ProgressBarOverlay.IsOpen() && longRunningOperation != null )
             {
                 longRunningOperation.Dispose();
                 longRunningOperation = null;
                 e.Cancel = true;
             }
-            base.OnBackKeyPress(e);
+            base.OnBackKeyPress( e );
         }
     }
 }

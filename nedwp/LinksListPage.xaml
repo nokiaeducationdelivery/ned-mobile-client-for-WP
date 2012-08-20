@@ -1,6 +1,6 @@
 ﻿<!--
 *******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This document and accompanying materials 
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -33,7 +33,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <local:TitlePanelControl x:Name="TitlePanel" Grid.Row="0" TitleText="{Binding LocalizedResources.LinksPage_Title ,Source={StaticResource LanguageStrings}}"/>
+        <local:TitlePanelControl x:Name="TitlePanel" Grid.Row="0" TitleText="{Binding LocalizedResources.SHOW_LINKS ,Source={StaticResource LanguageStrings}}"/>
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0">
             <Grid.Resources>
                 <local:IntegerToVisibilityConverter x:Key="ShowWhenListIsEmptyConverter" />
@@ -67,7 +67,7 @@
                         Visibility="{Binding Count, Converter={StaticResource ShowWhenListIsEmptyConverter}, ConverterParameter=ShowWhenZero}"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         TextWrapping="Wrap" TextAlignment="Center"
-                        Text="{Binding LocalizedResources.LinkPage_NoLinksInfo ,Source={StaticResource LanguageStrings}}" 
+                        Text="{Binding LocalizedResources.NO_LINKS ,Source={StaticResource LanguageStrings}}" 
                         FontSize="{StaticResource PhoneFontSizeLarge}">
             </TextBlock>
         </Grid>

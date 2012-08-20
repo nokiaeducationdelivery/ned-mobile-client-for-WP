@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -15,9 +15,9 @@ namespace NedEngine
 {
     public class CatalogueModelItem : LibraryModelItem
     {
-        public static string GetSubtitleString(int childrenCount)
+        public static string GetSubtitleString( int childrenCount )
         {
-            return String.Format(AppResources.CatalogueModelItem_CategoriesCount, childrenCount);
+            return String.Format( FileLanguage.CATEGORIES, childrenCount );
         }
     }
 }

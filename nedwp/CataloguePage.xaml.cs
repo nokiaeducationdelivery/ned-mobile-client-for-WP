@@ -1,23 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using Microsoft.Phone.Controls;
-using NedEngine;
-using System.Diagnostics;
-using System.Windows.Data;
-using Microsoft.Phone.Shell;
-using Coding4Fun.Phone.Controls;
-using NedWp.Resources.Languages;
-/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+﻿/*******************************************************************************
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -26,8 +8,18 @@ using NedWp.Resources.Languages;
 * Contributors:
 * Comarch team - initial API and implementation
 *******************************************************************************/
-using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using Microsoft.Phone.Controls;
 using Microsoft.Phone.Reactive;
+using Microsoft.Phone.Shell;
+using NedEngine;
+using NedWp.Resources.Languages;
 
 namespace NedWp
 {
@@ -67,23 +59,23 @@ namespace NedWp
         {
             ApplicationBarIconButton helpButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative));
             helpButton.Click += NavigateToHelpView;
-            helpButton.Text = AppResources.App_HelpButtonContent;
+            helpButton.Text = FileLanguage.HELP;
             ApplicationBarIconButton searchButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.feature.search.rest.png", UriKind.Relative));
             searchButton.Click += OnSearchButtonClicked;
-            searchButton.Text = AppResources.CataloguePage_SearchButton;
+            searchButton.Text = FileLanguage.MID_SEARCH_COMMAND;
             ApplicationBarIconButton downloadAllButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.download.rest.png", UriKind.Relative));
             downloadAllButton.Click += OnDownloadAllClicked;
-            downloadAllButton.Text = AppResources.CataloguePage_DownloadAllButton;
+            downloadAllButton.Text = FileLanguage.DOWNLOAD_ALL;
             ApplicationBarIconButton updateButton = new ApplicationBarIconButton(new Uri("/Resources/OriginalPlatformIcons/appbar.refresh.rest.png", UriKind.Relative));
             updateButton.Click += OnRefreshClicked;
-            updateButton.Text = AppResources.CataloguePage_RefreshButton;
+            updateButton.Text = FileLanguage.CataloguePage_RefreshButton;
             ApplicationBarIconButton homeButton = new ApplicationBarIconButton(new Uri("/Resources/Icons/home.png", UriKind.Relative));
             homeButton.Click += OnHomeClicked;
-            homeButton.Text = AppResources.CataloguePage_HomeButton;
+            homeButton.Text = FileLanguage.HELP;
 
             ApplicationBarMenuItem downloadManagerButton = new ApplicationBarMenuItem();
             downloadManagerButton.Click += OnGotoDownloadManager;
-            downloadManagerButton.Text = AppResources.MainPage_Downloads;
+            downloadManagerButton.Text = FileLanguage.MID_DOWNLOADS;
 
             _applicationBarButtons.Add(ApplicationBarButtons.Update, updateButton);
             _applicationBarButtons.Add(ApplicationBarButtons.DownloadAll, downloadAllButton);
@@ -180,7 +172,7 @@ namespace NedWp
         private IDisposable longRunningOperation = null;
         private void UpdateLibrary(Library library)
         {
-            ProgressBarOverlay.Show(AppResources.ProgressOverlay_UpdatingLibrary);
+            ProgressBarOverlay.Show(FileLanguage.ProgressOverlay_UpdatingLibrary);
 
             longRunningOperation = App.Engine.UpdateLibrary(library)
                                              .Finally(
@@ -195,7 +187,7 @@ namespace NedWp
                                                  // on failed update or after user interruption)
                                                  if (library.CatalogueCount == -1)
                                                  {
-                                                     MessageBox.Show(AppResources.LibraryUnavailableAfterFailedUpdate);
+                                                     MessageBox.Show( FileLanguage.LibraryUnavailableAfterFailedUpdate );
                                                      NavigationService.GoBack();
                                                  }
                                              })
@@ -221,7 +213,7 @@ namespace NedWp
                     break;
                 default:
                     System.Diagnostics.Debug.Assert(false, "Tried to show help for unknown screen, either there is a new screen or sceen/pivot names has changed");
-                    MessageBox.Show(AppResources.App_OpeningHelpErrorUnknowScreen);
+                    MessageBox.Show( FileLanguage.App_OpeningHelpErrorUnknowScreen );
                     return;
             }
             (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/HelpPage.xaml?type=" + pageToShow.ToString(), UriKind.Relative));

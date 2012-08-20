@@ -61,29 +61,20 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NOKIA EDUCATION DELIVERY.
+        ///   Looks up a localized string similar to about.
         /// </summary>
-        public static string App_ApplicationTitle {
+        public static string ABOUT {
             get {
-                return ResourceManager.GetString("App_ApplicationTitle", resourceCulture);
+                return ResourceManager.GetString("ABOUT", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome.
+        ///   Looks up a localized string similar to Add to queue.
         /// </summary>
-        public static string App_DefaultMOTD {
+        public static string ADDTOQUEUE {
             get {
-                return ResourceManager.GetString("App_DefaultMOTD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to help.
-        /// </summary>
-        public static string App_HelpButtonContent {
-            get {
-                return ResourceManager.GetString("App_HelpButtonContent", resourceCulture);
+                return ResourceManager.GetString("ADDTOQUEUE", resourceCulture);
             }
         }
         
@@ -97,38 +88,38 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Categories: {0}.
+        ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
-        public static string CatalogueModelItem_CategoriesCount {
+        public static string ARE_YOU_SURE {
             get {
-                return ResourceManager.GetString("CatalogueModelItem_CategoriesCount", resourceCulture);
+                return ResourceManager.GetString("ARE_YOU_SURE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to delete.
+        ///   Looks up a localized string similar to Invalid username or password.
         /// </summary>
-        public static string CataloguePage_DeleteButton {
+        public static string BAD_LOGIN {
             get {
-                return ResourceManager.GetString("CataloguePage_DeleteButton", resourceCulture);
+                return ResourceManager.GetString("BAD_LOGIN", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to download all.
+        ///   Looks up a localized string similar to cancel.
         /// </summary>
-        public static string CataloguePage_DownloadAllButton {
+        public static string CANCEL {
             get {
-                return ResourceManager.GetString("CataloguePage_DownloadAllButton", resourceCulture);
+                return ResourceManager.GetString("CANCEL", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to back.
+        ///   Looks up a localized string similar to Catalogues: {0}.
         /// </summary>
-        public static string CataloguePage_HomeButton {
+        public static string CATALOGS {
             get {
-                return ResourceManager.GetString("CataloguePage_HomeButton", resourceCulture);
+                return ResourceManager.GetString("CATALOGS", resourceCulture);
             }
         }
         
@@ -142,38 +133,56 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to search.
+        ///   Looks up a localized string similar to Categories: {0}.
         /// </summary>
-        public static string CataloguePage_SearchButton {
+        public static string CATEGORIES {
             get {
-                return ResourceManager.GetString("CataloguePage_SearchButton", resourceCulture);
+                return ResourceManager.GetString("CATEGORIES", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Media items enqueued for download: {0}.
+        ///   Looks up a localized string similar to check for updates.
         /// </summary>
-        public static string CategoryModelItem_ItemsForDownload {
+        public static string CHECK_FOR_UPDATE {
             get {
-                return ResourceManager.GetString("CategoryModelItem_ItemsForDownload", resourceCulture);
+                return ResourceManager.GetString("CHECK_FOR_UPDATE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Media items: {0} (downloaded: {1}, on server: {2} ).
+        ///   Looks up a localized string similar to Select Language.
         /// </summary>
-        public static string CategoryModelItem_MediaItems {
+        public static string CHOOSE_LANGUAGE {
             get {
-                return ResourceManager.GetString("CategoryModelItem_MediaItems", resourceCulture);
+                return ResourceManager.GetString("CHOOSE_LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connecting.
+        /// </summary>
+        public static string CONNECTING {
+            get {
+                return ResourceManager.GetString("CONNECTING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delete.
+        /// </summary>
+        public static string DELETE {
+            get {
+                return ResourceManager.GetString("DELETE", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Demo library id &apos;khan&apos;.
         /// </summary>
-        public static string DemoLibId {
+        public static string DEMOLIBID {
             get {
-                return ResourceManager.GetString("DemoLibId", resourceCulture);
+                return ResourceManager.GetString("DEMOLIBID", resourceCulture);
             }
         }
         
@@ -192,6 +201,33 @@ namespace NedWp.Resources.Languages {
         public static string DEMOURL {
             get {
                 return ResourceManager.GetString("DEMOURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Statistics uploaded successfully.
+        /// </summary>
+        public static string DLM_SUCCESSFULLUPLOAD {
+            get {
+                return ResourceManager.GetString("DLM_SUCCESSFULLUPLOAD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to download all.
+        /// </summary>
+        public static string DOWNLOAD_ALL {
+            get {
+                return ResourceManager.GetString("DOWNLOAD_ALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to download now.
+        /// </summary>
+        public static string DOWNLOAD_NOW {
+            get {
+                return ResourceManager.GetString("DOWNLOAD_NOW", resourceCulture);
             }
         }
         
@@ -232,11 +268,11 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to cancel.
+        ///   Looks up a localized string similar to Enter NED server address.
         /// </summary>
-        public static string DownloadListItemControl_CancelButton {
+        public static string ENTER_SERVER_ADDRESS {
             get {
-                return ResourceManager.GetString("DownloadListItemControl_CancelButton", resourceCulture);
+                return ResourceManager.GetString("ENTER_SERVER_ADDRESS", resourceCulture);
             }
         }
         
@@ -259,47 +295,11 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid username or password.
-        /// </summary>
-        public static string Error_InvalidCredentials {
-            get {
-                return ResourceManager.GetString("Error_InvalidCredentials", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid NED server address.
-        /// </summary>
-        public static string Error_InvalidServerAddress {
-            get {
-                return ResourceManager.GetString("Error_InvalidServerAddress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Library is already added.
-        /// </summary>
-        public static string Error_LibraryAlreadyAdded {
-            get {
-                return ResourceManager.GetString("Error_LibraryAlreadyAdded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Library was deleted from server.
         /// </summary>
         public static string Error_LibraryDeletedFromServer {
             get {
                 return ResourceManager.GetString("Error_LibraryDeletedFromServer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Library doesn&apos;t exist..
-        /// </summary>
-        public static string Error_LibraryDoesNotExist {
-            get {
-                return ResourceManager.GetString("Error_LibraryDoesNotExist", resourceCulture);
             }
         }
         
@@ -322,29 +322,83 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Help not available.
+        ///   Looks up a localized string similar to factory reset.
         /// </summary>
-        public static string HelpPage_HelpNotAvailable {
+        public static string FACTORY_SETTINGS {
             get {
-                return ResourceManager.GetString("HelpPage_HelpNotAvailable", resourceCulture);
+                return ResourceManager.GetString("FACTORY_SETTINGS", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to help.
         /// </summary>
-        public static string HelpPage_Title {
+        public static string HELP {
             get {
-                return ResourceManager.GetString("HelpPage_Title", resourceCulture);
+                return ResourceManager.GetString("HELP", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select Language.
+        ///   Looks up a localized string similar to Media items enqueued for download: {0}.
         /// </summary>
-        public static string Language_Title {
+        public static string ITEM_ADDED_TO_QUEUE {
             get {
-                return ResourceManager.GetString("Language_Title", resourceCulture);
+                return ResourceManager.GetString("ITEM_ADDED_TO_QUEUE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string LANGUAGE {
+            get {
+                return ResourceManager.GetString("LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to libraries.
+        /// </summary>
+        public static string LIBRARIES {
+            get {
+                return ResourceManager.GetString("LIBRARIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library is already added.
+        /// </summary>
+        public static string LIBRARY_ALREADY_EXISTS {
+            get {
+                return ResourceManager.GetString("LIBRARY_ALREADY_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New library ID.
+        /// </summary>
+        public static string LIBRARY_ID {
+            get {
+                return ResourceManager.GetString("LIBRARY_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to library manager.
+        /// </summary>
+        public static string LIBRARY_MANAGER {
+            get {
+                return ResourceManager.GetString("LIBRARY_MANAGER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library doesn&apos;t exist..
+        /// </summary>
+        public static string LIBRARY_NOT_EXISTS {
+            get {
+                return ResourceManager.GetString("LIBRARY_NOT_EXISTS", resourceCulture);
             }
         }
         
@@ -367,38 +421,11 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No links are attached to this media item..
+        ///   Looks up a localized string similar to log in.
         /// </summary>
-        public static string LinkPage_NoLinksInfo {
+        public static string LOGIN {
             get {
-                return ResourceManager.GetString("LinkPage_NoLinksInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to links.
-        /// </summary>
-        public static string LinksPage_Title {
-            get {
-                return ResourceManager.GetString("LinksPage_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to about.
-        /// </summary>
-        public static string MainPage_AboutButtonText {
-            get {
-                return ResourceManager.GetString("MainPage_AboutButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Version: {0}.{1}.
-        /// </summary>
-        public static string MainPage_AboutVersionInfo {
-            get {
-                return ResourceManager.GetString("MainPage_AboutVersionInfo", resourceCulture);
+                return ResourceManager.GetString("LOGIN", resourceCulture);
             }
         }
         
@@ -421,83 +448,11 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Catalogues: {0}.
-        /// </summary>
-        public static string MainPage_CataloguesCount {
-            get {
-                return ResourceManager.GetString("MainPage_CataloguesCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to check for updates.
-        /// </summary>
-        public static string MainPage_CheckForUpdates {
-            get {
-                return ResourceManager.GetString("MainPage_CheckForUpdates", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Application will be closed..
         /// </summary>
         public static string MainPage_ClosingApplicationMessage {
             get {
                 return ResourceManager.GetString("MainPage_ClosingApplicationMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure?.
-        /// </summary>
-        public static string MainPage_ClosingApplicationTitle {
-            get {
-                return ResourceManager.GetString("MainPage_ClosingApplicationTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Connecting.
-        /// </summary>
-        public static string MainPage_Connecting {
-            get {
-                return ResourceManager.GetString("MainPage_Connecting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Connecting to server.
-        /// </summary>
-        public static string MainPage_ConnectingToServer {
-            get {
-                return ResourceManager.GetString("MainPage_ConnectingToServer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to delete.
-        /// </summary>
-        public static string MainPage_Delete {
-            get {
-                return ResourceManager.GetString("MainPage_Delete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Library will be removed from the device..
-        /// </summary>
-        public static string MainPage_DeleteLibQuestionMessage {
-            get {
-                return ResourceManager.GetString("MainPage_DeleteLibQuestionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure?.
-        /// </summary>
-        public static string MainPage_DeleteLibQuestionTitile {
-            get {
-                return ResourceManager.GetString("MainPage_DeleteLibQuestionTitile", resourceCulture);
             }
         }
         
@@ -516,78 +471,6 @@ namespace NedWp.Resources.Languages {
         public static string MainPage_DownloadingLib {
             get {
                 return ResourceManager.GetString("MainPage_DownloadingLib", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to downloads.
-        /// </summary>
-        public static string MainPage_Downloads {
-            get {
-                return ResourceManager.GetString("MainPage_Downloads", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter NED server address.
-        /// </summary>
-        public static string MainPage_EnterServerAddress {
-            get {
-                return ResourceManager.GetString("MainPage_EnterServerAddress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to factory reset.
-        /// </summary>
-        public static string MainPage_FactoryResetMenuItemText {
-            get {
-                return ResourceManager.GetString("MainPage_FactoryResetMenuItemText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to libraries.
-        /// </summary>
-        public static string MainPage_Libraries {
-            get {
-                return ResourceManager.GetString("MainPage_Libraries", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to library manager.
-        /// </summary>
-        public static string MainPage_LibraryManager {
-            get {
-                return ResourceManager.GetString("MainPage_LibraryManager", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Logging in.
-        /// </summary>
-        public static string MainPage_LoggingIn {
-            get {
-                return ResourceManager.GetString("MainPage_LoggingIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to log in.
-        /// </summary>
-        public static string MainPage_logIn {
-            get {
-                return ResourceManager.GetString("MainPage_logIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New library ID.
-        /// </summary>
-        public static string MainPage_NewLibraryID {
-            get {
-                return ResourceManager.GetString("MainPage_NewLibraryID", resourceCulture);
             }
         }
         
@@ -652,15 +535,6 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
-        /// </summary>
-        public static string MainPage_Password {
-            get {
-                return ResourceManager.GetString("MainPage_Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Paused.
         /// </summary>
         public static string MainPage_Paused {
@@ -675,51 +549,6 @@ namespace NedWp.Resources.Languages {
         public static string MainPage_Queued {
             get {
                 return ResourceManager.GetString("MainPage_Queued", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remember Me!.
-        /// </summary>
-        public static string MainPage_RememberMe {
-            get {
-                return ResourceManager.GetString("MainPage_RememberMe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to server wizard.
-        /// </summary>
-        public static string MainPage_ServerWizard {
-            get {
-                return ResourceManager.GetString("MainPage_ServerWizard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to settings.
-        /// </summary>
-        public static string MainPage_SettingsButtonContent {
-            get {
-                return ResourceManager.GetString("MainPage_SettingsButtonContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show Libraries.
-        /// </summary>
-        public static string MainPage_ShowLibraries {
-            get {
-                return ResourceManager.GetString("MainPage_ShowLibraries", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to statistics.
-        /// </summary>
-        public static string MainPage_StatisticsButtonContent {
-            get {
-                return ResourceManager.GetString("MainPage_StatisticsButtonContent", resourceCulture);
             }
         }
         
@@ -751,24 +580,6 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to user login.
-        /// </summary>
-        public static string MainPage_UserLogin {
-            get {
-                return ResourceManager.GetString("MainPage_UserLogin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User name.
-        /// </summary>
-        public static string MainPage_UserName {
-            get {
-                return ResourceManager.GetString("MainPage_UserName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Views: {0}.
         /// </summary>
         public static string MainPage_ViewsCount {
@@ -778,56 +589,11 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add to queue.
+        ///   Looks up a localized string similar to Media items: {0} (downloaded: {1}, on server: {2} ).
         /// </summary>
-        public static string MediaItemControl_AddToQueue {
+        public static string MEDIA_ITEMS {
             get {
-                return ResourceManager.GetString("MediaItemControl_AddToQueue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to delete.
-        /// </summary>
-        public static string MediaItemControl_DeleteButton {
-            get {
-                return ResourceManager.GetString("MediaItemControl_DeleteButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to download now.
-        /// </summary>
-        public static string MediaItemControl_DonwloadNowButton {
-            get {
-                return ResourceManager.GetString("MediaItemControl_DonwloadNowButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No description available.
-        /// </summary>
-        public static string MediaItemsListModelItem_NoDescriptionAvailable {
-            get {
-                return ResourceManager.GetString("MediaItemsListModelItem_NoDescriptionAvailable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to description.
-        /// </summary>
-        public static string MediaItemsViewPage_DescriptionButtonText {
-            get {
-                return ResourceManager.GetString("MediaItemsViewPage_DescriptionButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to links.
-        /// </summary>
-        public static string MediaItemsViewPage_LinksButtonText {
-            get {
-                return ResourceManager.GetString("MediaItemsViewPage_LinksButtonText", resourceCulture);
+                return ResourceManager.GetString("MEDIA_ITEMS", resourceCulture);
             }
         }
         
@@ -859,11 +625,227 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to back.
+        /// </summary>
+        public static string MID_BACK_COMMAND {
+            get {
+                return ResourceManager.GetString("MID_BACK_COMMAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome.
+        /// </summary>
+        public static string MID_DEFAULTMOTD {
+            get {
+                return ResourceManager.GetString("MID_DEFAULTMOTD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic downloads.
+        /// </summary>
+        public static string MID_DOWNLOAD_STATE_SETTINGS {
+            get {
+                return ResourceManager.GetString("MID_DOWNLOAD_STATE_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to downloads.
+        /// </summary>
+        public static string MID_DOWNLOADS {
+            get {
+                return ResourceManager.GetString("MID_DOWNLOADS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        public static string MID_OFF_SETTINGS {
+            get {
+                return ResourceManager.GetString("MID_OFF_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string MID_ON_SETTINGS {
+            get {
+                return ResourceManager.GetString("MID_ON_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to settings.
+        /// </summary>
+        public static string MID_OPTIONS_COMMAND {
+            get {
+                return ResourceManager.GetString("MID_OPTIONS_COMMAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to search.
+        /// </summary>
+        public static string MID_SEARCH_COMMAND {
+            get {
+                return ResourceManager.GetString("MID_SEARCH_COMMAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to search.
+        /// </summary>
+        public static string MID_SEARCH_TITLE {
+            get {
+                return ResourceManager.GetString("MID_SEARCH_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to settings.
+        /// </summary>
+        public static string MID_SETTINGS_TITLE {
+            get {
+                return ResourceManager.GetString("MID_SETTINGS_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to statistics.
+        /// </summary>
+        public static string MID_STATISTICS_COMMAND {
+            get {
+                return ResourceManager.GetString("MID_STATISTICS_COMMAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NOKIA EDUCATION DELIVERY.
+        /// </summary>
+        public static string MID_TITLE {
+            get {
+                return ResourceManager.GetString("MID_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to upload.
+        /// </summary>
+        public static string MID_UPLOAD_COMMAND {
+            get {
+                return ResourceManager.GetString("MID_UPLOAD_COMMAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help not available.
+        /// </summary>
+        public static string MISSING_HELP {
+            get {
+                return ResourceManager.GetString("MISSING_HELP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application restart is required to apply the changes. Do you want to close the application now?.
+        /// </summary>
+        public static string MSG_RESTART_NEEDED {
+            get {
+                return ResourceManager.GetString("MSG_RESTART_NEEDED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application restart is required to apply the changes..
+        /// </summary>
+        public static string MSG_RESTART_NEEDED2 {
+            get {
+                return ResourceManager.GetString("MSG_RESTART_NEEDED2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid NED server address.
+        /// </summary>
+        public static string NEDSERVICENOTPRESENT {
+            get {
+                return ResourceManager.GetString("NEDSERVICENOTPRESENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No description available.
+        /// </summary>
+        public static string NO_DETAILS {
+            get {
+                return ResourceManager.GetString("NO_DETAILS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No links are attached to this media item..
+        /// </summary>
+        public static string NO_LINKS {
+            get {
+                return ResourceManager.GetString("NO_LINKS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string PASSWORD {
+            get {
+                return ResourceManager.GetString("PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updating library.
         /// </summary>
         public static string ProgressOverlay_UpdatingLibrary {
             get {
                 return ResourceManager.GetString("ProgressOverlay_UpdatingLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current user will be logged out..
+        /// </summary>
+        public static string QUESTION_LOGOUT_USER {
+            get {
+                return ResourceManager.GetString("QUESTION_LOGOUT_USER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library will be removed from the device..
+        /// </summary>
+        public static string QUESTION_REMOVE_LIBRARY {
+            get {
+                return ResourceManager.GetString("QUESTION_REMOVE_LIBRARY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember Me!.
+        /// </summary>
+        public static string REMEMBERME {
+            get {
+                return ResourceManager.GetString("REMEMBERME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to remove user.
+        /// </summary>
+        public static string REMOVE_USER {
+            get {
+                return ResourceManager.GetString("REMOVE_USER", resourceCulture);
             }
         }
         
@@ -879,29 +861,11 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to search.
+        ///   Looks up a localized string similar to server wizard.
         /// </summary>
-        public static string SearchPage_Title {
+        public static string SERVER_WIZARD {
             get {
-                return ResourceManager.GetString("SearchPage_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Automatic downloads.
-        /// </summary>
-        public static string SettingsPage_AutomaticDownloads {
-            get {
-                return ResourceManager.GetString("SettingsPage_AutomaticDownloads", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Automatic statistics upload.
-        /// </summary>
-        public static string SettingsPage_AutomaticStatisticsUpload {
-            get {
-                return ResourceManager.GetString("SettingsPage_AutomaticStatisticsUpload", resourceCulture);
+                return ResourceManager.GetString("SERVER_WIZARD", resourceCulture);
             }
         }
         
@@ -915,29 +879,11 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to factory reset.
-        /// </summary>
-        public static string SettingsPage_FactoryResetButtonContent {
-            get {
-                return ResourceManager.GetString("SettingsPage_FactoryResetButtonContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All data will be removed..
         /// </summary>
         public static string SettingsPage_FactoryResetInfoMessage {
             get {
                 return ResourceManager.GetString("SettingsPage_FactoryResetInfoMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure?.
-        /// </summary>
-        public static string SettingsPage_InfoHeader {
-            get {
-                return ResourceManager.GetString("SettingsPage_InfoHeader", resourceCulture);
             }
         }
         
@@ -951,33 +897,6 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to logout user.
-        /// </summary>
-        public static string SettingsPage_LogoutButtonContent {
-            get {
-                return ResourceManager.GetString("SettingsPage_LogoutButtonContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Current user will be logged out..
-        /// </summary>
-        public static string SettingsPage_LogoutInfoMessage {
-            get {
-                return ResourceManager.GetString("SettingsPage_LogoutInfoMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to remove user.
-        /// </summary>
-        public static string SettingsPage_RemoveUserButtonContent {
-            get {
-                return ResourceManager.GetString("SettingsPage_RemoveUserButtonContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Removing user.
         /// </summary>
         public static string SettingsPage_RemovingUser {
@@ -987,29 +906,38 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Language.
-        /// </summary>
-        public static string SettingsPage_SelectLanguageContent {
-            get {
-                return ResourceManager.GetString("SettingsPage_SelectLanguageContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to settings.
-        /// </summary>
-        public static string SettingsPage_Title {
-            get {
-                return ResourceManager.GetString("SettingsPage_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All user data will be removed..
         /// </summary>
         public static string SettingsPage_UsersRemovedInfoMessage {
             get {
                 return ResourceManager.GetString("SettingsPage_UsersRemovedInfoMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to description.
+        /// </summary>
+        public static string SHOW_DETAILS {
+            get {
+                return ResourceManager.GetString("SHOW_DETAILS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Libraries.
+        /// </summary>
+        public static string SHOW_LIBRARY {
+            get {
+                return ResourceManager.GetString("SHOW_LIBRARY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to links.
+        /// </summary>
+        public static string SHOW_LINKS {
+            get {
+                return ResourceManager.GetString("SHOW_LINKS", resourceCulture);
             }
         }
         
@@ -1052,15 +980,6 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to upload.
-        /// </summary>
-        public static string StatisticPage_UploadButton {
-            get {
-                return ResourceManager.GetString("StatisticPage_UploadButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Failed to upload statistics.
         /// </summary>
         public static string StatisticPage_UploadFiles {
@@ -1070,37 +989,47 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Statistics uploaded successfully.
+        ///   Looks up a localized string similar to Automatic statistics upload.
         /// </summary>
-        public static string StatisticPage_UploadingSucces {
+        public static string STATISTICS_SENDING_MODE {
             get {
-                return ResourceManager.GetString("StatisticPage_UploadingSucces", resourceCulture);
+                return ResourceManager.GetString("STATISTICS_SENDING_MODE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Off.
+        ///   Looks up a localized string similar to logout user.
         /// </summary>
-        public static string ToggleSwitch_OFF {
+        public static string SWITCH_USER {
             get {
-                return ResourceManager.GetString("ToggleSwitch_OFF", resourceCulture);
+                return ResourceManager.GetString("SWITCH_USER", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to On.
+        ///   Looks up a localized string similar to user login.
         /// </summary>
-        public static string ToggleSwitch_ON {
+        public static string USER_AUTHENTICATION {
             get {
-                return ResourceManager.GetString("ToggleSwitch_ON", resourceCulture);
+                return ResourceManager.GetString("USER_AUTHENTICATION", resourceCulture);
             }
         }
-
-        public static string RestartApplicationForLanguage
-        {
-            get
-            { //!!!! TODO
-                return "Please restart application to change language";
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        public static string USER_NAME {
+            get {
+                return ResourceManager.GetString("USER_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version: {0}.{1}.{2}.
+        /// </summary>
+        public static string VERSION {
+            get {
+                return ResourceManager.GetString("VERSION", resourceCulture);
             }
         }
     }

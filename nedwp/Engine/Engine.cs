@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -30,7 +30,7 @@ namespace NedEngine
         public Engine()
         {
             ApplicationSettings = new ApplicationSettings();
-            Transport = new Transport(this, ApplicationSettings);
+            Transport = new Transport( this, ApplicationSettings );
             UpdateMotd();
         }
 
@@ -42,8 +42,8 @@ namespace NedEngine
         {
             get
             {
-                if (mViewModel == null)
-                    mViewModel = new LibraryModel(DownloadManager, DownloadEnqueuedEvent);
+                if( mViewModel == null )
+                    mViewModel = new LibraryModel( DownloadManager, DownloadEnqueuedEvent );
 
                 return mViewModel;
             }
@@ -54,7 +54,7 @@ namespace NedEngine
         {
             get
             {
-                if (_userDatabase == null)
+                if( _userDatabase == null )
                     _userDatabase = new UserDatabase();
 
                 return _userDatabase;
@@ -66,9 +66,9 @@ namespace NedEngine
         {
             get
             {
-                if (_statisticsManager == null)
+                if( _statisticsManager == null )
                 {
-                    _statisticsManager = new StatisticsManager(this, ApplicationSettings, Transport);
+                    _statisticsManager = new StatisticsManager( this, ApplicationSettings, Transport );
                 }
 
                 return _statisticsManager;
@@ -80,9 +80,9 @@ namespace NedEngine
         {
             get
             {
-                if (_downloadManager == null)
+                if( _downloadManager == null )
                 {
-                    _downloadManager = new DownloadManager(Transport);
+                    _downloadManager = new DownloadManager( Transport );
                     SubscribeForDownloadManagerEvents();
                 }
 
@@ -100,9 +100,9 @@ namespace NedEngine
 
             private set
             {
-                if (value != _loggedUser)
+                if( value != _loggedUser )
                 {
-                    if (_loggedUser != null)
+                    if( _loggedUser != null )
                     {
                         _loggedUser.Settings.PropertyChanged -= OnAutomaticStatisticUploadChanged;
                     }
@@ -110,19 +110,19 @@ namespace NedEngine
                     _loggedUser = value;
 
                     processUserLogged();
-                   
-                    OnPropertyChanged("LoggedUser");
+
+                    OnPropertyChanged( "LoggedUser" );
                 }
             }
         }
 
         public void processUserLogged()
         {
-            if (_loggedUser != null)
+            if( _loggedUser != null )
             {
-                if (_loggedUser.Settings.AutomaticDownloads == false)
+                if( _loggedUser.Settings.AutomaticDownloads == false )
                 {
-                    foreach (QueuedDownload download in _loggedUser.Downloads)
+                    foreach( QueuedDownload download in _loggedUser.Downloads )
                     {
                         download.State = QueuedDownload.DownloadState.Paused;
                     }
@@ -146,12 +146,12 @@ namespace NedEngine
 
         #region ServerSelection
 
-        public IObservable<Unit> SaveServer(string urlString)
+        public IObservable<Unit> SaveServer( string urlString )
         {
-            return Observable.Return(urlString)
-                             .SelectMany(url => Transport.CheckServer(new Uri(url)))
+            return Observable.Return( urlString )
+                             .SelectMany( url => Transport.CheckServer( new Uri( url ) ) )
                              .ObserveOnDispatcher()
-                             .Do(_ => ApplicationSettings.ServerUrl = new Uri(urlString));
+                             .Do( _ => ApplicationSettings.ServerUrl = new Uri( urlString ) );
         }
 
         #endregion ServerSelection
@@ -159,7 +159,7 @@ namespace NedEngine
         #region Login
         private class Credentials
         {
-            public Credentials(string username, string password)
+            public Credentials( string username, string password )
             {
                 Username = username;
                 Password = password;
@@ -169,43 +169,43 @@ namespace NedEngine
             public string Password { get; private set; }
         }
 
-        public IObservable<Unit> Login(string username, string password)
+        public IObservable<Unit> Login( string username, string password )
         {
-            var credentials = Observable.Return(new Credentials(username, password));
-            var dbCheck = credentials.SelectMany(cred =>
+            var credentials = Observable.Return( new Credentials( username, password ) );
+            var dbCheck = credentials.SelectMany( cred =>
                 {
-                    if (String.IsNullOrEmpty(cred.Username) || String.IsNullOrEmpty(cred.Password))
+                    if( String.IsNullOrEmpty( cred.Username ) || String.IsNullOrEmpty( cred.Password ) )
                     {
-                        return Observable.Throw<User>(new ArgumentException(AppResources.Error_EmptyUsernameOrPassword));
+                        return Observable.Throw<User>( new ArgumentException( FileLanguage.Error_EmptyUsernameOrPassword ) );
                     }
 
-                    foreach (var user in from u in UserDatabase.Users where u.Username == cred.Username select u)
+                    foreach( var user in from u in UserDatabase.Users where u.Username == cred.Username select u )
                     {
-                        if (user.Password == cred.Password)
+                        if( user.Password == cred.Password )
                         {
-                            return Observable.Return<User>(user);
+                            return Observable.Return<User>( user );
                         }
                         else
                         {
-                            return Observable.Throw<User>(new ArgumentException(AppResources.Error_InvalidCredentials));
+                            return Observable.Throw<User>( new ArgumentException( FileLanguage.BAD_LOGIN ) );
                         }
                     }
 
-                    return Transport.CheckUser(cred.Username, cred.Password)
+                    return Transport.CheckUser( cred.Username, cred.Password )
                                     .ObserveOnDispatcher()
-                                    .Select(_ => CreateUser(username, password));
-                });
+                                    .Select( _ => CreateUser( username, password ) );
+                } );
 
             return dbCheck.ObserveOnDispatcher()
-                 .Do(user => 
+                 .Do( user =>
                      {
                          LoggedUser = user;
-                         App.Engine.StatisticsManager.LogUserLogin(_loggedUser);
-                     })
-                 .Select(_ => new Unit());
+                         App.Engine.StatisticsManager.LogUserLogin( _loggedUser );
+                     } )
+                 .Select( _ => new Unit() );
         }
 
-        public delegate void LogoutEventHandler(object source, EventArgs args);
+        public delegate void LogoutEventHandler( object source, EventArgs args );
         public event LogoutEventHandler OnLogoutCompleted;
 
         public IObservable<QueuedDownload> Logout()
@@ -213,7 +213,7 @@ namespace NedEngine
             return DownloadManager
                 .CancelAllDownloads()
                 .ObserveOnDispatcher()
-                .Finally(DoLogout);
+                .Finally( DoLogout );
         }
 
         private void DoLogout()
@@ -222,7 +222,7 @@ namespace NedEngine
             BroadcastLogoutEvent();
         }
 
-        public delegate void FactoryResetEventHandler(object source, EventArgs args);
+        public delegate void FactoryResetEventHandler( object source, EventArgs args );
         public event FactoryResetEventHandler OnFactoryResetCompleted;
 
         public IObservable<QueuedDownload> FactoryReset()
@@ -233,17 +233,17 @@ namespace NedEngine
                 .Finally(
                     () =>
                     {
-                        RemoveUsers(UserDatabase.Users.ToArray());
+                        RemoveUsers( UserDatabase.Users.ToArray() );
                         ApplicationSettings.ServerUrl = null;
                         StatisticsManager.Statistics.Clear();
                         DoLogout();
                         BroadcastFactoryResetEvent();
-                    });
+                    } );
         }
 
-        public void RememberUsernameAndPassword(string username, string password)
+        public void RememberUsernameAndPassword( string username, string password )
         {
-            if (ApplicationSettings.RememberMe)
+            if( ApplicationSettings.RememberMe )
             {
                 ApplicationSettings.RememberedLogin = username;
                 ApplicationSettings.RememberedPassword = password;
@@ -255,51 +255,51 @@ namespace NedEngine
             }
         }
 
-        private User CreateUser(string username, string password)
+        private User CreateUser( string username, string password )
         {
-            User newUser = new User(username, password);
-            UserDatabase.Users.Add(newUser);
+            User newUser = new User( username, password );
+            UserDatabase.Users.Add( newUser );
 
-            using (IsolatedStorageFile appDirectory = IsolatedStorageFile.GetUserStoreForApplication())
+            using( IsolatedStorageFile appDirectory = IsolatedStorageFile.GetUserStoreForApplication() )
             {
-                appDirectory.CreateDirectory(newUser.LocalId.ToString());
-                appDirectory.CreateDirectory("shared/transfers/" + newUser.LocalId.ToString());
+                appDirectory.CreateDirectory( newUser.LocalId.ToString() );
+                appDirectory.CreateDirectory( "shared/transfers/" + newUser.LocalId.ToString() );
             }
 
             return newUser;
         }
 
-        public void RemoveUsers(params User[] users)
+        public void RemoveUsers( params User[] users )
         {
-            using (IsolatedStorageFile appDirectory = IsolatedStorageFile.GetUserStoreForApplication())
+            using( IsolatedStorageFile appDirectory = IsolatedStorageFile.GetUserStoreForApplication() )
             {
-                foreach (User user in users)
+                foreach( User user in users )
                 {
                     user.StopSaving();
-                    appDirectory.RecursivelyDeleteDirectory(user.LocalId.ToString());
+                    appDirectory.RecursivelyDeleteDirectory( user.LocalId.ToString() );
                 }
             }
 
-            foreach (User user in users)
+            foreach( User user in users )
             {
-                UserDatabase.Users.Remove(user);
-                App.Engine.StatisticsManager.LogUserDelete(user);
+                UserDatabase.Users.Remove( user );
+                App.Engine.StatisticsManager.LogUserDelete( user );
             }
         }
 
         private void BroadcastLogoutEvent()
         {
-            if (OnLogoutCompleted != null)
+            if( OnLogoutCompleted != null )
             {
-                OnLogoutCompleted(this, new EventArgs());
+                OnLogoutCompleted( this, new EventArgs() );
             }
         }
 
         private void BroadcastFactoryResetEvent()
         {
-            if (OnFactoryResetCompleted != null)
+            if( OnFactoryResetCompleted != null )
             {
-                OnFactoryResetCompleted(this, new EventArgs());
+                OnFactoryResetCompleted( this, new EventArgs() );
             }
         }
 
@@ -309,7 +309,7 @@ namespace NedEngine
 
         public class LibraryInfo
         {
-            public LibraryInfo(string id, string title, int version)
+            public LibraryInfo( string id, string title, int version )
             {
                 Id = id;
                 Title = title;
@@ -321,189 +321,189 @@ namespace NedEngine
             public int Version { get; private set; }
         }
 
-        public IObservable<Unit> AddLibrary(string libraryId)
+        public IObservable<Unit> AddLibrary( string libraryId )
         {
-            return Observable.Return(libraryId)
-                             .SelectMany(id =>
+            return Observable.Return( libraryId )
+                             .SelectMany( id =>
                                  {
-                                     if (String.IsNullOrEmpty(id))
+                                     if( String.IsNullOrEmpty( id ) )
                                      {
-                                         return Observable.Throw<LibraryInfo>(new ArgumentException(AppResources.Error_LibraryIdEmpty));
+                                         return Observable.Throw<LibraryInfo>( new ArgumentException( FileLanguage.Error_LibraryIdEmpty ) );
                                      }
 
-                                     if (LoggedUser.Libraries.Count(library => library.ServerId == libraryId) != 0)
+                                     if( LoggedUser.Libraries.Count( library => library.ServerId == libraryId ) != 0 )
                                      {
-                                         return Observable.Throw<LibraryInfo>(new ArgumentException(AppResources.Error_LibraryAlreadyAdded));
+                                         return Observable.Throw<LibraryInfo>( new ArgumentException( FileLanguage.LIBRARY_ALREADY_EXISTS ) );
                                      }
 
-                                     return Transport.GetLibraryInfo(id);
-                                 })
+                                     return Transport.GetLibraryInfo( id );
+                                 } )
                              .ObserveOnDispatcher()
-                             .Do(libInfo =>
+                             .Do( libInfo =>
                                  {
-                                     Library library = new Library(libInfo.Id, libInfo.Title, libInfo.Version);
-                                     StatisticsManager.LogAddLibrary(library);
-                                     LoggedUser.Libraries.Add(library);
-                                 })
-                             .Select(_ => new Unit());
+                                     Library library = new Library( libInfo.Id, libInfo.Title, libInfo.Version );
+                                     StatisticsManager.LogAddLibrary( library );
+                                     LoggedUser.Libraries.Add( library );
+                                 } )
+                             .Select( _ => new Unit() );
         }
 
-        public IObservable<LibraryInfo> GetLibraryInfo(Library library)
+        public IObservable<LibraryInfo> GetLibraryInfo( Library library )
         {
-            return Transport.GetLibraryInfo(library.ServerId);
+            return Transport.GetLibraryInfo( library.ServerId );
         }
 
-        public IObservable<Library> DownloadLibrary(Library library)
+        public IObservable<Library> DownloadLibrary( Library library )
         {
-            return Transport.GetLibraryXml(library.ServerId)
+            return Transport.GetLibraryXml( library.ServerId )
                             .ObserveOnDispatcher()
-                            .Do(libUpdate =>
+                            .Do( libUpdate =>
                                {
                                    library.Version = libUpdate.Version;
-                                   library.CatalogueCount = LibraryModel.GetCatalogueCount(libUpdate.Contents);
-                                   Library.SaveLibraryContents(libUpdate.Contents, library, LoggedUser);
-                                   Library.PrepareDiffXml(library, LoggedUser);
-                               })
-                           .Select(_ => library);
+                                   library.CatalogueCount = LibraryModel.GetCatalogueCount( libUpdate.Contents );
+                                   Library.SaveLibraryContents( libUpdate.Contents, library, LoggedUser );
+                                   Library.PrepareDiffXml( library, LoggedUser );
+                               } )
+                           .Select( _ => library );
         }
 
-        public void DeleteLibrary(Library library)
+        public void DeleteLibrary( Library library )
         {
-            LoggedUser.Libraries.Remove(library);
-            CancelDownloadsFromLibrary(library).Subscribe(
+            LoggedUser.Libraries.Remove( library );
+            CancelDownloadsFromLibrary( library ).Subscribe(
                 lib =>
                 {
-                    App.Engine.StatisticsManager.LogRemoveLibrary(lib);
-                    DeleteLibraryData(lib);
-                });
+                    App.Engine.StatisticsManager.LogRemoveLibrary( lib );
+                    DeleteLibraryData( lib );
+                } );
         }
 
-        public IObservable<Library> CancelDownloadsFromLibrary(Library library)
+        public IObservable<Library> CancelDownloadsFromLibrary( Library library )
         {
-            var downloadsInLibrary = LoggedUser.Downloads.Where(download => download.LibraryId == library.ServerId).ToList();
-            LoggedUser.Downloads.Remove(downloadsInLibrary);
+            var downloadsInLibrary = LoggedUser.Downloads.Where( download => download.LibraryId == library.ServerId ).ToList();
+            LoggedUser.Downloads.Remove( downloadsInLibrary );
 
-            return DownloadManager.CancelDownloads(downloadsInLibrary)
+            return DownloadManager.CancelDownloads( downloadsInLibrary )
                                   .FinishedToNext()
-                                  .Select(_ => library);
+                                  .Select( _ => library );
         }
 
-        public void DeleteMediaItem(MediaItemsListModelItem item)
+        public void DeleteMediaItem( MediaItemsListModelItem item )
         {
-            var downloads = LoggedUser.Downloads.Where(dl => dl.Id == item.Id).ToList();
+            var downloads = LoggedUser.Downloads.Where( dl => dl.Id == item.Id ).ToList();
 
-            if (downloads.Count > 0)
+            if( downloads.Count > 0 )
             {
-                DownloadManager.CancelDownloads(downloads)
+                DownloadManager.CancelDownloads( downloads )
                     .ObserveOnDispatcher()
-                    .Finally(() =>
+                    .Finally( () =>
                     {
-                        using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+                        using( IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication() )
                         {
-                            foreach (var download in downloads)
+                            foreach( var download in downloads )
                             {
-                                string path = Utils.MediaFilePath(LoggedUser, download);
-                                if (isf.FileExists(path))
+                                string path = Utils.MediaFilePath( LoggedUser, download );
+                                if( isf.FileExists( path ) )
                                 {
-                                    isf.DeleteFile(path);
+                                    isf.DeleteFile( path );
                                 }
                             }
                         }
-                    })
+                    } )
                     .Subscribe();
 
-                LoggedUser.Downloads.Remove(downloads);
+                LoggedUser.Downloads.Remove( downloads );
             }
             else
             {
-                using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+                using( IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication() )
                 {
-                    string path = Utils.MediaFilePath(LoggedUser, item);
-                    if (isf.FileExists(path))
+                    string path = Utils.MediaFilePath( LoggedUser, item );
+                    if( isf.FileExists( path ) )
                     {
-                        isf.DeleteFile(path);
+                        isf.DeleteFile( path );
                     }
                 }
             }
         }
 
-        public void DeleteLibraryData(Library library)
+        public void DeleteLibraryData( Library library )
         {
-            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            using( IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication() )
             {
-                string libraryDirectory = Utils.LibraryDirPath(LoggedUser, library);
-                if (isf.DirectoryExists(libraryDirectory))
+                string libraryDirectory = Utils.LibraryDirPath( LoggedUser, library );
+                if( isf.DirectoryExists( libraryDirectory ) )
                 {
-                    isf.RecursivelyDeleteDirectory(libraryDirectory);
+                    isf.RecursivelyDeleteDirectory( libraryDirectory );
                 }
             }
         }
 
-        public void PrepareToUpdateLibraryData(Library library)
+        public void PrepareToUpdateLibraryData( Library library )
         {
-            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            using( IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication() )
             {
-                string libraryDirectory = Utils.LibraryDirPath(LoggedUser, library);
-                if (isf.DirectoryExists(libraryDirectory))
+                string libraryDirectory = Utils.LibraryDirPath( LoggedUser, library );
+                if( isf.DirectoryExists( libraryDirectory ) )
                 {
-                    if (isf.FileExists(Utils.LibraryXmlPath(LoggedUser, library)) && !isf.FileExists(Utils.LibraryXmlPreviousPath(LoggedUser, library)))
+                    if( isf.FileExists( Utils.LibraryXmlPath( LoggedUser, library ) ) && !isf.FileExists( Utils.LibraryXmlPreviousPath( LoggedUser, library ) ) )
                     {
-                        isf.MoveFile(Utils.LibraryXmlPath(LoggedUser, library), Utils.LibraryXmlPreviousPath(LoggedUser, library));
+                        isf.MoveFile( Utils.LibraryXmlPath( LoggedUser, library ), Utils.LibraryXmlPreviousPath( LoggedUser, library ) );
                     }
                     else
                     {
                         //shouldnt happen, will lose recent history
-                        isf.DeleteFile(Utils.LibraryXmlPath(LoggedUser, library));
+                        isf.DeleteFile( Utils.LibraryXmlPath( LoggedUser, library ) );
                     }
                 }
             }
         }
 
-        public IObservable<Library> UpdateLibrary(Library library)
+        public IObservable<Library> UpdateLibrary( Library library )
         {
-            return CheckForUpdates(library)
-                   .SelectMany(CancelDownloadsFromLibrary)
+            return CheckForUpdates( library )
+                   .SelectMany( CancelDownloadsFromLibrary )
                    .Do(
                    lib =>
                    {
-                       PrepareToUpdateLibraryData(lib);
+                       PrepareToUpdateLibraryData( lib );
                        lib.CatalogueCount = -1;
-                   })
-                   .SelectMany(DownloadLibrary);
+                   } )
+                   .SelectMany( DownloadLibrary );
         }
 
-        private IObservable<Library> CheckForUpdates(Library library)
+        private IObservable<Library> CheckForUpdates( Library library )
         {
-            if (library.CatalogueCount == -1)
+            if( library.CatalogueCount == -1 )
             {
-                return Observable.Return<Library>(library);
+                return Observable.Return<Library>( library );
             }
             else
             {
-                return App.Engine.GetLibraryInfo(library)
+                return App.Engine.GetLibraryInfo( library )
                                  .ObserveOnDispatcher()
-                                 .SelectMany(libraryInfo => AskUserAboutLibraryUpdate(library, libraryInfo));
+                                 .SelectMany( libraryInfo => AskUserAboutLibraryUpdate( library, libraryInfo ) );
             }
         }
 
-        private IObservable<Library> AskUserAboutLibraryUpdate(Library library, NedEngine.Engine.LibraryInfo updatedLibraryInfo)
+        private IObservable<Library> AskUserAboutLibraryUpdate( Library library, NedEngine.Engine.LibraryInfo updatedLibraryInfo )
         {
             string dialogMessage;
             string dialogHeader;
-            if (updatedLibraryInfo.Version == library.Version)
+            if( updatedLibraryInfo.Version == library.Version )
             {
-                dialogHeader = AppResources.MainPage_UpdateNotNecessaryHeader;
-                dialogMessage = AppResources.MainPage_UpdateNotNecessaryMessage;
+                dialogHeader = FileLanguage.MainPage_UpdateNotNecessaryHeader;
+                dialogMessage = FileLanguage.MainPage_UpdateNotNecessaryMessage;
             }
             else
             {
-                dialogHeader = AppResources.MainPage_NewVersionAvailableHeader;
-                dialogMessage = AppResources.MainPage_NewVersionAvailableMessage;
+                dialogHeader = FileLanguage.MainPage_NewVersionAvailableHeader;
+                dialogMessage = FileLanguage.MainPage_NewVersionAvailableMessage;
             }
 
-            if (MessageBox.Show(dialogMessage, dialogHeader, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            if( MessageBox.Show( dialogMessage, dialogHeader, MessageBoxButton.OKCancel ) == MessageBoxResult.OK )
             {
-                return Observable.Return(library);
+                return Observable.Return( library );
             }
             else
             {
@@ -514,14 +514,14 @@ namespace NedEngine
         #endregion LibraryList
 
         #region Statistics
-     
 
-        private void UploadStatistics(object sender, EventArgs args)
+
+        private void UploadStatistics( object sender, EventArgs args )
         {
             StatisticsManager.AutomaticallyUpdateStatistic();
         }
 
-        private void OnAutomaticStatisticUploadChanged(object sender, EventArgs args)
+        private void OnAutomaticStatisticUploadChanged( object sender, EventArgs args )
         {
             UpdateAutomaticStatisticUploadSubscription();
         }
@@ -529,7 +529,7 @@ namespace NedEngine
         private void UpdateAutomaticStatisticUploadSubscription()
         {
             Transport.NetworkRequestStarted -= UploadStatistics;
-            if (LoggedUser != null & LoggedUser.Settings.AutomaticStatisticsUpload)
+            if( LoggedUser != null & LoggedUser.Settings.AutomaticStatisticsUpload )
             {
                 Transport.NetworkRequestStarted += UploadStatistics;
             }
@@ -546,7 +546,7 @@ namespace NedEngine
             set
             {
                 _motd = value;
-                OnPropertyChanged("MOTD");
+                OnPropertyChanged( "MOTD" );
             }
         }
 
@@ -554,29 +554,29 @@ namespace NedEngine
         {
             Transport.GetMotd()
                      .ObserveOnDispatcher()
-                     .Finally(UpdateMotd)
+                     .Finally( UpdateMotd )
                      .Subscribe<string>(
-                     motd => SaveMotd(motd),
-                     error => SaveMotd(null));
+                     motd => SaveMotd( motd ),
+                     error => SaveMotd( null ) );
         }
 
         private void UpdateMotd()
         {
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains(Constants.KMotdSetting))
+            if( !IsolatedStorageSettings.ApplicationSettings.Contains( Constants.KMotdSetting ) )
             {
                 // Set default MOTD
-                SaveMotd(AppResources.App_DefaultMOTD);
+                SaveMotd( FileLanguage.MID_DEFAULTMOTD );
             }
             MOTD = IsolatedStorageSettings.ApplicationSettings[Constants.KMotdSetting] as string;
         }
 
-        private void SaveMotd(string motd)
+        private void SaveMotd( string motd )
         {
             IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
-            appSettings.Remove(Constants.KMotdSetting);
-            if (!String.IsNullOrEmpty(motd))
+            appSettings.Remove( Constants.KMotdSetting );
+            if( !String.IsNullOrEmpty( motd ) )
             {
-                appSettings.Add(Constants.KMotdSetting, motd);
+                appSettings.Add( Constants.KMotdSetting, motd );
             }
             appSettings.Save();
         }
@@ -590,25 +590,25 @@ namespace NedEngine
             return Transport.GetLanguges();
         }
 
-        public IObservable<bool> DownloadLocalization(string remoteFileName)
+        public IObservable<bool> DownloadLocalization( string remoteFileName )
         {
-            return Transport.DownloadLocalization(remoteFileName);
+            return Transport.DownloadLocalization( remoteFileName );
         }
 
-     //   private object updateLanguageSettings(List<LanguageInfoRemote> languages)
-      //  {
-       //     throw new NotImplementedException();
+        //   private object updateLanguageSettings(List<LanguageInfoRemote> languages)
+        //  {
+        //     throw new NotImplementedException();
         //}
 
-     //   private object DisplayError()
-       // {
-         //   throw new NotImplementedException();
+        //   private object DisplayError()
+        // {
+        //   throw new NotImplementedException();
         //}
 
         //private object ParseLanguages(string xml)
-       // {
-       //     throw new NotImplementedException();
-       // }
+        // {
+        //     throw new NotImplementedException();
+        // }
 
         #endregion Languages
 
@@ -616,18 +616,18 @@ namespace NedEngine
 
         private void SubscribeForDownloadManagerEvents()
         {
-            DownloadManager.DownloadEnqueuedEvent.Subscribe(download => download.State = QueuedDownload.DownloadState.Queued);
-            DownloadManager.DownloadStartedEvent.Subscribe(download => download.State = QueuedDownload.DownloadState.Downloading);
-            DownloadManager.DownloadStopPendingEvent.Subscribe(download => download.State = QueuedDownload.DownloadState.Paused);
-            DownloadManager.DownloadStoppedEvent.Subscribe(download =>
+            DownloadManager.DownloadEnqueuedEvent.Subscribe( download => download.State = QueuedDownload.DownloadState.Queued );
+            DownloadManager.DownloadStartedEvent.Subscribe( download => download.State = QueuedDownload.DownloadState.Downloading );
+            DownloadManager.DownloadStopPendingEvent.Subscribe( download => download.State = QueuedDownload.DownloadState.Paused );
+            DownloadManager.DownloadStoppedEvent.Subscribe( download =>
             {
-                if (download.State != QueuedDownload.DownloadState.Stopped)
+                if( download.State != QueuedDownload.DownloadState.Stopped )
                     download.State = QueuedDownload.DownloadState.Paused;
-            });
+            } );
 
             DownloadManager.DownloadCompletedEvent
-                           .Merge(DownloadManager.DownloadErrorEvent)
-                           .Subscribe(download => LoggedUser.Downloads.Remove(download));
+                           .Merge( DownloadManager.DownloadErrorEvent )
+                           .Subscribe( download => LoggedUser.Downloads.Remove( download ) );
         }
 
         private Subject<QueuedDownload> _downloadEnqueuedEvent = new Subject<QueuedDownload>();
@@ -640,40 +640,40 @@ namespace NedEngine
             DownloadItemStarted
         }
 
-        public AddingToQueueResult EnqueueMediaItem(MediaItemsListModelItem mediaItem, bool immediate)
+        public AddingToQueueResult EnqueueMediaItem( MediaItemsListModelItem mediaItem, bool immediate )
         {
-            if (LoggedUser.Downloads.Count(queuedDownload => queuedDownload.Id == mediaItem.Id) == 0)
+            if( LoggedUser.Downloads.Count( queuedDownload => queuedDownload.Id == mediaItem.Id ) == 0 )
             {
                 QueuedDownload.DownloadState initialState =
                     App.Engine.LoggedUser.Settings.AutomaticDownloads ?
                     QueuedDownload.DownloadState.Queued :
-                    (immediate ? QueuedDownload.DownloadState.Queued : QueuedDownload.DownloadState.Paused);
+                    ( immediate ? QueuedDownload.DownloadState.Queued : QueuedDownload.DownloadState.Paused );
 
-                QueuedDownload queuedDownload = new QueuedDownload(mediaItem) { State = initialState };
+                QueuedDownload queuedDownload = new QueuedDownload( mediaItem ) { State = initialState };
 
-                using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+                using( IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication() )
                 {
-                    if (isf.FileExists(Utils.MediaFilePath(LoggedUser, queuedDownload)))
+                    if( isf.FileExists( Utils.MediaFilePath( LoggedUser, queuedDownload ) ) )
                     {
                         return AddingToQueueResult.ItemAlreadyDownloaded;
                     }
                 }
 
-                StatisticsManager.LogDownloadAdd(queuedDownload);
-                LoggedUser.Downloads.Add(queuedDownload);
-                _downloadEnqueuedEvent.OnNext(queuedDownload);
+                StatisticsManager.LogDownloadAdd( queuedDownload );
+                LoggedUser.Downloads.Add( queuedDownload );
+                _downloadEnqueuedEvent.OnNext( queuedDownload );
 
-                if (initialState != QueuedDownload.DownloadState.Stopped)
+                if( initialState != QueuedDownload.DownloadState.Stopped )
                 {
-                    DownloadManager.StartDownload(queuedDownload);
+                    DownloadManager.StartDownload( queuedDownload );
                 }
                 return AddingToQueueResult.ItemAddedToQueue;
             }
-            else if (immediate)
+            else if( immediate )
             {
-                QueuedDownload queuedDownload = (from download in LoggedUser.Downloads where download.Id == mediaItem.Id select download).First();
+                QueuedDownload queuedDownload = ( from download in LoggedUser.Downloads where download.Id == mediaItem.Id select download ).First();
                 queuedDownload.State = QueuedDownload.DownloadState.Queued;
-                DownloadManager.StartDownload(queuedDownload);
+                DownloadManager.StartDownload( queuedDownload );
                 return AddingToQueueResult.DownloadItemStarted;
             }
             else
@@ -682,32 +682,32 @@ namespace NedEngine
             }
         }
 
-        public void StopDownload(QueuedDownload download)
+        public void StopDownload( QueuedDownload download )
         {
-            DownloadManager.StopDownload(download);
+            DownloadManager.StopDownload( download );
         }
 
-        public void StartDownload(QueuedDownload download)
+        public void StartDownload( QueuedDownload download )
         {
-            DownloadManager.StartDownload(download);
+            DownloadManager.StartDownload( download );
         }
 
-        public void CancelDownload(QueuedDownload download)
+        public void CancelDownload( QueuedDownload download )
         {
-            DownloadManager.StopDownload(download).Subscribe(
+            DownloadManager.StopDownload( download ).Subscribe(
                 dl =>
                 {
-                    using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+                    using( IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication() )
                     {
-                        string path = Utils.MediaFilePath(LoggedUser, dl);
-                        if (isf.FileExists(path))
+                        string path = Utils.MediaFilePath( LoggedUser, dl );
+                        if( isf.FileExists( path ) )
                         {
-                            isf.DeleteFile(path);
+                            isf.DeleteFile( path );
                         }
                     }
-                });
-            LoggedUser.Downloads.Remove(download);
-            App.Engine.StatisticsManager.LogDownloadRemove(download); 
+                } );
+            LoggedUser.Downloads.Remove( download );
+            App.Engine.StatisticsManager.LogDownloadRemove( download );
         }
 
         #endregion Downloads
@@ -720,16 +720,16 @@ namespace NedEngine
 
         public void LoadSessionData()
         {
-            if (IsLoaded)
+            if( IsLoaded )
             {
                 processUserLogged();
                 return;
             }
 
             IDictionary<string, object> state = PhoneApplicationService.Current.State;
-            if (state.ContainsKey(LoggedUserTag))
+            if( state.ContainsKey( LoggedUserTag ) )
             {
-                LoggedUser = UserDatabase.GetUser((string)state[LoggedUserTag]);
+                LoggedUser = UserDatabase.GetUser( (string)state[LoggedUserTag] );
             }
             IsLoaded = true;
         }
@@ -737,15 +737,15 @@ namespace NedEngine
         public void SaveSessionData()
         {
             IDictionary<string, object> state = PhoneApplicationService.Current.State;
-            if (LoggedUser != null)
+            if( LoggedUser != null )
                 state[LoggedUserTag] = LoggedUser.Username;
             else
-                state.Remove(LoggedUserTag);
+                state.Remove( LoggedUserTag );
         }
 
         public void SavePersistantData()
         {
-            StatisticsManager.Save(true);
+            StatisticsManager.Save( true );
         }
 
         #endregion Tombstoning and Exiting

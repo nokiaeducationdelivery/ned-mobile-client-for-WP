@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -151,21 +151,21 @@ namespace NedWp
         {
             ApplicationBarIconButton helpButton = new ApplicationBarIconButton( new Uri( "/Resources/OriginalPlatformIcons/appbar.questionmark.rest.png", UriKind.Relative ) );
             helpButton.Click += NavigateToHelpView;
-            helpButton.Text = AppResources.App_HelpButtonContent;
+            helpButton.Text = FileLanguage.HELP;
             ApplicationBarIconButton statisticButton = new ApplicationBarIconButton( new Uri( "/Resources/Icons/statistics.png", UriKind.Relative ) );
             statisticButton.Click += NavigateToStatistics;
-            statisticButton.Text = AppResources.MainPage_StatisticsButtonContent;
+            statisticButton.Text = FileLanguage.MID_STATISTICS_COMMAND;
             ApplicationBarIconButton settingsButton = new ApplicationBarIconButton( new Uri( "/Resources/OriginalPlatformIcons/appbar.feature.settings.rest.png", UriKind.Relative ) );
             settingsButton.Click += NavigateToSettings;
-            settingsButton.Text = AppResources.MainPage_SettingsButtonContent;
+            settingsButton.Text = FileLanguage.MID_OPTIONS_COMMAND;
 
             ApplicationBarMenuItem factoryResetButton = new ApplicationBarMenuItem();
             factoryResetButton.Click += OnFactoryResetButtonClicked;
-            factoryResetButton.Text = AppResources.MainPage_FactoryResetMenuItemText;
+            factoryResetButton.Text = FileLanguage.FACTORY_SETTINGS;
 
             ApplicationBarMenuItem aboutButton = new ApplicationBarMenuItem();
             aboutButton.Click += OnAboutButtonClicked;
-            aboutButton.Text = AppResources.MainPage_AboutButtonText;
+            aboutButton.Text = FileLanguage.ABOUT;
 
             _applicationBarButtons.Add( "HelpButton", helpButton );
             _applicationBarButtons.Add( "StatisticsButton", statisticButton );
@@ -233,6 +233,7 @@ namespace NedWp
 
             if( pivot && int.TryParse( this.NavigationContext.QueryString["MainMenuScreen.SelectedIndex"], out index ) )
             {
+                backToContentLists = true;
                 MainMenuScreen.SelectedIndex = index;
                 if( e.NavigationMode == System.Windows.Navigation.NavigationMode.New )
                 {
@@ -328,7 +329,7 @@ namespace NedWp
 
         private void SaveServer()
         {
-            ProgressBarOverlay.Show( AppResources.MainPage_ConnectingToServer );
+            ProgressBarOverlay.Show( FileLanguage.CONNECTING );
             longRunningOperation = App.Engine.SaveServer( ServerUrl.Text )
                                              .Finally( () => ProgressBarOverlay.Close() )
                                              .Subscribe<Unit>(
@@ -370,7 +371,7 @@ namespace NedWp
 
         private void Login( object sender, RoutedEventArgs e )
         {
-            ProgressBarOverlay.Show( AppResources.MainPage_LoggingIn );
+            ProgressBarOverlay.Show( FileLanguage.CONNECTING );
 
             longRunningOperation = App.Engine.Login( UsernameBoxText, PasswordBoxText )
                 .Subscribe<Unit>(
@@ -461,7 +462,7 @@ namespace NedWp
 
         private void RequestAddingLibrary()
         {
-            ProgressBarOverlay.Show( AppResources.MainPage_AddingLibrary );
+            ProgressBarOverlay.Show( FileLanguage.MainPage_AddingLibrary );
 
             longRunningOperation = App.Engine.AddLibrary( NewLibraryId.Text )
                                              .Finally( () => ProgressBarOverlay.Close() )
@@ -480,7 +481,7 @@ namespace NedWp
 
                 if( clickedLib.CatalogueCount == -1 )
                 {
-                    ProgressBarOverlay.Show( AppResources.MainPage_DownloadingLib );
+                    ProgressBarOverlay.Show( FileLanguage.MainPage_DownloadingLib );
 
                     longRunningOperation = App.Engine.DownloadLibrary( clickedLib )
                                                      .Finally( ProgressBarOverlay.Close )
@@ -521,14 +522,14 @@ namespace NedWp
             switch( menuItem.Tag.ToString() )
             {
                 case "DeleteTag":
-                    if( MessageBox.Show( AppResources.MainPage_DeleteLibQuestionMessage, AppResources.MainPage_DeleteLibQuestionTitile, MessageBoxButton.OKCancel ) == MessageBoxResult.OK )
+                    if( MessageBox.Show( FileLanguage.QUESTION_REMOVE_LIBRARY, FileLanguage.ARE_YOU_SURE, MessageBoxButton.OKCancel ) == MessageBoxResult.OK )
                     {
                         App.Engine.DeleteLibrary( library );
                     }
                     break;
                 case "CheckForUpdatesTag":
                     {
-                        ProgressBarOverlay.Show( AppResources.ProgressOverlay_UpdatingLibrary );
+                        ProgressBarOverlay.Show( FileLanguage.ProgressOverlay_UpdatingLibrary );
 
                         longRunningOperation = App.Engine.UpdateLibrary( library )
                                                          .Finally( ProgressBarOverlay.Close )
@@ -543,7 +544,7 @@ namespace NedWp
                         string libraryId = library.ServerId;
                         if( library.CatalogueCount == -1 )
                         {
-                            ProgressBarOverlay.Show( AppResources.MainPage_DownloadingLib );
+                            ProgressBarOverlay.Show( FileLanguage.MainPage_DownloadingLib );
 
                             longRunningOperation = App.Engine.DownloadLibrary( library )
                                                              .Finally( ProgressBarOverlay.Close )
@@ -576,7 +577,7 @@ namespace NedWp
                         string libraryId = library.ServerId;
                         if( library.CatalogueCount == -1 )
                         {
-                            ProgressBarOverlay.Show( AppResources.MainPage_DownloadingLib );
+                            ProgressBarOverlay.Show( FileLanguage.MainPage_DownloadingLib );
 
                             longRunningOperation = App.Engine.DownloadLibrary( library )
                                                              .Finally( ProgressBarOverlay.Close )
@@ -657,7 +658,7 @@ namespace NedWp
             catch( InvalidOperationException )
             {
                 System.Diagnostics.Debug.Assert( false, "Tried to show help for unknown screen, either there is a new screen or sceen/pivot names has changed" );
-                MessageBox.Show( AppResources.App_OpeningHelpErrorUnknowScreen );
+                MessageBox.Show( FileLanguage.App_OpeningHelpErrorUnknowScreen );
                 return;
             }
 
@@ -712,17 +713,17 @@ namespace NedWp
             {
                 _aboutMsgBoxLock = true;
                 Version version = new Version( PhoneHelper.GetAppAttribute( "Version" ) );
-                MessageBox.Show( String.Format( AppResources.MainPage_AboutVersionInfo, version.Major, version.Minor ) );
+                MessageBox.Show( String.Format( FileLanguage.VERSION, version.Major, version.Minor, version.Revision ) );
                 _aboutMsgBoxLock = false;
             }
         }
 
         private void OnFactoryResetButtonClicked( object sender, EventArgs e )
         {
-            MessageBoxResult result = MessageBox.Show( AppResources.SettingsPage_FactoryResetInfoMessage, AppResources.SettingsPage_InfoHeader, MessageBoxButton.OKCancel );
+            MessageBoxResult result = MessageBox.Show( FileLanguage.SettingsPage_FactoryResetInfoMessage, FileLanguage.ARE_YOU_SURE, MessageBoxButton.OKCancel );
             if( result == MessageBoxResult.OK )
             {
-                ProgressBarOverlay.Show( AppResources.SettingsPage_ClearingData );
+                ProgressBarOverlay.Show( FileLanguage.SettingsPage_ClearingData );
                 App.Engine.FactoryReset()
                     .Finally( () =>
                     {
@@ -777,7 +778,8 @@ namespace NedWp
             }
         }
 
-        private bool _cloaseQuestionMsgBoxLock;
+        private bool backToContentLists = false;//pressing back returns to mediaitem list or catalog list from DownloadManager, supressiong exit app question
+        private bool _closeQuestionMsgBoxLock;
         protected override void OnBackKeyPress( System.ComponentModel.CancelEventArgs args )
         {
             if( ProgressBarOverlay.IsOpen() && longRunningOperation != null )
@@ -788,16 +790,17 @@ namespace NedWp
             }
             else
             {
-                if( !_cloaseQuestionMsgBoxLock )
+                if( !_closeQuestionMsgBoxLock && !backToContentLists )
                 {
-                    _cloaseQuestionMsgBoxLock = true;
-                    if( MessageBox.Show( AppResources.MainPage_ClosingApplicationMessage, AppResources.MainPage_ClosingApplicationTitle, MessageBoxButton.OKCancel ) == MessageBoxResult.Cancel )
+                    _closeQuestionMsgBoxLock = true;
+                    if( MessageBox.Show( FileLanguage.MainPage_ClosingApplicationMessage, FileLanguage.ARE_YOU_SURE, MessageBoxButton.OKCancel ) == MessageBoxResult.Cancel )
                     {
                         args.Cancel = true;
                     }
-                    _cloaseQuestionMsgBoxLock = false;
+                    _closeQuestionMsgBoxLock = false;
                 }
             }
+            backToContentLists = false;
             base.OnBackKeyPress( args );
         }
 
@@ -835,7 +838,7 @@ namespace NedWp
         {
             int catalogueCount = ( (int)value );
             String catalogueCountString = catalogueCount == -1 ? "?" : catalogueCount.ToString();
-            return String.Format( AppResources.MainPage_CataloguesCount, catalogueCountString );
+            return String.Format( FileLanguage.CATALOGS, catalogueCountString );
         }
 
         public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )
@@ -850,7 +853,7 @@ namespace NedWp
         public object Convert( object value, Type targetType, object parameter, CultureInfo culture )
         {
             int viewCount = ( (int)value );
-            return String.Format( AppResources.MainPage_ViewsCount, viewCount );
+            return String.Format( FileLanguage.MainPage_ViewsCount, viewCount );
         }
 
         public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )
@@ -865,10 +868,10 @@ namespace NedWp
         {
             switch( (NedEngine.QueuedDownload.DownloadState)value )
             {
-                case QueuedDownload.DownloadState.Downloading: return AppResources.MainPage_Downloading;
-                case QueuedDownload.DownloadState.Paused: return AppResources.MainPage_Paused;
-                case QueuedDownload.DownloadState.Queued: return AppResources.MainPage_Queued;
-                case QueuedDownload.DownloadState.Stopped: return AppResources.MainPage_Stopped;
+                case QueuedDownload.DownloadState.Downloading: return FileLanguage.MainPage_Downloading;
+                case QueuedDownload.DownloadState.Paused: return FileLanguage.MainPage_Paused;
+                case QueuedDownload.DownloadState.Queued: return FileLanguage.MainPage_Queued;
+                case QueuedDownload.DownloadState.Stopped: return FileLanguage.MainPage_Stopped;
                 default: throw new ArgumentOutOfRangeException();
             }
         }

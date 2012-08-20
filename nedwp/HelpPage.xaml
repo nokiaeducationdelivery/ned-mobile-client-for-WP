@@ -42,7 +42,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <local:TitlePanelControl Grid.Row="0" x:Name="TitlePanel" TitleText="{Binding LocalizedResources.HelpPage_Title ,Source={StaticResource LanguageStrings}}"/>
+        <local:TitlePanelControl Grid.Row="0" x:Name="TitlePanel" TitleText="{Binding LocalizedResources.HELP ,Source={StaticResource LanguageStrings}}"/>
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

@@ -1,6 +1,6 @@
 ﻿<!--
 *******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This document and accompanying materials 
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -37,9 +37,16 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-        <local:TitlePanelControl Grid.Row="0" TitleText="{Binding LocalizedResources.SettingsPage_Title ,Source={StaticResource LanguageStrings}}"/>
+        <local:TitlePanelControl Grid.Row="0" TitleText="{Binding LocalizedResources.MID_SETTINGS_TITLE ,Source={StaticResource LanguageStrings}}"/>
 		<StackPanel Grid.Row="1">
-            <toolkit:ToggleSwitch x:Name="AutoStatUploadSwitch" Header="{Binding LocalizedResources.SettingsPage_AutomaticStatisticsUpload ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticStatisticsUpload, Mode=TwoWay}">
+            <toolkit:ToggleSwitch x:Name="AutoStatUploadSwitch" Header="{Binding LocalizedResources.STATISTICS_SENDING_MODE ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticStatisticsUpload, Mode=TwoWay}">
+                <toolkit:ToggleSwitch.ContentTemplate>
+                    <DataTemplate>
+                        <ContentControl HorizontalAlignment="Left" Content="{Binding Converter={StaticResource SwitchConverter}}"/>
+                    </DataTemplate>
+                </toolkit:ToggleSwitch.ContentTemplate>
+            </toolkit:ToggleSwitch>
+            <toolkit:ToggleSwitch x:Name="AutoDownloadSwitch" Header="{Binding LocalizedResources.MID_DOWNLOAD_STATE_SETTINGS ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticDownloads, Mode=TwoWay}">
                 <toolkit:ToggleSwitch.ContentTemplate>
                     <DataTemplate>
                         <ContentControl HorizontalAlignment="Left"   
@@ -47,18 +54,10 @@
                     </DataTemplate>
                 </toolkit:ToggleSwitch.ContentTemplate>
             </toolkit:ToggleSwitch>
-            <toolkit:ToggleSwitch x:Name="AutoDownloadSwitch" Header="{Binding LocalizedResources.SettingsPage_AutomaticDownloads ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticDownloads, Mode=TwoWay}">
-                <toolkit:ToggleSwitch.ContentTemplate>
-                    <DataTemplate>
-                        <ContentControl HorizontalAlignment="Left"   
-                    Content="{Binding Converter={StaticResource SwitchConverter}}"/>
-                    </DataTemplate>
-                </toolkit:ToggleSwitch.ContentTemplate>
-            </toolkit:ToggleSwitch>
-            <Button Content="{Binding LocalizedResources.SettingsPage_SelectLanguageContent ,Source={StaticResource LanguageStrings}}" Click="OnSelectLanguageClicked" />
-            <Button Content="{Binding LocalizedResources.SettingsPage_LogoutButtonContent ,Source={StaticResource LanguageStrings}}" Click="OnLogoutButtonClicked"/>
-            <Button Content="{Binding LocalizedResources.SettingsPage_RemoveUserButtonContent ,Source={StaticResource LanguageStrings}}" Click="OnRemoveUserButtonClicked"/>
-            <Button Content="{Binding LocalizedResources.SettingsPage_FactoryResetButtonContent ,Source={StaticResource LanguageStrings}}" Click="OnFactoryResetButtonClicked"/>
+            <Button Content="{Binding LocalizedResources.LANGUAGE ,Source={StaticResource LanguageStrings}}" Click="OnSelectLanguageClicked" />
+            <Button Content="{Binding LocalizedResources.SWITCH_USER ,Source={StaticResource LanguageStrings}}" Click="OnLogoutButtonClicked"/>
+            <Button Content="{Binding LocalizedResources.REMOVE_USER ,Source={StaticResource LanguageStrings}}" Click="OnRemoveUserButtonClicked"/>
+            <Button Content="{Binding LocalizedResources.FACTORY_SETTINGS ,Source={StaticResource LanguageStrings}}" Click="OnFactoryResetButtonClicked"/>
 		</StackPanel>
         <local:ProgressDialog x:Name="ProgressBarOverlay" Grid.RowSpan="2" />
 	</Grid>

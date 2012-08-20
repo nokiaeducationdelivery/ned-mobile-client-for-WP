@@ -1,20 +1,19 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using NedEngine;
-using System.Xml.Linq;
-using System.ComponentModel;
-using System.Linq;
+﻿/*******************************************************************************
+* Copyright (c) 2012 Nokia Corporation
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************/
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
-using NedWp.Resources.Languages;
+using System.Linq;
+using System.Xml.Linq;
 using NedWp;
 
 namespace NedEngine
@@ -23,7 +22,7 @@ namespace NedEngine
     {
         public string Id { get; set; }
 
-        public LanguageInfo(string id, string languageName, string locale, bool isLocal, string remoteName)
+        public LanguageInfo( string id, string languageName, string locale, bool isLocal, string remoteName )
         {
             Id = id;
             LangName = languageName;
@@ -31,7 +30,7 @@ namespace NedEngine
             IsLocal = isLocal;
         }
 
-        public LanguageInfo(string languageName, string locale, bool isLocal)
+        public LanguageInfo( string languageName, string locale, bool isLocal )
         {
             LangName = languageName;
             Locale = locale;
@@ -47,36 +46,37 @@ namespace NedEngine
             Id = "";
         }
 
-        public LanguageInfo(XElement element)
+        public LanguageInfo( XElement element )
         {
-            _langName = element.Element(Tags.LanguageName).Value;
-            Locale = element.Element(Tags.LanguageLocale).Value;
-            Boolean.TryParse(element.Attribute(Tags.LanguageIsLocal).Value, out _isLocal);
+            _langName = element.Element( Tags.LanguageName ).Value;
+            Locale = element.Element( Tags.LanguageLocale ).Value;
+            Boolean.TryParse( element.Attribute( Tags.LanguageIsLocal ).Value, out _isLocal );
             ItemState = _isLocal ?
                 MediaItemState.Local :
                 MediaItemState.Remote;
-            Id = element.Element(Tags.LanguageId).Value;
+            Id = element.Element( Tags.LanguageId ).Value;
         }
 
         private string _langName;
-        public string LangName {
+        public string LangName
+        {
             get
             {
                 return _langName;
             }
             set
             {
-                if (value != _langName)
+                if( value != _langName )
                 {
                     _langName = value;
-                    OnPropertyChanged("LangName");
+                    OnPropertyChanged( "LangName" );
                 }
             }
         }
         public string Locale { get; set; }
 
         private bool _isLocal;
-        public bool IsLocal 
+        public bool IsLocal
         {
             get
             {
@@ -84,7 +84,7 @@ namespace NedEngine
             }
             set
             {
-                if (value != _isLocal)
+                if( value != _isLocal )
                 {
                     _isLocal = value;
                     ItemState = _isLocal ?
@@ -104,10 +104,10 @@ namespace NedEngine
             }
             set
             {
-                if(value != _itemState)
+                if( value != _itemState )
                 {
                     _itemState = value;
-                    OnPropertyChanged("ItemState");
+                    OnPropertyChanged( "ItemState" );
                 }
             }
         }
@@ -116,15 +116,15 @@ namespace NedEngine
         {
             get
             {
-                return new XElement(Tags.Language,
-                        new XElement(Tags.LanguageName, new XText(LangName)),
-                        new XElement(Tags.LanguageLocale, new XText(Locale)),
-                        new XElement(Tags.LanguageId, new XText(Id)),
-                        new XAttribute(Tags.LanguageIsLocal, IsLocal.ToString()));
+                return new XElement( Tags.Language,
+                        new XElement( Tags.LanguageName, new XText( LangName ) ),
+                        new XElement( Tags.LanguageLocale, new XText( Locale ) ),
+                        new XElement( Tags.LanguageId, new XText( Id ) ),
+                        new XAttribute( Tags.LanguageIsLocal, IsLocal.ToString() ) );
             }
         }
 
-        public bool Equals(LanguageInfo other)
+        public bool Equals( LanguageInfo other )
         {
             return Id == other.Id;
         }
@@ -138,19 +138,19 @@ namespace NedEngine
             }
             set
             {
-                if (value != IsCurrent)
+                if( value != IsCurrent )
                 {
-                    if (Id != App.Engine.ApplicationSettings.AvailableLanguages.CurrentLanguage && value == true)
+                    if( Id != App.Engine.ApplicationSettings.AvailableLanguages.CurrentLanguage && value == true )
                     {
                         App.Engine.ApplicationSettings.AvailableLanguages.CurrentLanguage = Id;
                     }
                     _isCurrent = value;
-                    OnPropertyChanged("IsCurrent");
+                    OnPropertyChanged( "IsCurrent" );
                 }
             }
         }
 
-        internal void SetCurrentInternal(bool p)
+        internal void SetCurrentInternal( bool p )
         {
             _isCurrent = p;
         }
@@ -163,34 +163,35 @@ namespace NedEngine
         public Languages()
         {
             XDocument doc = Open();
-            LanguageList = new ObservableCollectionEx<LanguageInfo>(from u in doc.Descendants(Tags.Language) select new LanguageInfo(u));
-            LanguageList.Insert(0, defaultLanguageInfo());
-            if (doc != null && doc.Root != null && doc.Root.Attribute(Tags.LanguageCurrent) != null)
+            LanguageList = new ObservableCollectionEx<LanguageInfo>( from u in doc.Descendants( Tags.Language ) select new LanguageInfo( u ) );
+            LanguageList.Insert( 0, defaultLanguageInfo() );
+            _currentLanguage = "0";
+            if( doc != null && doc.Root != null && doc.Root.Attribute( Tags.LanguageCurrent ) != null )
             {
-                CurrentLanguage = doc.Root.Attribute(Tags.LanguageCurrent).Value;
+                _currentLanguage = doc.Root.Attribute( Tags.LanguageCurrent ).Value;
 
-                foreach (LanguageInfo info in LanguageList)
+                foreach( LanguageInfo info in LanguageList )
                 {
-                    if (info.Id == CurrentLanguage)
+                    if( info.Id == CurrentLanguage )
                     {
-                        info.SetCurrentInternal(true);
+                        info.SetCurrentInternal( true );
                         break;
                     }
                 }
             }
             else
             {
-                LanguageList.First().SetCurrentInternal(true);
+                LanguageList.First().SetCurrentInternal( true );
             }
         }
-   
+
 
         protected override XElement Data
         {
             get
             {
-                XElement root =new XElement(Tags.Languages, from language in LanguageList where language.Id != "0" select language.Data);
-                root.SetAttributeValue(Tags.LanguageCurrent, CurrentLanguage);
+                XElement root = new XElement( Tags.Languages, from language in LanguageList where language.Id != "0" select language.Data );
+                root.SetAttributeValue( Tags.LanguageCurrent, CurrentLanguage );
                 return root;
             }
         }
@@ -211,19 +212,19 @@ namespace NedEngine
             }
             set
             {
-                if (value != _currentLanguage)
+                if( value != _currentLanguage )
                 {
-                    if (_currentLanguage != null && value != null)
+                    if( _currentLanguage != null && value != null )
                     {
                         LanguageInfo previous = null;
                         LanguageInfo current = null;
-                        foreach (LanguageInfo info in LanguageList)
+                        foreach( LanguageInfo info in LanguageList )
                         {
-                            if (info.Id == _currentLanguage)
+                            if( info.Id == _currentLanguage )
                             {
                                 previous = info;
                             }
-                            if (info.Id == value)
+                            if( info.Id == value )
                             {
                                 current = info;
                             }
@@ -239,54 +240,54 @@ namespace NedEngine
                 }
             }
         }
-        
-        public List<LanguageInfo> parseRemote(string languagesXml)
+
+        public List<LanguageInfo> parseRemote( string languagesXml )
         {
-            XDocument languageDoc = XDocument.Load(new StringReader(languagesXml));
+            XDocument languageDoc = XDocument.Load( new StringReader( languagesXml ) );
             var languageItemsQuery =
-                from nedNodeElements in languageDoc.Root.Descendants(Tags.Language)
+                from nedNodeElements in languageDoc.Root.Descendants( Tags.Language )
                 select new LanguageInfo()
                 {
-                    Id = nedNodeElements.Element(Tags.LanguageId).Value,
+                    Id = nedNodeElements.Element( Tags.LanguageId ).Value,
                     IsLocal = false,
-                    LangName = nedNodeElements.Element(Tags.LanguageName).Value,
-                    Locale = nedNodeElements.Element(Tags.LanguageLocale).Value,
+                    LangName = nedNodeElements.Element( Tags.LanguageName ).Value,
+                    Locale = nedNodeElements.Element( Tags.LanguageLocale ).Value,
                 };
             List<LanguageInfo> allRemoteLanguages = new List<LanguageInfo>();
-            foreach (LanguageInfo item in languageItemsQuery)
+            foreach( LanguageInfo item in languageItemsQuery )
             {
-                allRemoteLanguages.Add(item);
+                allRemoteLanguages.Add( item );
             }
             return allRemoteLanguages;
         }
 
-        internal void LoadNewList(List<LanguageInfo> languageList)
+        internal void LoadNewList( List<LanguageInfo> languageList )
         {
-            if (languageList.Count > 1)
+            if( languageList.Count > 1 )
             {
-                       
-                foreach (LanguageInfo remoteLang in languageList)
+
+                foreach( LanguageInfo remoteLang in languageList )
                 {
-                    int oldIndex = LanguageList.IndexOf(remoteLang);
-                    if ( oldIndex >= 0 )
+                    int oldIndex = LanguageList.IndexOf( remoteLang );
+                    if( oldIndex >= 0 )
                     {
-                        remoteLang.IsLocal = LanguageList.ElementAt(oldIndex).IsLocal;
-                        remoteLang.ItemState = LanguageList.ElementAt(oldIndex).ItemState;
+                        remoteLang.IsLocal = LanguageList.ElementAt( oldIndex ).IsLocal;
+                        remoteLang.ItemState = LanguageList.ElementAt( oldIndex ).ItemState;
                     }
                 }
 
                 LanguageList.Clear();
-                LanguageList.Add(defaultLanguageInfo());
+                LanguageList.Add( defaultLanguageInfo() );
 
-                foreach (LanguageInfo remoteLang in languageList)
+                foreach( LanguageInfo remoteLang in languageList )
                 {
-                    LanguageList.Add(remoteLang);
+                    LanguageList.Add( remoteLang );
                 }
 
-                Save(true);
+                Save( true );
             }
-            CurrentLanguage = "0";
-            LanguageList.First().SetCurrentInternal(true);
+
+            LanguageList.First().SetCurrentInternal( true );
         }
 
         private LanguageInfo defaultLanguageInfo()

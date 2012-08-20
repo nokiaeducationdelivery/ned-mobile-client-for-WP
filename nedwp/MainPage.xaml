@@ -1,6 +1,6 @@
 ﻿<!--
 *******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This document and accompanying materials 
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -50,7 +50,7 @@
             <controls:Pivot.HeaderTemplate>
                 <StaticResource ResourceKey="PivotHeader"/>
             </controls:Pivot.HeaderTemplate>
-            <controls:PivotItem x:Name="LibraryManager" Header="{Binding LocalizedResources.MainPage_LibraryManager ,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
+            <controls:PivotItem x:Name="LibraryManager" Header="{Binding LocalizedResources.LIBRARY_MANAGER,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
                 <Grid Margin="{StaticResource PhoneHorizontalMargin}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -63,8 +63,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_NewLibraryID, Source={StaticResource LanguageStrings}}" VerticalAlignment="Top"/>
-                    <TextBlock Grid.Row="1" Text="{Binding LocalizedResources.DemoLibId, Source={StaticResource LanguageStrings}}" 
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding LocalizedResources.LIBRARY_ID, Source={StaticResource LanguageStrings}}" VerticalAlignment="Top"/>
+                    <TextBlock Grid.Row="1" Text="{Binding LocalizedResources.DEMOLIBID, Source={StaticResource LanguageStrings}}" 
                                Visibility="{Binding LoggedUser.Libraries, Converter={StaticResource DemoInfoToVisibilityConverter}}"
                                TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Left"/>
                     <TextBox x:Name="NewLibraryId" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="2"/>
@@ -72,7 +72,7 @@
                     <TextBlock Grid.Row="3"
                                HorizontalAlignment="Left" VerticalAlignment="Top" 
                                TextWrapping="Wrap" 
-                               Text="{Binding LocalizedResources.MainPage_ShowLibraries ,Source={StaticResource LanguageStrings}}" 
+                               Text="{Binding LocalizedResources.SHOW_LIBRARY ,Source={StaticResource LanguageStrings}}" 
                                Visibility="{Binding LoggedUser.Libraries.Count, Converter={StaticResource ShowWhenListIsEmptyConverter}}"/>
                     <ListBox x:Name="LibraryManagerList" 
                         Grid.Row="4" Grid.ColumnSpan="2" 
@@ -83,8 +83,8 @@
                                 <Grid>
                                     <toolkit:ContextMenuService.ContextMenu>
                                         <toolkit:ContextMenu x:Name="ItemContextMenu">
-                                            <toolkit:MenuItem Header="{Binding LocalizedResources.MainPage_CheckForUpdates ,Source={StaticResource LanguageStrings}}" Tag="CheckForUpdatesTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
-                                            <toolkit:MenuItem Header="{Binding LocalizedResources.MainPage_Delete ,Source={StaticResource LanguageStrings}}" Tag="DeleteTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
+                                            <toolkit:MenuItem Header="{Binding LocalizedResources.CHECK_FOR_UPDATE ,Source={StaticResource LanguageStrings}}" Tag="CheckForUpdatesTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
+                                            <toolkit:MenuItem Header="{Binding LocalizedResources.DELETE ,Source={StaticResource LanguageStrings}}" Tag="DeleteTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
                                         </toolkit:ContextMenu>
                                     </toolkit:ContextMenuService.ContextMenu>
                                     <CheckBox d:LayoutOverrides="Width, Height" IsChecked="{Binding Visible, Mode=TwoWay}" Content="{Binding Name}"/>
@@ -110,7 +110,7 @@
                     </TextBlock>
                 </Grid>
             </controls:PivotItem>
-            <controls:PivotItem x:Name="Libraries" Header="{Binding LocalizedResources.MainPage_Libraries ,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
+            <controls:PivotItem x:Name="Libraries" Header="{Binding LocalizedResources.LIBRARIES ,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
                 <controls:PivotItem.Resources>
                     <local:CatalogueCountConverter x:Key="CatalogueCountConverter" />
                 </controls:PivotItem.Resources>
@@ -136,8 +136,8 @@
                                 <Grid>
                                     <toolkit:ContextMenuService.ContextMenu>
                                         <toolkit:ContextMenu x:Name="ItemContextMenu">
-                                            <toolkit:MenuItem Header="{Binding LocalizedResources.CataloguePage_SearchButton ,Source={StaticResource LanguageStrings}}" Tag="SearchTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
-                                            <toolkit:MenuItem Header="{Binding LocalizedResources.CataloguePage_DownloadAllButton ,Source={StaticResource LanguageStrings}}" Tag="DownloadAllTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
+                                            <toolkit:MenuItem Header="{Binding LocalizedResources.MID_SEARCH_COMMAND ,Source={StaticResource LanguageStrings}}" Tag="SearchTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
+                                            <toolkit:MenuItem Header="{Binding LocalizedResources.DOWNLOAD_ALL ,Source={StaticResource LanguageStrings}}" Tag="DownloadAllTag" CommandParameter="{Binding}" Click="OnContextMenuActivated" />
                                         </toolkit:ContextMenu>
                                     </toolkit:ContextMenuService.ContextMenu>
                                     <Grid.RowDefinitions>
@@ -168,7 +168,7 @@
                     </TextBlock>
                 </Grid>
             </controls:PivotItem>
-            <controls:PivotItem x:Name="Downloads" Header="{Binding LocalizedResources.MainPage_Downloads ,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
+            <controls:PivotItem x:Name="Downloads" Header="{Binding LocalizedResources.MID_DOWNLOADS ,Source={StaticResource LanguageStrings}}" Margin="{StaticResource PivotItemMargins}">
                 <Grid Margin="{StaticResource PhoneHorizontalMargin}">
                     <ListBox x:Name="DownloadsList" 
                         ItemsSource="{Binding LoggedUser.Downloads}" 
@@ -208,7 +208,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <local:TitlePanelControl x:Name="ServerWizardTitlePanel" TitleText="{Binding LocalizedResources.MainPage_ServerWizard ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Bottom"/>
+            <local:TitlePanelControl x:Name="ServerWizardTitlePanel" TitleText="{Binding LocalizedResources.SERVER_WIZARD ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Bottom"/>
             <Grid Grid.ColumnSpan="2" Height="199" Grid.Row="4" VerticalAlignment="Top" Margin="{StaticResource PhoneHorizontalMargin}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -222,7 +222,7 @@
                 </Grid.ColumnDefinitions>
 
 
-                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_EnterServerAddress ,Source={StaticResource LanguageStrings}}" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.ENTER_SERVER_ADDRESS ,Source={StaticResource LanguageStrings}}" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
                 <TextBox x:Name="ServerUrl" TextWrapping="Wrap" Text="http://" InputScope="Url" HorizontalContentAlignment="Stretch" d:LayoutOverrides="Height" Grid.Row="1"/>
                 <Button x:Name="ServerUrlButton" Content="{Binding LocalizedResources.MainPage_OK ,Source={StaticResource LanguageStrings}}" UseLayoutRounding="True" HorizontalAlignment="Right" d:LayoutOverrides="HorizontalAlignment, Height" Grid.Column="1" Grid.Row="1" Click="OnServerAddressSelected" />
                 <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.DEMOURL ,Source={StaticResource LanguageStrings}}" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
@@ -236,16 +236,16 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <local:TitlePanelControl x:Name="LoginTitlePanel" TitleText="{Binding LocalizedResources.MainPage_UserLogin ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Bottom"/>
+            <local:TitlePanelControl x:Name="LoginTitlePanel" TitleText="{Binding LocalizedResources.USER_AUTHENTICATION ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Bottom"/>
             <StackPanel Margin="{StaticResource PhoneHorizontalMargin}" Grid.Row="1">
                 <TextBlock x:Name="ServerAddress" Text="{Binding ServerUrl}" TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding LocalizedResources.DemoLoginDetails, Source={StaticResource LanguageStrings}}" Visibility="{Binding IsDemoServerSelected, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="Wrap" d:LayoutOverrides="Width" HorizontalAlignment="Left"/>
-                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_UserName ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.USER_NAME ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
                 <TextBox x:Name="Username" Text="{Binding UsernameBoxText, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
-                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.MainPage_Password ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding LocalizedResources.PASSWORD ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
                 <PasswordBox x:Name="Password" Password="{Binding PasswordBoxText, Mode=TwoWay}" VerticalAlignment="Top"/>
-                <Button x:Name="LoginButton" Content="{Binding LocalizedResources.MainPage_logIn ,Source={StaticResource LanguageStrings}}" Click="Login"/>
-                <CheckBox x:Name="RememberMe" IsChecked="{Binding Path=RememberMe, Mode=TwoWay}" Content="{Binding LocalizedResources.MainPage_RememberMe ,Source={StaticResource LanguageStrings}}"/>
+                <Button x:Name="LoginButton" Content="{Binding LocalizedResources.LOGIN ,Source={StaticResource LanguageStrings}}" Click="Login"/>
+                <CheckBox x:Name="RememberMe" IsChecked="{Binding Path=RememberMe, Mode=TwoWay}" Content="{Binding LocalizedResources.REMEMBERME ,Source={StaticResource LanguageStrings}}"/>
             </StackPanel>
         </Grid>
         <local:ProgressDialog x:Name="ProgressBarOverlay"/>

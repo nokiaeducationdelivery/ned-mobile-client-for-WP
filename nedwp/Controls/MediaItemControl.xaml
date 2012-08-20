@@ -1,6 +1,6 @@
 ﻿<!--
 *******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This document and accompanying materials 
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -44,11 +44,11 @@
         <Image      Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Source="Resources/HorizontalSplitter.png" Stretch="Fill" Opacity="0.10"/>
         <toolkit:ContextMenuService.ContextMenu>
             <toolkit:ContextMenu x:Name="ItemContextMenu">
-                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemControl_DeleteButton ,Source={StaticResource LanguageStrings}}" Tag="DeleteTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
-                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemControl_DonwloadNowButton ,Source={StaticResource LanguageStrings}}" Tag="DownloadNowTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
-                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemControl_AddToQueue ,Source={StaticResource LanguageStrings}}" Tag="AddToQueueTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
-                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemsViewPage_LinksButtonText ,Source={StaticResource LanguageStrings}}" Tag="ShowLinksTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
-                <toolkit:MenuItem Header="{Binding LocalizedResources.MediaItemsViewPage_DescriptionButtonText ,Source={StaticResource LanguageStrings}}" Tag="ShowDescriptionTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.DELETE ,Source={StaticResource LanguageStrings}}" Tag="DeleteTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.DOWNLOAD_NOW ,Source={StaticResource LanguageStrings}}" Tag="DownloadNowTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.ADDTOQUEUE ,Source={StaticResource LanguageStrings}}" Tag="AddToQueueTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.SHOW_LINKS ,Source={StaticResource LanguageStrings}}" Tag="ShowLinksTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
+                <toolkit:MenuItem Header="{Binding LocalizedResources.SHOW_DETAILS ,Source={StaticResource LanguageStrings}}" Tag="ShowDescriptionTag" CommandParameter="{Binding}" Click="OnMenuItemClicked" />
             </toolkit:ContextMenu>
         </toolkit:ContextMenuService.ContextMenu>
     </Grid>

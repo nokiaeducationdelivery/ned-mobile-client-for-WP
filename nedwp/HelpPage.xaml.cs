@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -33,25 +33,25 @@ namespace NedWp
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo( NavigationEventArgs e )
         {
             bool helpLoaded = false;
             IDictionary<string, string> parameters = NavigationContext.QueryString;
-            System.Diagnostics.Debug.Assert(parameters.ContainsKey("type"));
+            System.Diagnostics.Debug.Assert( parameters.ContainsKey( "type" ) );
             try
             {
-                HelpPages helpPage = (HelpPages)Enum.Parse(typeof(HelpPages), (string)parameters["type"], true);
-                helpLoaded = App.Help.FetchHelpData(helpPage);
+                HelpPages helpPage = (HelpPages)Enum.Parse( typeof( HelpPages ), (string)parameters["type"], true );
+                helpLoaded = App.Help.FetchHelpData( helpPage );
                 DataContext = App.Help;
             }
-            catch (Exception) {}
-            
-            if (!helpLoaded)
+            catch( Exception ) { }
+
+            if( !helpLoaded )
             {
-                System.Diagnostics.Debug.Assert(false, "Fix help data for statistics page");
-                MessageBox.Show(AppResources.HelpPage_HelpNotAvailable);
+                System.Diagnostics.Debug.Assert( false, "Fix help data for statistics page" );
+                MessageBox.Show( FileLanguage.MISSING_HELP );
             }
-            base.OnNavigatedTo(e);
+            base.OnNavigatedTo( e );
         }
     }
 }
