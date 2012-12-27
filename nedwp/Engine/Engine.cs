@@ -77,7 +77,7 @@ namespace NedEngine
         }
 
         private DownloadManager _downloadManager = null;
-        private DownloadManager DownloadManager
+        public DownloadManager DownloadManager
         {
             get
             {
@@ -641,7 +641,7 @@ namespace NedEngine
             DownloadItemStarted
         }
 
-        public AddingToQueueResult EnqueueMediaItem( MediaItemsListModelItem mediaItem, bool immediate )
+        public AddingToQueueResult EnqueueMediaItem( MediaItemsListModelItem mediaItem, bool immediate, bool forceNow = false )
         {
             if( LoggedUser.Downloads.Count( queuedDownload => queuedDownload.Id == mediaItem.Id ) == 0 )
             {
@@ -666,7 +666,7 @@ namespace NedEngine
 
                 if( initialState != QueuedDownload.DownloadState.Stopped )
                 {
-                    DownloadManager.StartDownload( queuedDownload );
+                    DownloadManager.StartDownload( queuedDownload, false, forceNow );
                 }
                 return AddingToQueueResult.ItemAddedToQueue;
             }

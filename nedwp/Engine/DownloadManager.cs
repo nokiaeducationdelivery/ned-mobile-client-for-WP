@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -62,7 +62,15 @@ namespace NedEngine
         private readonly IList<QueuedDownload> queuedDownloads = new List<QueuedDownload>();
         private readonly IDictionary<QueuedDownload, IDownloadCancelHandle> startedDownloads = new Dictionary<QueuedDownload, IDownloadCancelHandle>();
 
-        private const int KMaxSimultaneousDownloads = 2;
+        public int StartedDownloadsCount
+        {
+            get
+            {
+                return startedDownloads.Count;
+            }
+        }
+
+        public const int KMaxSimultaneousDownloads = 2;
         private const int KProgressUpdateInterval = 250;
 
         private readonly Transport Transport;
@@ -136,7 +144,7 @@ namespace NedEngine
             }
         }
 
-        public void StartDownload(QueuedDownload download, bool resume = false)
+        public void StartDownload(QueuedDownload download, bool resume = false, bool forceNow = false)
         {
             if (queuedDownloads.Contains(download) || startedDownloads.Keys.Contains(download))
             {
@@ -146,18 +154,40 @@ namespace NedEngine
             {
                 queuedDownloads.Insert(0, download);
             }
-            else
+            else if(!forceNow)
             {
                 queuedDownloads.Add(download);
                 _downloadEnqueuedEvent.OnNext(download);
             }
-            
-            StartEnqueuedItemsIfPossible();
+            if (forceNow)
+            {
+                QueuedDownload nextDownload = null;
+                if (startedDownloads.Count >= KMaxSimultaneousDownloads)
+                {
+                    nextDownload = startedDownloads.Keys.Last();
+                }
+                IDownloadCancelHandle cancelHandle = StartEnqueuedDownload(download);
+                startedDownloads.Add(download, cancelHandle);
+                if (nextDownload != null)
+                {
+                    StopDownload(nextDownload, false);
+                    nextDownload.State = QueuedDownload.DownloadState.Queued;
+                    queuedDownloads.Insert(0, nextDownload);
+                    _downloadEnqueuedEvent.OnNext(nextDownload);
+                }
+            }
+            else
+            {
+                StartEnqueuedItemsIfPossible();
+            }
         }
 
-        public IObservable<QueuedDownload> StopDownload(QueuedDownload download)
+        public IObservable<QueuedDownload> StopDownload(QueuedDownload download, bool queueNext = true)
         {
-            _downloadStopPendingEvent.OnNext(download);
+            if (queueNext)
+            {
+                _downloadStopPendingEvent.OnNext(download);
+            }
 
             if (!queuedDownloads.Contains(download) && !startedDownloads.Keys.Contains(download))
             {
@@ -177,7 +207,10 @@ namespace NedEngine
                 result.Subscribe(dl =>
                     {
                         startedDownloads.Remove(dl);
-                        StartEnqueuedItemsIfPossible();
+                        if (queueNext)
+                        {
+                            StartEnqueuedItemsIfPossible();
+                        }
                     });
             }
 
@@ -322,6 +355,11 @@ namespace NedEngine
                                                         App.Engine.StatisticsManager.LogDownloadCompleted(activeDownload.Download, "Completed");
 
                                                     }
+                                                    else
+                                                    {
+                                                        _downloadStoppedEvent.OnNext(activeDownload.Download);
+                                                    }
+
                                                 }
                                                 else if (e.Error != null)
                                                 {

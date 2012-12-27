@@ -14,6 +14,7 @@ using NedEngine;
 using Coding4Fun.Phone.Controls;
 using NedWp.Resources.Languages;
 using System.Diagnostics;
+using System.Windows;
 
 namespace NedWp
 {
@@ -24,8 +25,16 @@ namespace NedWp
         protected void Execute( object parameter, bool immediate )
         {
             MediaItemsListModelItem mediaItem = parameter as MediaItemsListModelItem;
+            bool forceCurrent = false;
+            if (immediate && App.Engine.DownloadManager.StartedDownloadsCount >= DownloadManager.KMaxSimultaneousDownloads)
+            {
+                MessageBoxResult result = MessageBox.Show(FileLanguage.MAX_DOWNLOAD_REACHED_QUESTION, FileLanguage.ARE_YOU_SURE, MessageBoxButton.OKCancel);
+                forceCurrent = result == MessageBoxResult.OK;
+            }
+
+
             ToastPrompt toast = new ToastPrompt();
-            switch( App.Engine.EnqueueMediaItem( mediaItem, immediate ) )
+            switch( App.Engine.EnqueueMediaItem( mediaItem, immediate, forceCurrent ) )
             {
                 case Engine.AddingToQueueResult.ItemAlreadyDownloaded:
                     toast.Message = String.Format( FileLanguage.DownloadCommand_AlreadyDownloaded, mediaItem.Title == String.Empty ? FileLanguage.DownloadCommand_Item : mediaItem.Title );

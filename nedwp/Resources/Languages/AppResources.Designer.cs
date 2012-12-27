@@ -616,6 +616,15 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max number of parallel downoads has been reached.\nDo you want to pause one of the active downloads and start transfer of the selected file?.
+        /// </summary>
+        public static string MAX_DOWNLOAD_REACHED_QUESTION {
+            get {
+                return ResourceManager.GetString("MAX_DOWNLOAD_REACHED_QUESTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Media items: {0} (downloaded: {1}, on server: {2} ).
         /// </summary>
         public static string MEDIA_ITEMS {

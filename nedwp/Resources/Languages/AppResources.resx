@@ -509,4 +509,7 @@ Statistics are uploaded automatically when 'Automatic upload' turned on in setti
   <data name="TIP_3" xml:space="preserve">
     <value>And tip 3</value>
   </data>
+  <data name="MAX_DOWNLOAD_REACHED_QUESTION" xml:space="preserve">
+    <value>Max number of parallel downoads has been reached.\nDo you want to pause one of the active downloads and start transfer of the selected file?</value>
+  </data>
 </root>

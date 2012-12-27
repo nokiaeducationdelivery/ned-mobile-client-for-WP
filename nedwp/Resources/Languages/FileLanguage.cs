@@ -18,7 +18,7 @@ namespace NedWp.Resources.Languages
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Globalization;
-using System.Collections.Generic;
+    using System.Collections.Generic;
 
     public class FileLanguage
     {
@@ -1884,6 +1884,19 @@ using System.Collections.Generic;
                     return customLocalization;
                 }
                 return ConvertUTFNotation(AppResources.ResourceManager.GetString("TIPS_TRICKS", AppResources.Culture));
+            }
+        }
+
+        public static string MAX_DOWNLOAD_REACHED_QUESTION
+        {
+            get
+            {
+                string customLocalization = getMessage("MAX_DOWNLOAD_REACHED_QUESTION");
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return ConvertUTFNotation(AppResources.ResourceManager.GetString("MAX_DOWNLOAD_REACHED_QUESTION", AppResources.Culture));
             }
         }
 
