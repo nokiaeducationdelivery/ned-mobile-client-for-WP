@@ -101,6 +101,7 @@
       <DependentUpon>CataloguePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Engine\CategoryModelItem.cs" />
+    <Compile Include="Engine\Tips.cs" />
     <Compile Include="Engine\Languages.cs" />
     <Compile Include="Engine\DownloadManager.cs" />
     <Compile Include="Engine\HelpModel.cs" />

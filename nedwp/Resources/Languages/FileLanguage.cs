@@ -18,6 +18,7 @@ namespace NedWp.Resources.Languages
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Globalization;
+using System.Collections.Generic;
 
     public class FileLanguage
     {
@@ -1819,6 +1820,112 @@ namespace NedWp.Resources.Languages
                 }
                 return ConvertUTFNotation( AppResources.ResourceManager.GetString( "DOWNLOAD_AGAIN_LANGUAGE", AppResources.Culture ) );
             }
+        }
+
+        public static string NEXT
+        {
+            get
+            {
+                string customLocalization = getMessage( "NEXT" );
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "NEXT", AppResources.Culture ) );
+            }
+        }
+
+        public static string HIDE
+        {
+            get
+            {
+                string customLocalization = getMessage( "HIDE" );
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "HIDE", AppResources.Culture ) );
+            }
+        }
+
+        public static string SHOW_TIPS
+        {
+            get
+            {
+                string customLocalization = getMessage( "SHOW_TIPS" );
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "SHOW_TIPS", AppResources.Culture ) );
+            }
+        }
+
+        public static string TIPS_ON_STARTUP
+        {
+            get
+            {
+                string customLocalization = getMessage( "TIPS_ON_STARTUP" );
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return ConvertUTFNotation( AppResources.ResourceManager.GetString( "TIPS_ON_STARTUP", AppResources.Culture ) );
+            }
+        }
+
+        public static string TIPS_TRICKS
+        {
+            get
+            {
+                string customLocalization = getMessage("TIPS_TRICKS");
+                if (customLocalization != null)
+                {
+                    return customLocalization;
+                }
+                return ConvertUTFNotation(AppResources.ResourceManager.GetString("TIPS_TRICKS", AppResources.Culture));
+            }
+        }
+
+        public static string TIP(uint index)
+        {
+            string tipId = "TIP_" + index.ToString();
+            string customLocalization = getMessage(tipId);
+            if (customLocalization != null)
+            {
+                return customLocalization;
+            }
+            return ConvertUTFNotation(AppResources.ResourceManager.GetString(tipId, AppResources.Culture));
+        }
+
+        public static List<String> AllTips()
+        {
+            List<String> retval = new List<String>();
+            int failCount = 0;
+            int tipNumber = 1;
+            while (failCount < 10)
+            {
+                string tipId = "TIP_" + tipNumber.ToString();
+                string customLocalization = getMessage(tipId);
+                if (customLocalization != null)
+                {
+                    retval.Add(customLocalization);
+                }
+                else
+                {
+                    customLocalization = ConvertUTFNotation(AppResources.ResourceManager.GetString(tipId, AppResources.Culture));
+                    if (customLocalization != null)
+                    {
+                        retval.Add(customLocalization);
+                    }
+                    else
+                    {
+                        failCount++;
+                    }
+                }
+                tipNumber++;
+            }
+            return retval;
         }
     }
 }

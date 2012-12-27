@@ -31,6 +31,7 @@ namespace NedEngine
         {
             ApplicationSettings = new ApplicationSettings();
             Transport = new Transport( this, ApplicationSettings );
+            TipsAndTricks = new Tips();
             UpdateMotd();
         }
 
@@ -750,6 +751,12 @@ namespace NedEngine
 
         #endregion Tombstoning and Exiting
 
+
+        #region Tips and Tricks
+
+        public Tips TipsAndTricks { get; set; }
+
+        #endregion Tips and Tricks
     }
 
 }

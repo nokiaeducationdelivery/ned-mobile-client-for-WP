@@ -40,7 +40,8 @@ namespace NedWp
             None = -1,
             SelectServer = 1,
             Login,
-            MainMenu
+            MainMenu,
+            TipsAndTricks
         }
 
         public string DemoUrl
@@ -125,6 +126,8 @@ namespace NedWp
             LayoutRoot.DataContext = this;
             Password.DataContext = this;
             Username.DataContext = this;
+            CurrentTips.DataContext = App.Engine.TipsAndTricks;
+            ShowTipsStartup.DataContext = App.Engine.ApplicationSettings;
             App.Engine.OnLogoutCompleted += OnLogoutCompleted;
             App.Engine.OnFactoryResetCompleted += OnFactoryResetCompleted;
 
@@ -390,7 +393,14 @@ namespace NedWp
                             App.Engine.RememberUsernameAndPassword( UsernameBoxText, PasswordBoxText );
                             App.Engine.RequestMotdUpdate();
                             MainMenuScreen.SelectedItem = Libraries;
-                            GoForwardToScreen( Screen.MainMenu );
+                            if (App.Engine.ApplicationSettings.ShowTipsStartup)
+                            {
+                                GoForwardToScreen(Screen.TipsAndTricks);
+                            }
+                            else
+                            {
+                                GoForwardToScreen(Screen.MainMenu);
+                            }
                         } );
                     },
                     error =>
@@ -615,6 +625,20 @@ namespace NedWp
         }
 
         #endregion
+
+        #region Tips And Tricks
+
+        private void OnHideButtonClicked(object sender, RoutedEventArgs e)
+        {
+            GoForwardToScreen(Screen.MainMenu);
+        }
+
+        private void OnNextButtonClicked(object sender, RoutedEventArgs e)
+        {
+            App.Engine.TipsAndTricks.RollNext();
+        }
+
+        #endregion Tips And Tricks
 
         #region Downloads
 

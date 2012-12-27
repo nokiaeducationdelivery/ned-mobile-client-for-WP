@@ -54,6 +54,13 @@
                     </DataTemplate>
                 </toolkit:ToggleSwitch.ContentTemplate>
             </toolkit:ToggleSwitch>
+            <toolkit:ToggleSwitch x:Name="TipsAndTricks" Header="{Binding LocalizedResources.TIPS_TRICKS ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding ShowTipsStartup, Mode=TwoWay}">
+                <toolkit:ToggleSwitch.ContentTemplate>
+                    <DataTemplate>
+                        <ContentControl HorizontalAlignment="Left" Content="{Binding Converter={StaticResource SwitchConverter}}"/>
+                    </DataTemplate>
+                </toolkit:ToggleSwitch.ContentTemplate>
+            </toolkit:ToggleSwitch>
             <Button Content="{Binding LocalizedResources.LANGUAGE ,Source={StaticResource LanguageStrings}}" Click="OnSelectLanguageClicked" />
             <Button Content="{Binding LocalizedResources.SWITCH_USER ,Source={StaticResource LanguageStrings}}" Click="OnLogoutButtonClicked"/>
             <Button Content="{Binding LocalizedResources.REMOVE_USER ,Source={StaticResource LanguageStrings}}" Click="OnRemoveUserButtonClicked"/>

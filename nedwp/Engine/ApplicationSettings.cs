@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ namespace NedEngine
         private const String KRememberMeKey = "rememberMe";
         private const String KRememberedLoginKey = "rememberedLogin";
         private const String KRememberedPasswordKey = "rememberedPassword";
+        private const String KShowTipsOnStartup = "showTipsOnStartup";
 
         private Uri _serverUrl;
         public Uri ServerUrl
@@ -122,7 +123,29 @@ namespace NedEngine
             }
 
         }
-        
+
+        private bool _showTipsStartup = true;
+        public bool ShowTipsStartup
+        {
+            get
+            {
+                return _showTipsStartup;
+            }
+            set
+            {
+                if (value != _showTipsStartup)
+                {
+                    _showTipsStartup = value;
+
+                    IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+                    appSettings.Remove(KShowTipsOnStartup);
+                    appSettings.Add(KShowTipsOnStartup, value);
+                    appSettings.Save();
+
+                    OnPropertyChanged("ShowTipsStartup");
+                }
+            }
+        }
 
         public ApplicationSettings()
         {
@@ -131,6 +154,7 @@ namespace NedEngine
             appSettings.TryGetValue(KRememberMeKey, out _rememberMe);
             appSettings.TryGetValue(KRememberedLoginKey, out _rememberedLogin);
             appSettings.TryGetValue(KRememberedPasswordKey, out _rememberedPassword);
+            appSettings.TryGetValue(KShowTipsOnStartup, out _showTipsStartup);
             AvailableLanguages = new Languages();
         }
 

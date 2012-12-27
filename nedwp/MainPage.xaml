@@ -231,10 +231,10 @@
         </Grid>
 
         <Grid x:Name="LoginScreen" Background="Transparent" Visibility="{Binding Path=VisibleScreen, Converter={StaticResource ScreenVisibilityCoverter}, ConverterParameter=Login}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+          <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition/>
+          </Grid.RowDefinitions>
 
             <local:TitlePanelControl x:Name="LoginTitlePanel" TitleText="{Binding LocalizedResources.USER_AUTHENTICATION ,Source={StaticResource LanguageStrings}}" VerticalAlignment="Bottom"/>
             <StackPanel Margin="{StaticResource PhoneHorizontalMargin}" Grid.Row="1">
@@ -248,6 +248,25 @@
                 <CheckBox x:Name="RememberMe" IsChecked="{Binding Path=RememberMe, Mode=TwoWay}" Content="{Binding LocalizedResources.REMEMBERME ,Source={StaticResource LanguageStrings}}"/>
             </StackPanel>
         </Grid>
+      
+        <Grid x:Name="TipsScreen" Background="Transparent" Visibility="{Binding Path=VisibleScreen, Converter={StaticResource ScreenVisibilityCoverter}, ConverterParameter=TipsAndTricks}">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+
+          <local:TitlePanelControl x:Name="TipsTitlePanel" TitleText="{Binding LocalizedResources.TIPS_TRICKS,Source={StaticResource LanguageStrings}}"  VerticalAlignment="Bottom"/>
+          <StackPanel Margin="{StaticResource PhoneHorizontalMargin}" Grid.Row="1">
+          <!--ContentPanel - place additional content here-->
+            <TextBlock Name="CurrentTips" FontSize="30" Text="{Binding CurrentTip, Mode=TwoWay}" />
+            <CheckBox Name="ShowTipsStartup" Content="{Binding LocalizedResources.TIPS_ON_STARTUP ,Source={StaticResource LanguageStrings}}" IsChecked="{Binding ShowTipsStartup, Mode=TwoWay}" />
+            <Grid>
+              <Button x:Name="HideButton" Width="200" Content="{Binding LocalizedResources.HIDE ,Source={StaticResource LanguageStrings}}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" Click="OnHideButtonClicked"/>
+              <Button x:Name="NextButton" Width="200" Content="{Binding LocalizedResources.NEXT ,Source={StaticResource LanguageStrings}}" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Click="OnNextButtonClicked"/>
+            </Grid>
+          </StackPanel>
+        </Grid>
+        
         <local:ProgressDialog x:Name="ProgressBarOverlay"/>
     </Grid>
 </phone:PhoneApplicationPage>

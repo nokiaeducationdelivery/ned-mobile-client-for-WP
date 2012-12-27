@@ -485,4 +485,28 @@ Statistics are uploaded automatically when 'Automatic upload' turned on in setti
   <data name="ITEM" xml:space="preserve">
     <value>Item</value>
   </data>
+  <data name="HIDE" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="NEXT" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="SHOW_TIPS" xml:space="preserve">
+    <value>Show Tips</value>
+  </data>
+  <data name="TIPS_ON_STARTUP" xml:space="preserve">
+    <value>Show Tips on startup</value>
+  </data>
+  <data name="TIPS_TRICKS" xml:space="preserve">
+    <value>Tips&amp;Tricks</value>
+  </data>
+  <data name="TIP_1" xml:space="preserve">
+    <value>This is tip 1</value>
+  </data>
+  <data name="TIP_2" xml:space="preserve">
+    <value>Tip 2 here</value>
+  </data>
+  <data name="TIP_3" xml:space="preserve">
+    <value>And tip 3</value>
+  </data>
 </root>

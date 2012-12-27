@@ -47,6 +47,7 @@ namespace NedWp
         {
             InitializeComponent();
             DataContext = App.Engine;
+            TipsAndTricks.DataContext = App.Engine.ApplicationSettings;
 
             PrepareApplicationBar();
         }
