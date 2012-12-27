@@ -50,7 +50,8 @@ namespace NedEngine
         }
 
         private bool _rememberMe;
-        public bool RememberMe { 
+        public bool RememberMe
+        {
             get
             {
                 return _rememberMe;
@@ -79,7 +80,7 @@ namespace NedEngine
         private string _rememberedLogin;
         public string RememberedLogin
         {
-            get 
+            get
             {
                 return _rememberedLogin;
             }
@@ -154,7 +155,10 @@ namespace NedEngine
             appSettings.TryGetValue(KRememberMeKey, out _rememberMe);
             appSettings.TryGetValue(KRememberedLoginKey, out _rememberedLogin);
             appSettings.TryGetValue(KRememberedPasswordKey, out _rememberedPassword);
-            appSettings.TryGetValue(KShowTipsOnStartup, out _showTipsStartup);
+            if (!appSettings.TryGetValue(KShowTipsOnStartup, out _showTipsStartup))
+            {
+                _showTipsStartup = true;
+            }
             AvailableLanguages = new Languages();
         }
 

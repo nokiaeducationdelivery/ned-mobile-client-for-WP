@@ -501,15 +501,66 @@ Statistics are uploaded automatically when 'Automatic upload' turned on in setti
     <value>Tips&amp;Tricks</value>
   </data>
   <data name="TIP_1" xml:space="preserve">
-    <value>This is tip 1</value>
+    <value>When was the last time you updated your catalog?  Choose Library Manager from the main menu.</value>
   </data>
   <data name="TIP_2" xml:space="preserve">
-    <value>Tip 2 here</value>
+    <value>If video does not display on the TV, make sure your phone accessory is set to "TV OUT".</value>
   </data>
   <data name="TIP_3" xml:space="preserve">
-    <value>And tip 3</value>
+    <value>Don't forget to turn OFF "Silent Mode" before playing videos.</value>
   </data>
   <data name="MAX_DOWNLOAD_REACHED_QUESTION" xml:space="preserve">
-    <value>Max number of parallel downoads has been reached.\nDo you want to pause one of the active downloads and start transfer of the selected file?</value>
+    <value>Max number of parallel downloads has been reached.\nDo you want to pause one of the active downloads and start transfer of the selected file?</value>
+  </data>
+  <data name="TIP_10" xml:space="preserve">
+    <value>Be careful when hitting back - if you tap it too many times, you may accidentally hit "Exit"</value>
+  </data>
+  <data name="TIP_11" xml:space="preserve">
+    <value>You know you are in the Main Menu if you see "Exit" on the screen</value>
+  </data>
+  <data name="TIP_12" xml:space="preserve">
+    <value>To view your downloads in progress, go to Main Menu and choose Downloads</value>
+  </data>
+  <data name="TIP_13" xml:space="preserve">
+    <value>A typical video will take several minutes to download.  You can start the download, hit Back, and view another video while you wait.</value>
+  </data>
+  <data name="TIP_14" xml:space="preserve">
+    <value>You can use "Go to Start" to return to the Main Menu from a Media Item</value>
+  </data>
+  <data name="TIP_15" xml:space="preserve">
+    <value>NED will not function while a USB cable is connected.  Disconnect, wait 30 seconds, then NED will be fine.</value>
+  </data>
+  <data name="TIP_16" xml:space="preserve">
+    <value>Make sure the TV Out cable is ALL THE WAY in.  Unplug and replug it if you can't see anything on the TV.</value>
+  </data>
+  <data name="TIP_17" xml:space="preserve">
+    <value>Projector speakers are usually very soft.  If you use a projector, also try external speakers.</value>
+  </data>
+  <data name="TIP_18" xml:space="preserve">
+    <value>Make sure that the TV is set to AV.  Hit the TV/AV button on the remote to check.</value>
+  </data>
+  <data name="TIP_19" xml:space="preserve">
+    <value>Turn off bluetooth to save battery.</value>
+  </data>
+  <data name="TIP_20" xml:space="preserve">
+    <value>If download doesn't work, try again when you have 3 or more "bars" of signal</value>
+  </data>
+  <data name="TIP_4" xml:space="preserve">
+    <value>Try using the buttons on the side of the phone to adjust the volume.</value>
+  </data>
+  <data name="TIP_5" xml:space="preserve">
+    <value>If you run out of disk space, try transferring your photos, music and videos off of your phone.</value>
+  </data>
+  <data name="TIP_6" xml:space="preserve">
+    <value>If your touch screen sensor is not responding, hold the phone upright.</value>
+  </data>
+  <data name="TIP_7" xml:space="preserve">
+    <value>If you rotate your phone and the screen doesn't rotate, give it a gentle shake.</value>
+  </data>
+  <data name="TIP_8" xml:space="preserve">
+    <value>Speed up your download by connecting your WIFI enabled phone to a Wireless network.</value>
+  </data>
+  <data name="TIP_9" xml:space="preserve">
+    <value>Use "Download All" to update an entire category at once.</value>
   </data>
 </root>

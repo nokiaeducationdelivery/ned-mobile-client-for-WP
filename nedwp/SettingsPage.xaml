@@ -31,41 +31,44 @@
     <phone:PhoneApplicationPage.Resources>
         <local:BoolToSwitchConverter x:Key="SwitchConverter" />
     </phone:PhoneApplicationPage.Resources>
-    
+
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <local:TitlePanelControl Grid.Row="0" TitleText="{Binding LocalizedResources.MID_SETTINGS_TITLE ,Source={StaticResource LanguageStrings}}"/>
-        <StackPanel Grid.Row="1">
-            <toolkit:ToggleSwitch x:Name="AutoStatUploadSwitch" Header="{Binding LocalizedResources.STATISTICS_SENDING_MODE ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticStatisticsUpload, Mode=TwoWay}">
-                <toolkit:ToggleSwitch.ContentTemplate>
-                    <DataTemplate>
-                        <ContentControl HorizontalAlignment="Left" Content="{Binding Converter={StaticResource SwitchConverter}}"/>
-                    </DataTemplate>
-                </toolkit:ToggleSwitch.ContentTemplate>
-            </toolkit:ToggleSwitch>
-            <toolkit:ToggleSwitch x:Name="AutoDownloadSwitch" Header="{Binding LocalizedResources.MID_DOWNLOAD_STATE_SETTINGS ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticDownloads, Mode=TwoWay}">
-                <toolkit:ToggleSwitch.ContentTemplate>
-                    <DataTemplate>
-                        <ContentControl HorizontalAlignment="Left"   
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <toolkit:ToggleSwitch x:Name="AutoStatUploadSwitch" Header="{Binding LocalizedResources.STATISTICS_SENDING_MODE ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticStatisticsUpload, Mode=TwoWay}">
+                    <toolkit:ToggleSwitch.ContentTemplate>
+                        <DataTemplate>
+                            <ContentControl HorizontalAlignment="Left" Content="{Binding Converter={StaticResource SwitchConverter}}"/>
+                        </DataTemplate>
+                    </toolkit:ToggleSwitch.ContentTemplate>
+                </toolkit:ToggleSwitch>
+                <toolkit:ToggleSwitch x:Name="AutoDownloadSwitch" Header="{Binding LocalizedResources.MID_DOWNLOAD_STATE_SETTINGS ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding LoggedUser.Settings.AutomaticDownloads, Mode=TwoWay}">
+                    <toolkit:ToggleSwitch.ContentTemplate>
+                        <DataTemplate>
+                            <ContentControl HorizontalAlignment="Left"   
                     Content="{Binding Converter={StaticResource SwitchConverter}}"/>
-                    </DataTemplate>
-                </toolkit:ToggleSwitch.ContentTemplate>
-            </toolkit:ToggleSwitch>
-            <toolkit:ToggleSwitch x:Name="TipsAndTricks" Header="{Binding LocalizedResources.TIPS_TRICKS ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding ShowTipsStartup, Mode=TwoWay}">
-                <toolkit:ToggleSwitch.ContentTemplate>
-                    <DataTemplate>
-                        <ContentControl HorizontalAlignment="Left" Content="{Binding Converter={StaticResource SwitchConverter}}"/>
-                    </DataTemplate>
-                </toolkit:ToggleSwitch.ContentTemplate>
-            </toolkit:ToggleSwitch>
-            <Button Content="{Binding LocalizedResources.LANGUAGE ,Source={StaticResource LanguageStrings}}" Click="OnSelectLanguageClicked" />
-            <Button Content="{Binding LocalizedResources.SWITCH_USER ,Source={StaticResource LanguageStrings}}" Click="OnLogoutButtonClicked"/>
-            <Button Content="{Binding LocalizedResources.REMOVE_USER ,Source={StaticResource LanguageStrings}}" Click="OnRemoveUserButtonClicked"/>
-            <Button Content="{Binding LocalizedResources.FACTORY_SETTINGS ,Source={StaticResource LanguageStrings}}" Click="OnFactoryResetButtonClicked"/>
-        </StackPanel>
+                        </DataTemplate>
+                    </toolkit:ToggleSwitch.ContentTemplate>
+                </toolkit:ToggleSwitch>
+                <toolkit:ToggleSwitch x:Name="TipsAndTricks" Header="{Binding LocalizedResources.TIPS_TRICKS ,Source={StaticResource LanguageStrings}}" d:LayoutOverrides="Width" IsChecked="{Binding ShowTipsStartup, Mode=TwoWay}">
+                    <toolkit:ToggleSwitch.ContentTemplate>
+                        <DataTemplate>
+                            <ContentControl HorizontalAlignment="Left" Content="{Binding Converter={StaticResource SwitchConverter}}"/>
+                        </DataTemplate>
+                    </toolkit:ToggleSwitch.ContentTemplate>
+                </toolkit:ToggleSwitch>
+                <Button Content="{Binding LocalizedResources.LANGUAGE ,Source={StaticResource LanguageStrings}}" Click="OnSelectLanguageClicked" />
+                <Button Content="{Binding LocalizedResources.SWITCH_USER ,Source={StaticResource LanguageStrings}}" Click="OnLogoutButtonClicked"/>
+                <Button Content="{Binding LocalizedResources.REMOVE_USER ,Source={StaticResource LanguageStrings}}" Click="OnRemoveUserButtonClicked"/>
+                <Button Content="{Binding LocalizedResources.FACTORY_SETTINGS ,Source={StaticResource LanguageStrings}}" Click="OnFactoryResetButtonClicked"/>
+            </StackPanel>
+        </ScrollViewer>
         <local:ProgressDialog x:Name="ProgressBarOverlay" Grid.RowSpan="2" />
     </Grid>
 </phone:PhoneApplicationPage>

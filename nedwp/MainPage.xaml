@@ -258,7 +258,7 @@
           <local:TitlePanelControl x:Name="TipsTitlePanel" TitleText="{Binding LocalizedResources.TIPS_TRICKS,Source={StaticResource LanguageStrings}}"  VerticalAlignment="Bottom"/>
           <StackPanel Margin="{StaticResource PhoneHorizontalMargin}" Grid.Row="1">
           <!--ContentPanel - place additional content here-->
-            <TextBlock Name="CurrentTips" FontSize="30" Text="{Binding CurrentTip, Mode=TwoWay}" />
+            <TextBlock Name="CurrentTips" FontSize="30" Text="{Binding CurrentTip, Mode=TwoWay}" TextWrapping="Wrap"/>
             <CheckBox Name="ShowTipsStartup" Content="{Binding LocalizedResources.TIPS_ON_STARTUP ,Source={StaticResource LanguageStrings}}" IsChecked="{Binding ShowTipsStartup, Mode=TwoWay}" />
             <Grid>
               <Button x:Name="HideButton" Width="200" Content="{Binding LocalizedResources.HIDE ,Source={StaticResource LanguageStrings}}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" Click="OnHideButtonClicked"/>

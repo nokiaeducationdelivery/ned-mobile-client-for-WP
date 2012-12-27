@@ -60,7 +60,12 @@ namespace NedEngine
         {
             LibraryItemRemoved += UpdateParentOnLibraryItemRemoved;
 
-            FilterEvents( downloadEnqueuedEvent ).Subscribe( item => item.ItemState = MediaItemState.Downloading );
+            FilterEvents( downloadEnqueuedEvent ).Subscribe(
+                item => 
+                    {
+                        item.ItemState = MediaItemState.Downloading;
+                    });
+            FilterEvents(downloadEvents.DownloadStartedEvent).Subscribe(item => item.ItemState = MediaItemState.Downloading);
             FilterEvents( downloadEvents.DownloadStopPendingEvent ).Subscribe( item => item.ItemState = MediaItemState.Remote );
             FilterEvents( downloadEvents.DownloadErrorEvent ).Subscribe( item => item.ItemState = MediaItemState.Remote );
             FilterEvents( downloadEvents.DownloadCompletedEvent ).Subscribe( item => item.ItemState = MediaItemState.Local );

@@ -619,7 +619,13 @@ namespace NedEngine
         {
             DownloadManager.DownloadEnqueuedEvent.Subscribe( download => download.State = QueuedDownload.DownloadState.Queued );
             DownloadManager.DownloadStartedEvent.Subscribe( download => download.State = QueuedDownload.DownloadState.Downloading );
-            DownloadManager.DownloadStopPendingEvent.Subscribe( download => download.State = QueuedDownload.DownloadState.Paused );
+            DownloadManager.DownloadStopPendingEvent.Subscribe(download =>
+                {
+                    if (download.State != QueuedDownload.DownloadState.Queued)
+                    {
+                        download.State = QueuedDownload.DownloadState.Paused;
+                    }
+                });
             DownloadManager.DownloadStoppedEvent.Subscribe( download =>
             {
                 if( download.State != QueuedDownload.DownloadState.Stopped )

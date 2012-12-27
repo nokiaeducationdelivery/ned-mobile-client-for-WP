@@ -12,7 +12,7 @@
 *******************************************************************************
 -->
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{8059611e-7f8e-4a07-a535-dba6b270aa0d}" Title="NED" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Comarch team" Description="Nokia Education Delivery client for Windows Phone" Publisher="Nokia Corporation">
+  <App xmlns="" ProductID="{8059611e-7f8e-4a07-a535-dba6b270aa0d}" Title="NED" RuntimeType="Silverlight" Version="2.3.0.0" Genre="apps.normal" Author="Comarch team" Description="Nokia Education Delivery client for Windows Phone" Publisher="Nokia Corporation">
     <IconPath IsRelative="true" IsResource="false">Resources\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />

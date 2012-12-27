@@ -164,16 +164,13 @@ namespace NedEngine
                 QueuedDownload nextDownload = null;
                 if (startedDownloads.Count >= KMaxSimultaneousDownloads)
                 {
-                    nextDownload = startedDownloads.Keys.Last();
+                    nextDownload = startedDownloads.Keys.First();
                 }
                 IDownloadCancelHandle cancelHandle = StartEnqueuedDownload(download);
                 startedDownloads.Add(download, cancelHandle);
                 if (nextDownload != null)
                 {
-                    StopDownload(nextDownload, false);
-                    nextDownload.State = QueuedDownload.DownloadState.Queued;
-                    queuedDownloads.Insert(0, nextDownload);
-                    _downloadEnqueuedEvent.OnNext(nextDownload);
+                    StopDownload(nextDownload, true);
                 }
             }
             else
@@ -182,12 +179,9 @@ namespace NedEngine
             }
         }
 
-        public IObservable<QueuedDownload> StopDownload(QueuedDownload download, bool queueNext = true)
+        public IObservable<QueuedDownload> StopDownload(QueuedDownload download, bool queueAgain = false)
         {
-            if (queueNext)
-            {
-                _downloadStopPendingEvent.OnNext(download);
-            }
+            _downloadStopPendingEvent.OnNext(download);
 
             if (!queuedDownloads.Contains(download) && !startedDownloads.Keys.Contains(download))
             {
@@ -207,9 +201,15 @@ namespace NedEngine
                 result.Subscribe(dl =>
                     {
                         startedDownloads.Remove(dl);
-                        if (queueNext)
+                        if (!queueAgain)
                         {
                             StartEnqueuedItemsIfPossible();
+                        }
+                        else
+                        {
+                            queuedDownloads.Insert(0, dl);
+                            dl.State = QueuedDownload.DownloadState.Queued;
+                            _downloadEnqueuedEvent.OnNext(dl);
                         }
                     });
             }
@@ -319,10 +319,7 @@ namespace NedEngine
                                                                                 dl.Download.DownloadedBytes = 0;
                                                                             }
                                                                         });
-                                                    bw.ReportProgress(0,
-                                                             requestObserver
-                                                            .First()
-                                                            .EventArgs.Request.BytesReceived);
+                                                    bw.ReportProgress(0, requestObserver.First().EventArgs.Request);
                                                     cancelOnStop.Dispose();
                                                 }
                                                 e.Result = activeDownload.Download;
@@ -330,7 +327,22 @@ namespace NedEngine
                                         };
                                     worker.ProgressChanged += (sender, e) =>
                                         {
+                                            if (e.UserState is BackgroundTransferRequest)
+                                            {
+                                                BackgroundTransferRequest request = e.UserState as BackgroundTransferRequest;
+                                                if (request.TransferStatus != TransferStatus.Completed || request.TransferError is InvalidOperationException)
+                                                {
+                                                    activeDownload.Download.DownloadedBytes = 0;
+                                                }
+                                                else
+                                                {
+                                                    activeDownload.Download.DownloadedBytes = ((BackgroundTransferRequest)e.UserState).BytesReceived;
+                                                }
+                                            }
+                                            else
+                                            {
                                             activeDownload.Download.DownloadedBytes = (long)e.UserState;
+                                            }
                                         };
                                     worker.RunWorkerCompleted += (sender, e) =>
                                         {

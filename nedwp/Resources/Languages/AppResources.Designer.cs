@@ -1061,7 +1061,7 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is tip 1.
+        ///   Looks up a localized string similar to When was the last time you updated your catalog?  Choose Library Manager from the main menu..
         /// </summary>
         public static string TIP_1 {
             get {
@@ -1070,7 +1070,97 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tip 2 here.
+        ///   Looks up a localized string similar to Be careful when hitting back - if you tap it too many times, you may accidentally hit &quot;Exit&quot;.
+        /// </summary>
+        public static string TIP_10 {
+            get {
+                return ResourceManager.GetString("TIP_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You know you are in the Main Menu if you see &quot;Exit&quot; on the screen.
+        /// </summary>
+        public static string TIP_11 {
+            get {
+                return ResourceManager.GetString("TIP_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To view your downloads in progress, go to Main Menu and choose Downloads.
+        /// </summary>
+        public static string TIP_12 {
+            get {
+                return ResourceManager.GetString("TIP_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A typical video will take several minutes to download.  You can start the download, hit Back, and view another video while you wait..
+        /// </summary>
+        public static string TIP_13 {
+            get {
+                return ResourceManager.GetString("TIP_13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can use &quot;Go to Start&quot; to return to the Main Menu from a Media Item.
+        /// </summary>
+        public static string TIP_14 {
+            get {
+                return ResourceManager.GetString("TIP_14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NED will not function while a USB cable is connected.  Disconnect, wait 30 seconds, then NED will be fine..
+        /// </summary>
+        public static string TIP_15 {
+            get {
+                return ResourceManager.GetString("TIP_15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make sure the TV Out cable is ALL THE WAY in.  Unplug and replug it if you can&apos;t see anything on the TV..
+        /// </summary>
+        public static string TIP_16 {
+            get {
+                return ResourceManager.GetString("TIP_16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projector speakers are usually very soft.  If you use a projector, also try external speakers..
+        /// </summary>
+        public static string TIP_17 {
+            get {
+                return ResourceManager.GetString("TIP_17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make sure that the TV is set to AV.  Hit the TV/AV button on the remote to check..
+        /// </summary>
+        public static string TIP_18 {
+            get {
+                return ResourceManager.GetString("TIP_18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn off bluetooth to save battery..
+        /// </summary>
+        public static string TIP_19 {
+            get {
+                return ResourceManager.GetString("TIP_19", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If video does not display on the TV, make sure your phone accessory is set to &quot;TV OUT&quot;..
         /// </summary>
         public static string TIP_2 {
             get {
@@ -1079,11 +1169,74 @@ namespace NedWp.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to And tip 3.
+        ///   Looks up a localized string similar to If download doesn&apos;t work, try again when you have 3 or more &quot;bars&quot; of signal.
+        /// </summary>
+        public static string TIP_20 {
+            get {
+                return ResourceManager.GetString("TIP_20", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t forget to turn OFF &quot;Silent Mode&quot; before playing videos..
         /// </summary>
         public static string TIP_3 {
             get {
                 return ResourceManager.GetString("TIP_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try using the buttons on the side of the phone to adjust the volume..
+        /// </summary>
+        public static string TIP_4 {
+            get {
+                return ResourceManager.GetString("TIP_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you run out of disk space, try transferring your photos, music and videos off of your phone..
+        /// </summary>
+        public static string TIP_5 {
+            get {
+                return ResourceManager.GetString("TIP_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If your touchscreen sensor is not responding, hold the phone upright..
+        /// </summary>
+        public static string TIP_6 {
+            get {
+                return ResourceManager.GetString("TIP_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you rotate your phone and the screen doesn&apos;t rotate, give it a gentle shake..
+        /// </summary>
+        public static string TIP_7 {
+            get {
+                return ResourceManager.GetString("TIP_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speed up your download by connecting your WIFI enabled phone to a Wireless network..
+        /// </summary>
+        public static string TIP_8 {
+            get {
+                return ResourceManager.GetString("TIP_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &quot;Download All&quot; to update an entire category at once..
+        /// </summary>
+        public static string TIP_9 {
+            get {
+                return ResourceManager.GetString("TIP_9", resourceCulture);
             }
         }
         

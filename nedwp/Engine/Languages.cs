@@ -274,7 +274,7 @@ namespace NedEngine
 
         internal void LoadNewList( List<LanguageInfo> languageList )
         {
-            if( languageList.Count > 1 )
+            if( languageList.Count >= 1 )
             {
 
                 foreach( LanguageInfo remoteLang in languageList )
