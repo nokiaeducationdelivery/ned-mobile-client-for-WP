@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -132,7 +132,7 @@ namespace NedWp
                     iconPath = "../Resources/MediaItemIcons/small_remote_content_icon.png";
                     break;
                 case MediaItemState.Downloading:
-                    iconPath = "../Resources/MediaItemIcons/small_downloading_content.png";
+                    iconPath = "../Resources/MediaItemIcons/download_in_progress.png";
                     break;
                 case MediaItemState.Local:
                     iconPath = "../Resources/MediaItemIcons/small_local_content_icon.png";

@@ -280,6 +280,7 @@
     <Content Include="Resources\Icons\music_icon_play_221x221.png" />
     <Content Include="Resources\Icons\music_icon_pause_221x221.png" />
     <Resource Include="Resources\MediaItemIcons\small_downloading_content.png" />
+    <Resource Include="Resources\MediaItemIcons\download_in_progress.png" />
     <Content Include="Resources\OriginalPlatformIcons\appbar.download.rest.png" />
     <Content Include="Resources\OriginalPlatformIcons\appbar.feature.settings.rest.png" />
     <Content Include="Resources\OriginalPlatformIcons\appbar.feature.search.rest.png" />
